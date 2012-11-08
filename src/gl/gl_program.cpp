@@ -2,30 +2,30 @@
 #include <iostream>
 
 
-GLProgram::GLProgram()
+GL_Program::GL_Program()
 : mProgramId(0)
 { }
 
 
-GLProgram::~GLProgram()
+GL_Program::~GL_Program()
 {
 	destroy();
 }
 
 
-void GLProgram::setShader(GLProgram::ShaderType type, const std::string& source)
+void GL_Program::setShader(GL_Program::ShaderType type, const std::string& source)
 {
 	mShaderSources[type] = source;
 }
 
 
-bool GLProgram::isLinked()
+bool GL_Program::isLinked()
 {
 	return mProgramId != 0;
 }
 
 
-bool GLProgram::link()
+bool GL_Program::link()
 {
 	if (!create())
 	{
@@ -70,13 +70,13 @@ bool GLProgram::link()
 }
 
 
-void GLProgram::use()
+void GL_Program::use()
 {
 	glUseProgram(mProgramId);
 }
 
 
-GLuint GLProgram::getAttributeLocation(const char* attributeName) const
+GLuint GL_Program::getAttributeLocation(const char* attributeName) const
 {
 	GLint location = glGetAttribLocation(mProgramId, attributeName);
 	if (location == -1)
@@ -87,7 +87,7 @@ GLuint GLProgram::getAttributeLocation(const char* attributeName) const
 }
 
 
-GLuint GLProgram::getUniformLocation(const char* uniformName) const
+GLuint GL_Program::getUniformLocation(const char* uniformName) const
 {
 	GLint location = glGetUniformLocation(mProgramId, uniformName);
 	if (location == -1)
@@ -98,7 +98,7 @@ GLuint GLProgram::getUniformLocation(const char* uniformName) const
 }
 
 
-bool GLProgram::create()
+bool GL_Program::create()
 {
 	if (mProgramId == 0)
 	{
@@ -108,7 +108,7 @@ bool GLProgram::create()
 }
 
 
-void GLProgram::destroy()
+void GL_Program::destroy()
 {
 	if (mProgramId != 0)
 	{
@@ -118,7 +118,7 @@ void GLProgram::destroy()
 }
 
 
-bool GLProgram::attachShader(GLenum shaderType, const std::string& source)
+bool GL_Program::attachShader(GLenum shaderType, const std::string& source)
 {
 	GLuint shaderId = glCreateShader(shaderType);
 	GLint length = static_cast<GLint>(source.length());

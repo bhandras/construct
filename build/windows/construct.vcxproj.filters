@@ -45,6 +45,8 @@
     <ClInclude Include="..\..\src\foreach.h" />
     <ClInclude Include="..\..\src\common.h" />
     <ClInclude Include="..\..\src\construct.h" />
+    <ClInclude Include="..\..\src\color4.h" />
+    <ClInclude Include="..\..\src\shape2d.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\math\math_util.cpp">
@@ -56,5 +58,6 @@
     <ClCompile Include="..\..\src\gl\gl_renderer.cpp">
       <Filter>gl</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\shape2d.cpp" />
   </ItemGroup>
 </Project>

@@ -6,7 +6,7 @@
 #include <map>
 
 #include "../math/math.h"
-
+#include "../color4.h"
 
 struct Vertex_XYZ_RGBA
 {
@@ -21,6 +21,11 @@ struct Vertex_XYZ_RGBA
 		position[0] = v.x();
 		position[1] = v.y();
 		position[2] = 0.0f;
+	}
+
+	void setColor(const Color4& color)
+	{
+		color.get(color_rgba);
 	}
 
 	void setColor(float r, float g, float b, float a)
@@ -52,6 +57,11 @@ struct Vertex_XYZ_RGBA_UV
 		position[2] = 0.0f;
 	}
 
+	void setColor(const Color4& color)
+	{
+		color.get(color_rgba);
+	}
+
 	void setColor(float r, float g, float b, float a)
 	{
 		color_rgba[0] = r;
@@ -71,73 +81,81 @@ typedef std::vector<Vertex_XYZ_RGBA> Vertex_Vector_XYZ_RGBA;
 typedef std::vector<Vertex_XYZ_RGBA_UV> Vertex_Vector_XYZ_RGBA_UV;
 
 
-class GLRenderer
+struct RenderBatch
 {
-public:
-	enum DrawMode
+	enum Type
 	{
-		TRIANGLE_STRIP,
-		TRIANGLE_FAN,
-		TRIANGLES,
-		LINE_STRIP,
-		LINES
+		T_XYZ_RGBA,
+		T_XYZ_RGBA_UV
 	};
 
-	static GLRenderer* getInstance()
-	{
-		if (!mInstance)
-		{
-			mInstance = new GLRenderer;
-		}
+	Type type;
+};
 
-		return mInstance;
+
+struct XYZ_RGBA_RenderBatch : public RenderBatch
+{
+	XYZ_RGBA_RenderBatch()
+	{
+		type = RenderBatch::T_XYZ_RGBA;
+	}
+
+	Vertex_Vector_XYZ_RGBA vertices;
+	Index_Vector indices;
+};
+
+
+struct XYZ_RGBA_UV_RenderBatch : public RenderBatch
+{
+	XYZ_RGBA_UV_RenderBatch()
+	{
+		type = RenderBatch::T_XYZ_RGBA_UV;
+	}
+
+	GLuint textureId;
+	Vertex_Vector_XYZ_RGBA_UV vertices;
+	Index_Vector indices;
+};
+
+
+class GL_Render
+{
+public:
+	static GL_Render& get()
+	{
+		static GL_Render instance;
+		return instance;
 	}
 
 	void init();
 
-	GLProgram* getActiveProgram() { return mActiveProgram; }
+	void setDrawMode(GLenum drawMode);
+	void setTexture(GLuint textureId);
 
-	void setActiveProgram(const char* name);
-	void attachShader(const char* program, const char* path, GLProgram::ShaderType type);
 	void setOrthoProjection(float left, float right, float bottom, float top, float near, float far);
 
-	void draw(DrawMode mode, const Vertex_Vector_XYZ_RGBA& vertices, const Index_Vector& indices);
-	void draw(DrawMode mode, const Vertex_Vector_XYZ_RGBA_UV& vertices, const Index_Vector& indices, GLuint textureId);
+	void draw_XYZ_RGBA(const Vertex_Vector_XYZ_RGBA& vertices, const Index_Vector& indices);
+	void draw_XYZ_RGBA_UV(const Vertex_Vector_XYZ_RGBA_UV& vertices, const Index_Vector& indices);
+
 	void flush();
 
 private:
-	GLRenderer();
-	~GLRenderer();
+	GL_Render();
+	~GL_Render();
 
 	// do not copy
-	GLRenderer(const GLRenderer&);
-	GLRenderer operator=(const GLRenderer&);
+	GL_Render(const GL_Render&);
+	GL_Render& operator=(const GL_Render&);
 
-	static GLRenderer* mInstance;
+	void attachShader(const char* program, const char* path, GL_Program::ShaderType type);
+	void setActiveProgram(const char* name);
 
-	typedef std::map<std::string, GLProgram> ProgramMap;
-	ProgramMap mPrograms;
-	GLProgram* mActiveProgram;
-
-	// todo: style
-	struct XYZ_RGBA_Batch
-	{
-		Vertex_Vector_XYZ_RGBA vertices;
-		Index_Vector indices;
-	};
-
-	struct XYZ_RGBA_UV_Batch
-	{
-		GLuint textureId;
-		Vertex_Vector_XYZ_RGBA_UV vertices;
-		Index_Vector indices;
-	};
-
-	typedef std::map<DrawMode, XYZ_RGBA_Batch> XYZ_RGBA_Batch_Map;
-	typedef std::map< DrawMode, std::list<XYZ_RGBA_UV_Batch> > XYZ_RGBA_UV_Batch_Map;
-
-	XYZ_RGBA_Batch_Map mVertex_Batches_XYZ_RGBA;
-	XYZ_RGBA_UV_Batch_Map mVertex_Batches_XYZ_RGBA_UV;
-
+	typedef std::map<std::string, GL_Program> ProgramMap;
+	ProgramMap mProgramMap;
+	GL_Program* mActiveProgram;
+	
+	GLenum mDrawMode;
+	GLuint mTextureId;
 	Matrix44f mProjection;
+	RenderBatch* mBatch;
 };

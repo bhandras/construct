@@ -132,7 +132,9 @@ void Render()
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-
+	TriangleShape t;
+	t.setPosition(100, 100);
+	t.setEnd()
 
 	eglSwapBuffers(glesDisplay, glesSurface);
 }

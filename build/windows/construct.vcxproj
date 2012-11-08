@@ -61,6 +61,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\color4.h" />
     <ClInclude Include="..\..\src\common.h" />
     <ClInclude Include="..\..\src\construct.h" />
     <ClInclude Include="..\..\src\foreach.h" />
@@ -75,11 +76,13 @@
     <ClInclude Include="..\..\src\math\vector2.h" />
     <ClInclude Include="..\..\src\math\vector3.h" />
     <ClInclude Include="..\..\src\math\vector4.h" />
+    <ClInclude Include="..\..\src\shape2d.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\gl\gl_program.cpp" />
     <ClCompile Include="..\..\src\gl\gl_renderer.cpp" />
     <ClCompile Include="..\..\src\math\math_util.cpp" />
+    <ClCompile Include="..\..\src\shape2d.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

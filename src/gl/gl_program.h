@@ -4,7 +4,7 @@
 #include <string>
 
 
-class GLProgram
+class GL_Program
 {
 public:
 	enum ShaderType
@@ -13,8 +13,8 @@ public:
 		FragmentShader
 	};
 
-	GLProgram();
-	~GLProgram();
+	GL_Program();
+	~GL_Program();
 
 	void setShader(ShaderType type, const std::string& source);
 

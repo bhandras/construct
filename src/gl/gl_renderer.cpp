@@ -5,68 +5,50 @@
 #include <fstream>
 
 
-GLRenderer* GLRenderer::mInstance = 0;
-
-
-GLRenderer::GLRenderer()
+GL_Render::GL_Render()
 : mActiveProgram(0)
+, mDrawMode(0)
+, mTextureId(0)
 { }
 
 
-GLRenderer::~GLRenderer()
+GL_Render::~GL_Render()
 { }
 
 
-void GLRenderer::init()
+void GL_Render::init()
 {
-	attachShader("xyz_rgba", "xyz_rgba.vs", GLProgram::VertexShader);
-	attachShader("xyz_rgba", "xyz_rgba.fs", GLProgram::FragmentShader);
+	attachShader("xyz_rgba", "xyz_rgba.vs", GL_Program::VertexShader);
+	attachShader("xyz_rgba", "xyz_rgba.fs", GL_Program::FragmentShader);
 
-	attachShader("xyz_rgba_uv", "xyz_rgba_uv.vs", GLProgram::VertexShader);
-	attachShader("xyz_rgba_uv", "xyz_rgba_uv.fs", GLProgram::FragmentShader);
+	attachShader("xyz_rgba_uv", "xyz_rgba_uv.vs", GL_Program::VertexShader);
+	attachShader("xyz_rgba_uv", "xyz_rgba_uv.fs", GL_Program::FragmentShader);
 }
 
 
-void GLRenderer::setActiveProgram(const char* name)
+void GL_Render::setDrawMode(GLenum drawMode)
 {
-	ProgramMap::iterator it = mPrograms.find(name);
-
-	if (it != mPrograms.end())
+	if (mDrawMode != drawMode)
 	{
-		mActiveProgram = &(it->second);
-
-		if (!mActiveProgram->isLinked())
-		{
-			mActiveProgram->link();
-		}
-
-		mActiveProgram->use();
+		flush();
 	}
+
+	mDrawMode = drawMode;
 }
 
 
-void GLRenderer::attachShader(const char* program, const char* path, GLProgram::ShaderType type)
+void GL_Render::setTexture(GLuint textureId)
 {
-	std::ifstream f(path, std::ios::binary);
-	if (!f.fail())
+	if (mTextureId != textureId)
 	{
-		f.seekg(0, std::ios::end);
-		std::ifstream::pos_type size = f.tellg();
-		f.seekg(0, std::ios::beg);
-
-		char* contents = new char[static_cast<size_t>(size)];
-
-		f.read(contents, size);
-		f.close();
-
-		mPrograms[program].setShader(type, std::string(contents, static_cast<unsigned>(size)));
-
-		delete [] contents;
+		flush();
 	}
+
+	mTextureId = textureId;
 }
 
 
-void GLRenderer::setOrthoProjection(float left, float right, float bottom, float top, float znear, float zfar)
+void GL_Render::setOrthoProjection(float left, float right, float bottom, float top, float znear, float zfar)
 {
 	mProjection.identity();
 	mProjection(0, 0) = 2.0f / (right - left);
@@ -81,173 +63,141 @@ void GLRenderer::setOrthoProjection(float left, float right, float bottom, float
 }
 
 
-void GLRenderer::draw(DrawMode mode, const Vertex_Vector_XYZ_RGBA& vertices, const Index_Vector& indices)
+void GL_Render::draw_XYZ_RGBA(const Vertex_Vector_XYZ_RGBA& vertices, const Index_Vector& indices)
 {
-	XYZ_RGBA_Batch& batch = mVertex_Batches_XYZ_RGBA[mode];
-
-	batch.vertices.insert(batch.vertices.end(), vertices.begin(), vertices.end());
-	size_t offset = batch.indices.size();
-	batch.indices.insert(batch.indices.end(), indices.begin(), indices.end());
-
-	for (size_t i = batch.indices.size() - 1; i > offset; --i)
+	if (mBatch && mBatch->type != RenderBatch::T_XYZ_RGBA)
 	{
-		batch.indices[i] += offset;
-	}
-}
-
-
-void GLRenderer::draw(DrawMode mode, const Vertex_Vector_XYZ_RGBA_UV& vertices, const Index_Vector& indices, GLuint textureId)
-{
-	std::list<XYZ_RGBA_UV_Batch>& batchList = mVertex_Batches_XYZ_RGBA_UV[mode];
-
-	foreach(std::list<XYZ_RGBA_UV_Batch>, batchList, batchIter)
-	{
-		XYZ_RGBA_UV_Batch& batch = *batchIter;
-
-		if (batch.textureId == textureId)
-		{
-			batch.vertices.insert(batch.vertices.end(), vertices.begin(), vertices.end());
-			
-			size_t offset = batch.indices.size();
-			GLushort maxIndex = 0;
-			for (size_t i = 0; i < batch.indices.size(); ++i)
-			{
-				if (batch.indices[i] > maxIndex)
-				{
-					maxIndex = batch.indices[i];
-				}
-			}
-			
-			batch.indices.insert(batch.indices.end(), indices.begin(), indices.end());
-
-			maxIndex += 1;
-			for (size_t i = batch.indices.size() - 1; i >= offset; --i)
-			{
-				batch.indices[i] += maxIndex;
-			}
-
-			// we're done
-			return;
-		}
+		flush();
 	}
 
-	batchList.push_back(XYZ_RGBA_UV_Batch());
-	XYZ_RGBA_UV_Batch& batch = batchList.back();
+	if (!mBatch)
+	{
+		mBatch = new XYZ_RGBA_RenderBatch;
+	}
 	
-	batch.textureId = textureId;
-	batch.vertices.insert(batch.vertices.end(), vertices.begin(), vertices.end());
-	batch.indices.insert(batch.indices.end(), indices.begin(), indices.end());
+	XYZ_RGBA_RenderBatch* batch = static_cast<XYZ_RGBA_RenderBatch*>(mBatch);
+	batch->vertices.insert(batch->vertices.end(), vertices.begin(), vertices.end());
+	batch->indices.insert(batch->indices.end(), indices.begin(), indices.end());
 }
 
 
-void GLRenderer::flush()
+void GL_Render::draw_XYZ_RGBA_UV(const Vertex_Vector_XYZ_RGBA_UV& vertices, const Index_Vector& indices)
 {
-	if (mVertex_Batches_XYZ_RGBA.size() > 0)
+	if (mBatch && mBatch->type != RenderBatch::T_XYZ_RGBA_UV)
 	{
-		setActiveProgram("xyz_rgba");
-		GLuint attribPosition = getActiveProgram()->getAttributeLocation("a_position");
-		GLuint attribSourceColor = getActiveProgram()->getAttributeLocation("a_source_color");
+		flush();
+	}
 
-		GLuint projectionUniformLocation = mActiveProgram->getUniformLocation("u_projection");
-		glUniformMatrix4fv(projectionUniformLocation, 1, 0, mProjection.data());
+	if (!mBatch)
+	{
+		mBatch = new XYZ_RGBA_UV_RenderBatch;
+	}
 
-		foreach(XYZ_RGBA_Batch_Map, mVertex_Batches_XYZ_RGBA, it)
+	XYZ_RGBA_UV_RenderBatch* batch = static_cast<XYZ_RGBA_UV_RenderBatch*>(mBatch);
+	batch->vertices.insert(batch->vertices.end(), vertices.begin(), vertices.end());
+	batch->indices.insert(batch->indices.end(), indices.begin(), indices.end());
+}
+
+
+void GL_Render::flush()
+{
+	if (!mBatch)
+	{
+		// nothing to flush
+		return;
+	}
+
+	switch (mBatch->type)
+	{
+	case RenderBatch::T_XYZ_RGBA:
 		{
-			XYZ_RGBA_Batch& batch = it->second;
+			XYZ_RGBA_RenderBatch* batch = static_cast<XYZ_RGBA_RenderBatch*>(mBatch);
 
-			glVertexAttribPointer(attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex_XYZ_RGBA), &batch.vertices[0].position);
+			setActiveProgram("xyz_rgba");
+			GLuint attribPosition = mActiveProgram->getAttributeLocation("a_position");
+			GLuint attribSourceColor = mActiveProgram->getAttributeLocation("a_source_color");
+
+			GLuint projectionUniformLocation = mActiveProgram->getUniformLocation("u_projection");
+			glUniformMatrix4fv(projectionUniformLocation, 1, 0, mProjection.data());
+
+			glVertexAttribPointer(attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex_XYZ_RGBA), &batch->vertices[0].position);
 			glEnableVertexAttribArray(attribPosition);
-			glVertexAttribPointer(attribSourceColor, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex_XYZ_RGBA), &batch.vertices[0].color_rgba);
+			glVertexAttribPointer(attribSourceColor, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex_XYZ_RGBA), &batch->vertices[0].color_rgba);
 			glEnableVertexAttribArray(attribSourceColor);
 
-			GLenum glDrawMode;
-			switch (it->first)
-			{
-			case TRIANGLE_STRIP:
-				glDrawMode = GL_TRIANGLE_STRIP;
-				break;
-			case TRIANGLE_FAN:
-				glDrawMode = GL_TRIANGLE_FAN;
-				break;
-			case TRIANGLES:
-				glDrawMode = GL_TRIANGLES;
-				break;
-			case LINE_STRIP:
-				glDrawMode = GL_LINE_STRIP;
-				break;
-			case LINES:
-				glDrawMode = GL_LINES;
-				break;
-			}
-
-			glDrawElements(glDrawMode, batch.indices.size(), GL_UNSIGNED_SHORT, &batch.indices[0]); 
-
-			batch.vertices.clear();
-			batch.indices.clear();
+			glDrawElements(mDrawMode, batch->indices.size(), GL_UNSIGNED_SHORT, &batch->indices[0]); 
+			break;
 		}
 
-		mVertex_Batches_XYZ_RGBA.clear();
+	case RenderBatch::T_XYZ_RGBA_UV:
+		{
+			XYZ_RGBA_UV_RenderBatch* batch = static_cast<XYZ_RGBA_UV_RenderBatch*>(mBatch);
+
+			setActiveProgram("xyz_rgba_uv");
+			GLuint attribPosition = mActiveProgram->getAttributeLocation("a_position");
+			GLuint attribSourceColor = mActiveProgram->getAttributeLocation("a_source_color");
+			GLuint attribTextureCoor = mActiveProgram->getAttributeLocation("a_texture_coor");
+
+			GLuint projectionUniformLocation = mActiveProgram->getUniformLocation("u_projection");
+			GLuint textureUniform = mActiveProgram->getUniformLocation("u_texture");
+
+			glUniformMatrix4fv(projectionUniformLocation, 1, 0, mProjection.data());
+
+			glVertexAttribPointer(attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex_XYZ_RGBA_UV), &batch->vertices[0].position);
+			glEnableVertexAttribArray(attribPosition);
+			glVertexAttribPointer(attribSourceColor, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex_XYZ_RGBA_UV), &batch->vertices[0].color_rgba);
+			glEnableVertexAttribArray(attribSourceColor);
+			glVertexAttribPointer(attribTextureCoor, 2, GL_FLOAT, GL_TRUE, sizeof(Vertex_XYZ_RGBA_UV), &batch->vertices[0].texture_uv);
+			glEnableVertexAttribArray(attribTextureCoor);
+
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, mTextureId);
+			glUniform1i(textureUniform, 0);
+
+			glDrawElements(mDrawMode, batch->indices.size(), GL_UNSIGNED_SHORT, &batch->indices[0]);
+		}
+		
 	}
 
+	delete mBatch;
+	mBatch = 0;
+}
 
-	if (mVertex_Batches_XYZ_RGBA_UV.size() > 0)
+
+void GL_Render::attachShader(const char* program, const char* path, GL_Program::ShaderType type)
+{
+	std::ifstream f(path, std::ios::binary);
+	if (!f.fail())
 	{
-		setActiveProgram("xyz_rgba_uv");
-		GLuint attribPosition = mActiveProgram->getAttributeLocation("a_position");
-		GLuint attribSourceColor = mActiveProgram->getAttributeLocation("a_source_color");
-		GLuint attribTextureCoor = mActiveProgram->getAttributeLocation("a_texture_coor");
+		f.seekg(0, std::ios::end);
+		std::ifstream::pos_type size = f.tellg();
+		f.seekg(0, std::ios::beg);
 
-		GLuint projectionUniformLocation = mActiveProgram->getUniformLocation("u_projection");
-		GLuint textureUniform = mActiveProgram->getUniformLocation("u_texture");
+		char* contents = new char[static_cast<size_t>(size)];
 
-		glUniformMatrix4fv(projectionUniformLocation, 1, 0, mProjection.data());
+		f.read(contents, size);
+		f.close();
 
-		foreach(XYZ_RGBA_UV_Batch_Map, mVertex_Batches_XYZ_RGBA_UV, it)
+		mProgramMap[program].setShader(type, std::string(contents, static_cast<unsigned>(size)));
+
+		delete [] contents;
+	}
+}
+
+
+void GL_Render::setActiveProgram(const char* name)
+{
+	ProgramMap::iterator it = mProgramMap.find(name);
+
+	if (it != mProgramMap.end())
+	{
+		mActiveProgram = &(it->second);
+
+		if (!mActiveProgram->isLinked())
 		{
-			std::list<XYZ_RGBA_UV_Batch>& batchList = it->second;
-
-			foreach(std::list<XYZ_RGBA_UV_Batch>, batchList, batchIter)
-			{
-				XYZ_RGBA_UV_Batch& batch = *batchIter;
-
-				glVertexAttribPointer(attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex_XYZ_RGBA_UV), &batch.vertices[0].position);
-				glEnableVertexAttribArray(attribPosition);
-				glVertexAttribPointer(attribSourceColor, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex_XYZ_RGBA_UV), &batch.vertices[0].color_rgba);
-				glEnableVertexAttribArray(attribSourceColor);
-				glVertexAttribPointer(attribTextureCoor, 2, GL_FLOAT, GL_TRUE, sizeof(Vertex_XYZ_RGBA_UV), &batch.vertices[0].texture_uv);
-				glEnableVertexAttribArray(attribTextureCoor);
-
-				GLenum glDrawMode;
-				switch (it->first)
-				{
-				case TRIANGLE_STRIP:
-					glDrawMode = GL_TRIANGLE_STRIP;
-					break;
-				case TRIANGLE_FAN:
-					glDrawMode = GL_TRIANGLE_FAN;
-					break;
-				case TRIANGLES:
-					glDrawMode = GL_TRIANGLES;
-					break;
-				case LINE_STRIP:
-					glDrawMode = GL_LINE_STRIP;
-					break;
-				case LINES:
-					glDrawMode = GL_LINES;
-					break;
-				}
-
-				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, batch.textureId);
-				glUniform1i(textureUniform, 0);
-
-				glDrawElements(glDrawMode, batch.indices.size(), GL_UNSIGNED_SHORT, &batch.indices[0]);
-
-				batch.vertices.clear();
-				batch.indices.clear();
-			}
+			mActiveProgram->link();
 		}
 
-		mVertex_Batches_XYZ_RGBA_UV.clear();
+		mActiveProgram->use();
 	}
 }
