@@ -18,8 +18,8 @@ struct Vertex_XYZ_RGBA
 
 	void setPosition(const Vector2f& v)
 	{
-		position[0] = v.x();
-		position[1] = v.y();
+		position[0] = v.x;
+		position[1] = v.y;
 		position[2] = 0.0f;
 	}
 
@@ -52,8 +52,8 @@ struct Vertex_XYZ_RGBA_UV
 
 	void setPosition(const Vector2f& v)
 	{
-		position[0] = v.x();
-		position[1] = v.y();
+		position[0] = v.x;
+		position[1] = v.y;
 		position[2] = 0.0f;
 	}
 
@@ -129,8 +129,13 @@ public:
 
 	void init();
 
+	void beginFrame();
+	void endFrame();
+
 	void setDrawMode(GLenum drawMode);
 	void setTexture(GLuint textureId);
+	void enableBlending(GLenum sFactor, GLenum dFactor);
+	void disableBlending();
 
 	void setOrthoProjection(float left, float right, float bottom, float top, float near, float far);
 
@@ -138,6 +143,9 @@ public:
 	void draw_XYZ_RGBA_UV(const Vertex_Vector_XYZ_RGBA_UV& vertices, const Index_Vector& indices);
 
 	void flush();
+
+	// statistics
+	int getNumDrawCalls() const;
 
 private:
 	GL_Render();
@@ -156,6 +164,14 @@ private:
 	
 	GLenum mDrawMode;
 	GLuint mTextureId;
+	GLenum mBlendSFactor;
+	GLenum mBlendDFactor;
+	bool mBlendingEnabled;
 	Matrix44f mProjection;
+
+	GLshort mBatchNextIndex;
 	RenderBatch* mBatch;
+
+	// statistics
+	int mDrawCalls;
 };

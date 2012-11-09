@@ -13,6 +13,11 @@
   <ItemGroup>
     <ClCompile Include="..\..\projects\shooter\src\main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="construct.vcxproj">
+      <Project>{0e962437-5e82-47c9-b584-2aacd05998d5}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2A3A2879-0620-47B4-A382-C661E6135A41}</ProjectGuid>
     <RootNamespace>shooter</RootNamespace>
@@ -39,7 +44,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -51,6 +58,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\..\..\sgx_win32\lib_win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libegl.lib;libGLESv2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

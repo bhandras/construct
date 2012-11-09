@@ -8,7 +8,7 @@ Shape2d::Shape2d()
 : mDirty(true)
 , mPosX(0.0f)
 , mPosY(0.0f)
-, mRotationDeg(0.0f)
+, mRotationRad(0.0f)
 , mScale(1.0f)
 , mAreaFillColor(1.0f, 1.0f, 1.0f, 1.0f)
 , mOutlineColor(1.0f, 1.0f, 1.0f, 1.0f)
@@ -60,11 +60,19 @@ void Shape2d::setPosition(float x, float y)
 }
 
 
-void Shape2d::setRotation(float rotationDeg)
+void Shape2d::setRotationDeg(float rotationDeg)
 {
-	mRotationDeg = rotationDeg;
+	mRotationRad = MathUtil::Numeric::deg2Rad(rotationDeg);
 	mDirty = true;
 }
+
+
+void Shape2d::setRotationRad(float rotationRad)
+{
+	mRotationRad = rotationRad;
+	mDirty = true;
+}
+
 
 
 void Shape2d::setScale(float scale)
@@ -74,7 +82,7 @@ void Shape2d::setScale(float scale)
 }
 
 
-void RectangleShape::createShade(float* colorArray, int& arraySize)
+void RoundedRectangleShape::createShade(float* colorArray, int& arraySize)
 {
 	float vec[7][2] = {
 		{0.195f, 0.02f}, {0.383f, 0.067f},
@@ -188,7 +196,7 @@ void RectangleShape::createShade(float* colorArray, int& arraySize)
 }
 
 
-void RectangleShape::draw()
+void RoundedRectangleShape::draw()
 {
 	static const int maxVertices = 4 * (7 + 2);
 
@@ -427,6 +435,110 @@ void CircleShape::draw()
 }
 
 
+RectangleShape::RectangleShape()
+: mSizeX(0.0f)
+, mSizeY(0.0f)
+{
+	mVertices.resize(4);
+}
+
+
+void RectangleShape::setSize(float sizeX, float sizeY)
+{
+	mSizeX = sizeX;
+	mSizeY = sizeY;
+	mDirty = true;
+}
+
+
+void RectangleShape::setSizeX(float sizeX)
+{
+	mSizeX = sizeX;
+	mDirty = true;
+}
+
+
+void RectangleShape::setSizeY(float sizeY)
+{
+	mSizeY = sizeY;
+	mDirty = true;
+}
+
+
+void RectangleShape::draw()
+{
+	if (mDirty)
+	{
+		float sizeX2 = mSizeX / 2.0f;
+		float sizeY2 = mSizeY / 2.0f;
+
+		Vector2f edges[4];
+		// bl
+		edges[0].x = -sizeX2;
+		edges[0].y = -sizeY2;
+
+		// br
+		edges[1].x = sizeX2;
+		edges[1].y = -sizeY2;
+
+		// tr
+		edges[2].x = sizeX2;
+		edges[2].y = sizeY2;
+
+		// tl
+		edges[3].x = -sizeX2;
+		edges[3].y = sizeY2;
+
+		MathUtil::Geometry::rotate(mRotationRad, edges, 4);
+
+		for (int i = 0; i < 4; ++i)
+		{
+			edges[i].x *= mScale;
+			edges[i].y *= mScale;
+
+			edges[i].x += mPosX;
+			edges[i].y += mPosY;
+
+			mVertices[i].setPosition(edges[i]);
+		}
+	}
+
+	Index_Vector indices;
+	indices.resize(6);
+	indices[0] = 0;
+	indices[1] = 1;
+	indices[2] = 2;
+	indices[3] = 2;
+	indices[4] = 3;
+	indices[5] = 0;
+
+	GL_Render& gl = GL_Render::get();
+
+	if (mDrawArea)
+	{
+		mVertices[0].setColor(mAreaFillColor);
+		mVertices[1].setColor(mAreaFillColor);
+		mVertices[2].setColor(mAreaFillColor);
+		mVertices[3].setColor(mAreaFillColor);
+
+		gl.setDrawMode(GL_TRIANGLES);
+		gl.draw_XYZ_RGBA(mVertices, indices);
+	}
+
+	if (mDrawOutline)
+	{
+		mVertices[0].setColor(mOutlineColor);
+		mVertices[1].setColor(mOutlineColor);
+		mVertices[2].setColor(mOutlineColor);
+		mVertices[3].setColor(mOutlineColor);
+
+		gl.setDrawMode(GL_LINE_LOOP);
+		gl.draw_XYZ_RGBA(mVertices, indices);
+	}
+}
+
+
+
 TriangleShape::TriangleShape()
 : mSize(0.0f)
 {
@@ -445,19 +557,39 @@ void TriangleShape::draw()
 {
 	if (mDirty)
 	{
-		// half side
-		float a2 = mSize / sqrt(3.0f);
-		
-		// half size
-		float size2 = mSize / 2.0f;
-		
-		Vector2f A(mPosX - a2, mPosY - size2);
-		Vector2f B(mPosX + a2, mPosY - size2);
-		Vector2f C(mPosX, mPosY + size2);
+		float sqrt3 = sqrt(3.0f);
 
-		mVertices[0].setPosition(A);
-		mVertices[1].setPosition(B);
-		mVertices[2].setPosition(C);
+		// half side
+		float a2 = mSize / sqrt3;
+
+		// center from the bottom
+		float x = mSize - ((2.0f * a2) / sqrt3);		
+
+		Vector2f edges[3];
+
+		edges[0].x = -a2;
+		edges[0].y = -x;
+		edges[1].x = a2;
+		edges[1].y = -x;
+		edges[2].x = 0.0f;
+		edges[2].y = mSize - x;
+
+		MathUtil::Geometry::rotate(mRotationRad, edges, 3);
+
+		for (int i = 0; i < 3; ++i)
+		{
+			edges[i].x *= mScale;
+			edges[i].y *= mScale;
+
+			edges[i].x += mPosX;
+			edges[i].y += mPosY;
+
+			mVertices[i].setPosition(edges[i]);
+		}
+
+		mVertices[0].setPosition(edges[0]);
+		mVertices[1].setPosition(edges[1]);
+		mVertices[2].setPosition(edges[2]);
 	}
 
 	Index_Vector indices;
@@ -470,21 +602,21 @@ void TriangleShape::draw()
 
 	if (mDrawArea)
 	{
-		vertices[0].setColor(mAreaFillColor);
-		vertices[1].setColor(mAreaFillColor);
-		vertices[2].setColor(mAreaFillColor);
+		mVertices[0].setColor(mAreaFillColor);
+		mVertices[1].setColor(mAreaFillColor);
+		mVertices[2].setColor(mAreaFillColor);
 
 		gl.setDrawMode(GL_TRIANGLES);
-		gl.draw_XYZ_RGBA(vertices, indices);
+		gl.draw_XYZ_RGBA(mVertices, indices);
 	}
 
 	if (mDrawOutline)
 	{
-		vertices[0].setColor(mOutlineColor);
-		vertices[1].setColor(mOutlineColor);
-		vertices[2].setColor(mOutlineColor);
+		mVertices[0].setColor(mOutlineColor);
+		mVertices[1].setColor(mOutlineColor);
+		mVertices[2].setColor(mOutlineColor);
 
 		gl.setDrawMode(GL_LINE_LOOP);
-		gl.draw_XYZ_RGBA(vertices, indices);
+		gl.draw_XYZ_RGBA(mVertices, indices);
 	}
 }

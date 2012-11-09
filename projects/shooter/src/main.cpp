@@ -14,6 +14,13 @@ EGLDisplay glesDisplay;
 EGLSurface glesSurface;
 EGLContext glesContext;
 
+
+float r = 0.0f;
+TriangleShape t;
+RectangleShape rect;
+BitmapFont font;
+
+
 bool InitOGLES()
 {
 	EGLConfig configs[10];
@@ -122,8 +129,14 @@ bool InitOGLES()
 
 	// Attach the EGL rendering context to EGL surfaces
 	eglMakeCurrent(glesDisplay, glesSurface, glesSurface, glesContext);
+
+	GL_Render::get().init();
+	font.load("vector_skin_font.bff");
+
 	return TRUE; 
 }
+
+#include <sstream>
 
 
 void Render()
@@ -132,9 +145,38 @@ void Render()
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	TriangleShape t;
+
+	GL_Render& gl = GL_Render::get();
+	int drawCalls = gl.getNumDrawCalls();
+
+	gl.beginFrame();
+	gl.setOrthoProjection(0.0f, static_cast<float>(w), static_cast<float>(h), 0.0f, 1.0f, -1.0f);
+
 	t.setPosition(100, 100);
-	t.setEnd()
+	t.setSize(100);
+	t.setFillColor(Color4(100, 0, 0, 255));
+	t.setFilled(true);
+	t.setOutlineColor(Color4(255, 255, 255, 255));
+	t.setOutlined(true);
+	t.setRotationDeg(r);
+	t.draw();
+
+	rect.setPosition(400, 400);
+	rect.setSize(150, 100);
+	rect.setFillColor(Color4(0, 100, 0, 255));
+	rect.setFilled(true);
+	rect.setRotationDeg(r);
+	rect.setOutlineColor(Color4(255, 255, 255, 255));
+	rect.setOutlined(true);
+	rect.draw();
+
+	std::stringstream strStream;
+	strStream << "Draw calls: " << drawCalls;
+
+	font.drawString(strStream.str(), 0, 50, BitmapFont::ALIGN_TL);
+
+	gl.endFrame();
+	r += 0.5f;
 
 	eglSwapBuffers(glesDisplay, glesSurface);
 }

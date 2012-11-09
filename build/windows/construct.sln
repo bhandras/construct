@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "construct", "construct.vcxproj", "{0E962437-5E82-47C9-B584-2AACD05998D5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "shooter", "shooter.vcxproj", "{2A3A2879-0620-47B4-A382-C661E6135A41}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0E962437-5E82-47C9-B584-2AACD05998D5} = {0E962437-5E82-47C9-B584-2AACD05998D5}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

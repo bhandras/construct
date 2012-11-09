@@ -269,17 +269,6 @@ void MathUtil::Color::hsv2rgb(float h, float s, float v, float& r, float& g, flo
 }
 
 
-float MathUtil::deg2Rad(float angleDeg)
-{
-	return angleDeg * static_cast<float>(M_PI) / 180.0f;
-}
-
-float MathUtil::rad2Deg(float angleRad)
-{
-	return angleRad * 180.0f / static_cast<float>(M_PI);
-}
-
-
 int MathUtil::Numeric::toInt(float num)
 {
 	return NumericTraits<float>::toInt(num);
@@ -289,4 +278,32 @@ int MathUtil::Numeric::toInt(float num)
 int MathUtil::Numeric::toInt(double num)
 {
 	return NumericTraits<double>::toInt(num);
+}
+
+
+float MathUtil::Numeric::deg2Rad(float angleDeg)
+{
+	return angleDeg * static_cast<float>(M_PI) / 180.0f;
+}
+
+float MathUtil::Numeric::rad2Deg(float angleRad)
+{
+	return angleRad * 180.0f / static_cast<float>(M_PI);
+}
+
+
+void MathUtil::Geometry::rotate(float angleRad, Vector2f* pointArray, int numPoints)
+{
+	float sa = sin(angleRad);
+	float ca = cos(angleRad);
+
+	for (int i = 0; i < numPoints; ++i)
+	{
+		Vector2f& p = pointArray[i];
+		float x = p.x * ca - p.y * sa;
+		float y = p.y * ca + p.x * sa;
+
+		p.x = x;
+		p.y = y;
+	}
 }

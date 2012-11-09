@@ -17,6 +17,8 @@
 	#include "EGL/egl.h"
 #endif
 
+#define MAX_OPENGL_TEXTURE_MEMORY 64 * 1024 * 1024
 
 #include "gl_program.h"
 #include "gl_renderer.h"
+#include "gl_texturemanager.h"

@@ -61,6 +61,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\3rdparty\lodepng\lodepng.h" />
+    <ClInclude Include="..\..\src\bitmap_font.h" />
     <ClInclude Include="..\..\src\color4.h" />
     <ClInclude Include="..\..\src\common.h" />
     <ClInclude Include="..\..\src\construct.h" />
@@ -68,6 +70,8 @@
     <ClInclude Include="..\..\src\gl\gl.h" />
     <ClInclude Include="..\..\src\gl\gl_program.h" />
     <ClInclude Include="..\..\src\gl\gl_renderer.h" />
+    <ClInclude Include="..\..\src\gl\gl_texturemanager.h" />
+    <ClInclude Include="..\..\src\gl\shaders.h" />
     <ClInclude Include="..\..\src\math\math.h" />
     <ClInclude Include="..\..\src\math\math_util.h" />
     <ClInclude Include="..\..\src\math\matrix44.h" />
@@ -79,8 +83,11 @@
     <ClInclude Include="..\..\src\shape2d.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\3rdparty\lodepng\lodepng.cpp" />
+    <ClCompile Include="..\..\src\bitmap_font.cpp" />
     <ClCompile Include="..\..\src\gl\gl_program.cpp" />
     <ClCompile Include="..\..\src\gl\gl_renderer.cpp" />
+    <ClCompile Include="..\..\src\gl\gl_texturemanager.cpp" />
     <ClCompile Include="..\..\src\math\math_util.cpp" />
     <ClCompile Include="..\..\src\shape2d.cpp" />
   </ItemGroup>

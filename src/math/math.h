@@ -14,14 +14,13 @@
 #define M_PI_4 0.785398163397448309616
 #endif
 
-
+#include "numeric_traits.h"
 #include "vector2.h"
 #include "vector3.h"
 #include "vector4.h"
-#include "numeric_traits.h"
+
 #include "matrix44.h"
 #include "matrix44_stack.h"
-#include "math_util.h"
 
 
 typedef Vector2<float> Vector2f;
@@ -38,3 +37,6 @@ typedef Matrix44<double> Matrix44d;
 
 typedef Matrix44Stack<float> Matrix44fStack;
 typedef Matrix44Stack<double> Matrix44dStack;
+
+
+#include "math_util.h"

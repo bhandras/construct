@@ -7,6 +7,12 @@
     <Filter Include="gl">
       <UniqueIdentifier>{4ca8379f-750e-481b-8ec6-3333b82ba0c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rdparty">
+      <UniqueIdentifier>{cf83b64f-4dbd-42a6-8c97-b4445843d04d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdparty\lodepng">
+      <UniqueIdentifier>{92d44c4b-5642-4038-97cd-4c52aad83d59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\math\math_util.h">
@@ -47,6 +53,16 @@
     <ClInclude Include="..\..\src\construct.h" />
     <ClInclude Include="..\..\src\color4.h" />
     <ClInclude Include="..\..\src\shape2d.h" />
+    <ClInclude Include="..\..\src\gl\shaders.h">
+      <Filter>gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\3rdparty\lodepng\lodepng.h">
+      <Filter>3rdparty\lodepng</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gl\gl_texturemanager.h">
+      <Filter>gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\bitmap_font.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\math\math_util.cpp">
@@ -59,5 +75,12 @@
       <Filter>gl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\shape2d.cpp" />
+    <ClCompile Include="..\..\src\3rdparty\lodepng\lodepng.cpp">
+      <Filter>3rdparty\lodepng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gl\gl_texturemanager.cpp">
+      <Filter>gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\bitmap_font.cpp" />
   </ItemGroup>
 </Project>

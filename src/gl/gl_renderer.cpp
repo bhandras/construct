@@ -1,5 +1,6 @@
 #include "../common.h"
 #include "gl.h"
+#include "shaders.h"
 
 #include <iostream>
 #include <fstream>
@@ -9,6 +10,8 @@ GL_Render::GL_Render()
 : mActiveProgram(0)
 , mDrawMode(0)
 , mTextureId(0)
+, mBatchNextIndex(0)
+, mDrawCalls(0)
 { }
 
 
@@ -18,11 +21,22 @@ GL_Render::~GL_Render()
 
 void GL_Render::init()
 {
-	attachShader("xyz_rgba", "xyz_rgba.vs", GL_Program::VertexShader);
-	attachShader("xyz_rgba", "xyz_rgba.fs", GL_Program::FragmentShader);
+	mProgramMap["xyz_rgba"].setShader(GL_Program::VertexShader, xyz_rgba_vs);
+	mProgramMap["xyz_rgba"].setShader(GL_Program::FragmentShader, xyz_rgba_fs);
+	mProgramMap["xyz_rgba_uv"].setShader(GL_Program::VertexShader, xyz_rgba_uv_vs);
+	mProgramMap["xyz_rgba_uv"].setShader(GL_Program::FragmentShader, xyz_rgba_uv_fs);
+}
 
-	attachShader("xyz_rgba_uv", "xyz_rgba_uv.vs", GL_Program::VertexShader);
-	attachShader("xyz_rgba_uv", "xyz_rgba_uv.fs", GL_Program::FragmentShader);
+
+void GL_Render::beginFrame()
+{
+	mDrawCalls = 0;
+}
+
+
+void GL_Render::endFrame()
+{
+	flush();
 }
 
 
@@ -45,6 +59,33 @@ void GL_Render::setTexture(GLuint textureId)
 	}
 
 	mTextureId = textureId;
+}
+
+
+void GL_Render::enableBlending(GLenum sFactor, GLenum dFactor)
+{
+	if (!mBlendingEnabled || mBlendSFactor != sFactor || mBlendDFactor != dFactor)
+	{
+		flush();
+	}
+
+	mBlendingEnabled = true;
+	mBlendSFactor = sFactor;
+	mBlendDFactor = dFactor;
+	glBlendFunc(sFactor, dFactor);
+	glEnable(GL_BLEND);
+}
+
+
+void GL_Render::disableBlending()
+{
+	if (mBlendingEnabled)
+	{
+		flush();
+	}
+
+	mBlendingEnabled = false;
+	glDisable(GL_BLEND);
 }
 
 
@@ -77,7 +118,23 @@ void GL_Render::draw_XYZ_RGBA(const Vertex_Vector_XYZ_RGBA& vertices, const Inde
 	
 	XYZ_RGBA_RenderBatch* batch = static_cast<XYZ_RGBA_RenderBatch*>(mBatch);
 	batch->vertices.insert(batch->vertices.end(), vertices.begin(), vertices.end());
-	batch->indices.insert(batch->indices.end(), indices.begin(), indices.end());
+
+	size_t next = batch->indices.size();
+	GLushort maxIndex = mBatchNextIndex;
+	batch->indices.resize(batch->indices.size() + indices.size());
+
+	for (size_t i = 0; i < indices.size(); ++i)
+	{
+		GLushort index = indices[i] + mBatchNextIndex;
+		batch->indices[next] = index;
+		if (index > maxIndex)
+		{
+			maxIndex = index;
+		}
+		++next;
+	}
+	
+	mBatchNextIndex = maxIndex + 1;
 }
 
 
@@ -95,7 +152,23 @@ void GL_Render::draw_XYZ_RGBA_UV(const Vertex_Vector_XYZ_RGBA_UV& vertices, cons
 
 	XYZ_RGBA_UV_RenderBatch* batch = static_cast<XYZ_RGBA_UV_RenderBatch*>(mBatch);
 	batch->vertices.insert(batch->vertices.end(), vertices.begin(), vertices.end());
-	batch->indices.insert(batch->indices.end(), indices.begin(), indices.end());
+
+	size_t next = batch->indices.size();
+	GLushort maxIndex = mBatchNextIndex;
+	batch->indices.resize(batch->indices.size() + indices.size());
+
+	for (size_t i = 0; i < indices.size(); ++i)
+	{
+		GLushort index = indices[i] + mBatchNextIndex;
+		batch->indices[next] = index;
+		if (index > maxIndex)
+		{
+			maxIndex = index;
+		}
+		++next;
+	}
+
+	mBatchNextIndex = maxIndex + 1;
 }
 
 
@@ -125,7 +198,8 @@ void GL_Render::flush()
 			glVertexAttribPointer(attribSourceColor, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex_XYZ_RGBA), &batch->vertices[0].color_rgba);
 			glEnableVertexAttribArray(attribSourceColor);
 
-			glDrawElements(mDrawMode, batch->indices.size(), GL_UNSIGNED_SHORT, &batch->indices[0]); 
+			glDrawElements(mDrawMode, batch->indices.size(), GL_UNSIGNED_SHORT, &batch->indices[0]);
+			++mDrawCalls;
 			break;
 		}
 
@@ -155,12 +229,23 @@ void GL_Render::flush()
 			glUniform1i(textureUniform, 0);
 
 			glDrawElements(mDrawMode, batch->indices.size(), GL_UNSIGNED_SHORT, &batch->indices[0]);
+			++mDrawCalls;
+			break;
 		}
-		
+
+	default:
+		break;
 	}
 
+	mBatchNextIndex = 0;
 	delete mBatch;
 	mBatch = 0;
+}
+
+
+int GL_Render::getNumDrawCalls() const
+{
+	return mDrawCalls;
 }
 
 

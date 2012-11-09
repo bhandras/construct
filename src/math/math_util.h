@@ -32,14 +32,19 @@ namespace MathUtil
 		static void hsv2rgb(float h, float s, float v, float& r, float& g, float& b);
 	};
 
-	static float deg2Rad(float angleDeg);
-	static float rad2Deg(float angleRad);	
-
 	class Numeric
 	{
 	public:
 		static int toInt(float num);
 		static int toInt(double num);
+		static float deg2Rad(float angleDeg);
+		static float rad2Deg(float angleRad);
+	};
+
+	class Geometry
+	{
+	public:
+		static void rotate(float angleRad, Vector2f* pointArray, int numPoints);
 	};
 
 } // MathUtil

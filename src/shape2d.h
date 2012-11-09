@@ -19,12 +19,13 @@ public:
 	void setPosition(int x, int y);
 	void setPosition(float x, float y);
 
-	void setRotation(float angleDeg);
+	void setRotationDeg(float angleDeg);
+	void setRotationRad(float angleRad);
 	void setScale(float scale);
 
 	float getPosX() const { return mPosX; }
 	float getPosY() const { return mPosY; }
-	float getRotation() const { return mRotationDeg; }
+	float getRotation() const { return mRotationRad; }
 	float getScale() const { return mScale; }
 	const Color4& getFillColor() const { return mAreaFillColor; }
 	const Color4& getOutlineColor() const { return mOutlineColor; }
@@ -40,7 +41,7 @@ public:
 protected:
 	bool mDirty;
 	float mPosX, mPosY;
-	float mRotationDeg;
+	float mRotationRad;
 	float mScale;
 
 	bool mDrawArea;
@@ -50,7 +51,7 @@ protected:
 };
 
 
-class RectangleShape : public Shape2d
+class RoundedRectangleShape : public Shape2d
 {
 public:
 	enum CornerType
@@ -63,7 +64,7 @@ public:
 		CORNER_ROUND	= 15
 	};
 
-	RectangleShape() 
+	RoundedRectangleShape() 
 		: mW(0.0f)
 		, mH(0.0f)
 		, mCornerType(CORNER_SQUARE)
@@ -112,7 +113,24 @@ private:
 };
 
 
-// Equilateral triangle shape
+// simple rectangle shape
+class RectangleShape : public Shape2d
+{
+public:
+	RectangleShape();
+	void setSize(float sizeX, float sizeY);
+	void setSizeX(float sizeX);
+	void setSizeY(float sizeY);
+	virtual void draw() override;
+
+private:
+	float mSizeX;
+	float mSizeY;
+	Vertex_Vector_XYZ_RGBA mVertices;
+};
+
+
+// equilateral triangle shape
 class TriangleShape : public Shape2d
 {
 public:
