@@ -19,7 +19,7 @@ float r = 0.0f;
 TriangleShape t;
 RectangleShape rect;
 BitmapFont font;
-
+Quad q;
 
 bool InitOGLES()
 {
@@ -169,6 +169,14 @@ void Render()
 	rect.setOutlineColor(Color4(255, 255, 255, 255));
 	rect.setOutlined(true);
 	rect.draw();
+
+
+	q.setSize(100, 100);
+	q.setPosition(Vector2f(300, 500));
+	q.setRotationDeg(r);
+	q.setHotSpot(Quad::QUAD_HOTSPOT_CENTER);
+	q.update();
+	q.draw(Color4(100, 100, 100, 255));
 
 	std::stringstream strStream;
 	strStream << "Draw calls: " << drawCalls;

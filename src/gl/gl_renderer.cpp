@@ -135,6 +135,11 @@ void GL_Render::draw_XYZ_RGBA(const Vertex_Vector_XYZ_RGBA& vertices, const Inde
 	}
 	
 	mBatchNextIndex = maxIndex + 1;
+
+	if (mDrawMode != GL_TRIANGLES || mDrawMode != GL_LINES || mDrawMode != GL_POINTS)
+	{
+		flush();
+	}
 }
 
 
@@ -169,6 +174,11 @@ void GL_Render::draw_XYZ_RGBA_UV(const Vertex_Vector_XYZ_RGBA_UV& vertices, cons
 	}
 
 	mBatchNextIndex = maxIndex + 1;
+
+	if (mDrawMode != GL_TRIANGLES || mDrawMode != GL_LINES || mDrawMode != GL_POINTS)
+	{
+		flush();
+	}
 }
 
 

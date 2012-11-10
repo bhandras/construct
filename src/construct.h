@@ -6,3 +6,5 @@
 
 #include "shape2d.h"
 #include "bitmap_font.h"
+
+#include "quad.h"

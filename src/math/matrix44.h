@@ -20,7 +20,7 @@ public:
 		float a20, float a21, float a22, float a23,
 		float a30, float a31, float a32, float a33)
 	{
-#define M(Y,X) mData[(Y << 2) + X]
+#define M(Y,X) m[(Y << 2) + X]
 
 		M(0,0) = a00; M(0,1) = a01; M(0,2) = a02; M(0,3) = a03;
 		M(1,0) = a10; M(1,1) = a11; M(1,2) = a12; M(1,3) = a13;
@@ -103,9 +103,9 @@ public:
 	}
 	Matrix44 operator*(const Matrix44& other) const
 	{
-#define M1(Y,X) mData[(Y << 2) + X]
-#define M2(Y,X) other.mData[(Y << 2) + X]
-#define RESULT(Y,X) result.mData[(Y << 2) + X]
+#define M1(Y,X) m[(Y << 2) + X]
+#define M2(Y,X) other.m[(Y << 2) + X]
+#define RESULT(Y,X) result.m[(Y << 2) + X]
 
 		Matrix44 result;
 
@@ -130,7 +130,7 @@ public:
 
 	Vector3<T> operator*(const Vector3<T>& v) const
 	{
-#define M(X,Y) mData[(Y << 2) + X]
+#define M(X,Y) m[(Y << 2) + X]
 
 		T x = v.x();
 		T y = v.y();
@@ -226,7 +226,7 @@ public:
 		result.mData[9]  = az * axis.y() + axis.x() * sinAngle;
 		result.mData[10] = az * axis.z() + cosAngle;
 
-		return result;
+		return result; 
 	}
 
 private:

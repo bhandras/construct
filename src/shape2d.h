@@ -1,4 +1,4 @@
-#pragma once
+#pragma once 
 
 
 #include "color4.h"
@@ -40,9 +40,12 @@ public:
 
 protected:
 	bool mDirty;
+	
 	float mPosX, mPosY;
 	float mRotationRad;
 	float mScale;
+
+	Affine2df mTransformation;
 
 	bool mDrawArea;
 	Color4 mAreaFillColor;

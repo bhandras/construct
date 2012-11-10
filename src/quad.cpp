@@ -1,0 +1,272 @@
+#include <cassert>
+#include "gl/gl.h"
+#include "quad.h"
+
+/*
+
+2D OBB Intersection
+
+Stefan Gottschalk's thesis (Collision Queries using Oriented Bounding
+Boxes, Ph.D. Thesis, Department of Computer Science, University of North
+Carolina at Chapel Hill, 1999) introduces the separating-axis method
+for performing the equivalent test on 3D oriented bounding boxes.
+This method depends on the observation that for two boxes to be disjoint
+(i.e. *not* intersecting), there must be some axis along which their projections
+are disjoint. The 3D case considers each of 15 axes as a potential
+separating axis. These axes are the three edge axes of box 1, the three edge
+axes of box 2, and the nine cross products formed by taking some edge of box 1
+and some edge of box 2.  
+
+In 2D this simplifies dramatically and only four axes need be considered. 
+These are the orthogonal edges of each bounding box. If a few values are precomputed
+every time a box moves, we end up performing only 16 dot products and some
+comparisons in the worst case for each overlap test. One nice property of the
+separating-axis method is that it can be structured in an early out fashion, 
+so that many fewer operations are needed in the case where the boxes do not intersect.
+In general, the first test is extremely likely to fail (and return "no overlap")
+when there is no overlap.  If it passes, the second test is even more likely
+to fail if there is no overlap, and so on. Only when the boxes are in extremely
+close proximity is there even a 50% chance of executing more than 2 tests.
+
+*/
+
+
+Quad::Quad()
+: mRotationRad(0.0f)
+, mScale(1.0f)
+, mHotSpot(QUAD_HOTSPOT_TL)
+{ }
+
+
+Quad::Quad(const Quad& other)
+{
+	mPosition = other.mPosition;
+	mSize = other.mSize;
+	mRotationRad = other.mRotationRad;
+	mHotSpot = other.mHotSpot;
+	mScale = other.mScale;
+
+	mCorners[0] = other.mCorners[0];
+	mCorners[1] = other.mCorners[1];
+	mCorners[2] = other.mCorners[2];
+	mCorners[3] = other.mCorners[3];
+
+	mAxis[0] = other.mAxis[0];
+	mAxis[1] = other.mAxis[1];
+
+	mOrigin[0] = other.mOrigin[0];
+	mOrigin[1] = other.mOrigin[1];
+}
+
+
+Quad& Quad::operator=(const Quad& other)
+{
+	if (this != &other)
+	{
+		mPosition = other.mPosition;
+		mSize = other.mSize;
+		mRotationRad = other.mRotationRad;
+		mHotSpot = other.mHotSpot;
+
+		mCorners[0] = other.mCorners[0];
+		mCorners[1] = other.mCorners[1];
+		mCorners[2] = other.mCorners[2];
+		mCorners[3] = other.mCorners[3];
+
+		mAxis[0] = other.mAxis[0];
+		mAxis[1] = other.mAxis[1];
+
+		mOrigin[0] = other.mOrigin[0];
+		mOrigin[1] = other.mOrigin[1];
+	}
+
+	return *this;
+}
+
+
+void Quad::update()
+{
+	// create an axis aligned box first
+	Vector2f x(mSize.w, 0.0f);
+	Vector2f y(0.0f, mSize.h);
+
+	mCorners[QUAD_CORNER_TL].x = 0.0f;
+	mCorners[QUAD_CORNER_TL].y = 0.0f;
+	mCorners[QUAD_CORNER_TR] = x;
+	mCorners[QUAD_CORNER_BR] = x + y;
+	mCorners[QUAD_CORNER_BL] = y;
+	mCentroid = (mCorners[0] + mCorners[1] + mCorners[2] + mCorners[3]) * 0.25f;
+
+	// calculate hot spot delta vector
+	Vector2f hotSpotDelta;
+	switch (mHotSpot)
+	{
+	case QUAD_HOTSPOT_CENTER:
+		hotSpotDelta = mCorners[QUAD_CORNER_TL] - mCentroid;
+		break;
+	case QUAD_HOTSPOT_TR:
+		hotSpotDelta = mCorners[QUAD_CORNER_TL] - mCorners[QUAD_CORNER_TR];
+		break;
+	case QUAD_HOTSPOT_BL:
+		hotSpotDelta = mCorners[QUAD_CORNER_TL] - mCorners[QUAD_CORNER_BL];
+		break;
+	case QUAD_HOTSPOT_BR:
+		hotSpotDelta = mCorners[QUAD_CORNER_TL] - mCorners[QUAD_CORNER_BR];
+		break;
+	case QUAD_HOTSPOT_TL:
+	default:
+		hotSpotDelta = Vector2f(0, 0);
+		break;
+	}
+
+	mTransformation.create(mRotationRad, mPosition.x, mPosition.y, mScale, mScale);
+	mCentroid += hotSpotDelta;
+	mTransformation.transform(mCentroid);
+	mCentroid -= hotSpotDelta;
+
+	// create corners
+	for (int i = 0; i < 4; ++i)
+	{
+		mCorners[i] += hotSpotDelta;
+		mTransformation.transform(mCorners[i]);
+		mCorners[i] -= hotSpotDelta;
+	}
+}
+
+
+void Quad::setSize(float w, float h)
+{
+	mSize.w = w;
+	mSize.h = h;
+}
+
+
+void Quad::setHotSpot(HotSpot hotSpot)
+{
+	mHotSpot = hotSpot;
+}
+
+
+void Quad::setPosition(const Vector2f& position)
+{
+	mPosition = position;
+}
+
+
+void Quad::setRotationDeg(float angleDeg)
+{
+	mRotationRad = MathUtil::Numeric::deg2Rad(angleDeg);
+}
+
+
+void Quad::setScale(float scale)
+{
+	mScale = scale;
+}
+
+
+bool Quad::isInside(const Vector2f& point) const
+{
+	float angle = 0.0f;
+
+	for (int i = 0; i < 4; ++i)
+	{
+		Vector2f p1(mCorners[i] - point);
+		Vector2f p2(mCorners[(i + 1) % 4] - point);
+		angle += p1.angle(p2);
+	}
+
+	if (fabs(angle) < M_PI)
+	{
+		return false;
+	}
+	
+	return true;
+}
+
+
+bool Quad::overlaps(const Quad& other) const
+{
+	return overlaps1Way(other) && other.overlaps1Way(*this);
+}
+
+
+void Quad::draw(const Color4& color) const
+{
+	Vertex_Vector_XYZ_RGBA vertices;
+	vertices.resize(4);
+
+	Index_Vector indices;
+	indices.resize(4);
+
+	for (int i = 0; i < 4; ++i)
+	{
+		vertices[i].setPosition(mCorners[i]);
+		vertices[i].setColor(color);
+	}
+
+	indices[0] = 0;
+	indices[1] = 1;
+	indices[2] = 2;
+	indices[3] = 3;
+
+	GL_Render& gl = GL_Render::get();
+	gl.setDrawMode(GL_LINE_LOOP);
+	gl.draw_XYZ_RGBA(vertices, indices);
+}
+
+
+void Quad::refresh()
+{
+	mAxis[0] = mCorners[1] - mCorners[0]; 
+	mAxis[1] = mCorners[3] - mCorners[0]; 
+
+	// Make the length of each axis (1 / edge) length so we know
+	// any dot product must be less than 1 to fall within the edge.
+	for (int i = 0; i < 2; ++i)
+	{
+		mAxis[i] *= (1.0f / mAxis[i].squareLength());
+		mOrigin[i] = mCorners[i].dot(mAxis[i]);
+	}
+}
+
+
+bool Quad::overlaps1Way(const Quad& other) const
+{
+	for (int a = 0; a < 2; ++a)
+	{
+		float t = other.mCorners[0].dot(mAxis[a]);
+
+		// Find the extent of box 2 on axis a
+		double tMin = t;
+		double tMax = t;
+
+		for (int c = 1; c < 4; ++c)
+		{
+			t = other.mCorners[c].dot(mAxis[a]);
+
+			if (t < tMin)
+			{
+				tMin = t;
+			}
+			else if (t > tMax)
+			{
+				tMax = t;
+			}
+		}
+
+		// We have to subtract off the origin
+
+		// See if [tMin, tMax] intersects [0, 1]
+		if ((tMin > 1 + mOrigin[a]) || (tMax < mOrigin[a]))
+		{
+			// There was no intersection along this dimension;
+			// the boxes cannot possibly overlap.
+			return false;
+		}
+	}
+
+	// There was no dimension along which there is no intersection.
+	// Therefore the boxes overlap.
+	return true;
+}

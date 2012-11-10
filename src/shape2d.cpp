@@ -489,16 +489,11 @@ void RectangleShape::draw()
 		edges[3].x = -sizeX2;
 		edges[3].y = sizeY2;
 
-		MathUtil::Geometry::rotate(mRotationRad, edges, 4);
+		mTransformation.create(mRotationRad, mPosX, mPosY, mScale, mScale);
 
 		for (int i = 0; i < 4; ++i)
 		{
-			edges[i].x *= mScale;
-			edges[i].y *= mScale;
-
-			edges[i].x += mPosX;
-			edges[i].y += mPosY;
-
+			mTransformation.transform(edges[i]);
 			mVertices[i].setPosition(edges[i]);
 		}
 	}
@@ -563,7 +558,7 @@ void TriangleShape::draw()
 		float a2 = mSize / sqrt3;
 
 		// center from the bottom
-		float x = mSize - ((2.0f * a2) / sqrt3);		
+		float x = mSize - ((2.0f * a2) / sqrt3);
 
 		Vector2f edges[3];
 
@@ -574,22 +569,13 @@ void TriangleShape::draw()
 		edges[2].x = 0.0f;
 		edges[2].y = mSize - x;
 
-		MathUtil::Geometry::rotate(mRotationRad, edges, 3);
-
+		mTransformation.create(mRotationRad, mPosX, mPosY, mScale, mScale);
+	
 		for (int i = 0; i < 3; ++i)
 		{
-			edges[i].x *= mScale;
-			edges[i].y *= mScale;
-
-			edges[i].x += mPosX;
-			edges[i].y += mPosY;
-
+			mTransformation.transform(edges[i]);
 			mVertices[i].setPosition(edges[i]);
 		}
-
-		mVertices[0].setPosition(edges[0]);
-		mVertices[1].setPosition(edges[1]);
-		mVertices[2].setPosition(edges[2]);
 	}
 
 	Index_Vector indices;

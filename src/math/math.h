@@ -22,6 +22,8 @@
 #include "matrix44.h"
 #include "matrix44_stack.h"
 
+#include "affine_2d.h"
+
 
 typedef Vector2<float> Vector2f;
 typedef Vector2<double> Vector2d;
@@ -38,5 +40,6 @@ typedef Matrix44<double> Matrix44d;
 typedef Matrix44Stack<float> Matrix44fStack;
 typedef Matrix44Stack<double> Matrix44dStack;
 
+typedef Affine2d<float> Affine2df;
 
 #include "math_util.h"

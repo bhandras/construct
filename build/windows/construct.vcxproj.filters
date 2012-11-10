@@ -63,6 +63,10 @@
       <Filter>gl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\bitmap_font.h" />
+    <ClInclude Include="..\..\src\quad.h" />
+    <ClInclude Include="..\..\src\math\affine_2d.h">
+      <Filter>math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\math\math_util.cpp">
@@ -82,5 +86,6 @@
       <Filter>gl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\bitmap_font.cpp" />
+    <ClCompile Include="..\..\src\quad.cpp" />
   </ItemGroup>
 </Project>
