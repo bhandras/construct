@@ -13,6 +13,9 @@
     <Filter Include="3rdparty\lodepng">
       <UniqueIdentifier>{92d44c4b-5642-4038-97cd-4c52aad83d59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rdparty\tinyxml">
+      <UniqueIdentifier>{bd2e5ca1-13cb-4a26-8418-9b68c3955562}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\math\math_util.h">
@@ -67,6 +70,15 @@
     <ClInclude Include="..\..\src\math\affine_2d.h">
       <Filter>math</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\spirte.h" />
+    <ClInclude Include="..\..\src\texture_atlas.h" />
+    <ClInclude Include="..\..\src\3rdparty\tinyxml\tinystr.h">
+      <Filter>3rdparty\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\3rdparty\tinyxml\tinyxml.h">
+      <Filter>3rdparty\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\xml.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\math\math_util.cpp">
@@ -87,5 +99,19 @@
     </ClCompile>
     <ClCompile Include="..\..\src\bitmap_font.cpp" />
     <ClCompile Include="..\..\src\quad.cpp" />
+    <ClCompile Include="..\..\src\spirte.cpp" />
+    <ClCompile Include="..\..\src\texture_atlas.cpp" />
+    <ClCompile Include="..\..\src\3rdparty\tinyxml\tinystr.cpp">
+      <Filter>3rdparty\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\3rdparty\tinyxml\tinyxml.cpp">
+      <Filter>3rdparty\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\3rdparty\tinyxml\tinyxmlerror.cpp">
+      <Filter>3rdparty\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\3rdparty\tinyxml\tinyxmlparser.cpp">
+      <Filter>3rdparty\tinyxml</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

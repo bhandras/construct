@@ -1,0 +1,152 @@
+#include "spirte.h"
+
+
+Sprite::Sprite()
+: mAtlas(0)
+, mCurrentKeyFrame(0)
+, mTickMs(0)
+, mFPS(0)
+, mIsLooped(false)
+, mColor(1.0f, 1.0f, 1.0f, 1.0f)
+, mPosX(0.0f)
+, mPosY(0.0f)
+{ }
+
+
+Sprite::~Sprite()
+{
+	for (size_t i = 0; i < mKeyFrames.size(); ++i)
+	{
+		delete mKeyFrames[i];
+	}
+
+	mKeyFrames.clear();
+}
+
+
+void Sprite::setAtlas(const TextureAtlas* atlas)
+{
+	mAtlas = atlas;
+}
+
+
+void Sprite::addKeyFrameImage(const std::string& name)
+{
+	if (mAtlas)
+	{
+		float x, y, w, h;
+		if (mAtlas->getImage(name, x, y, w, h))
+		{
+			float textureW = mAtlas->getTexture().getW();
+			float textureH = mAtlas->getTexture().getH();
+
+			KeyFrame* keyFrame = new KeyFrame;
+			mKeyFrames.push_back(keyFrame);
+
+			keyFrame->u0 = x / textureW;
+			keyFrame->v0 = y / textureH;
+
+			keyFrame->u1 = (x + w) / textureW;
+			keyFrame->v1 = y / textureH;
+
+			keyFrame->u2 = (x + w) / textureW;
+			keyFrame->v2 = (y + h) / textureH;
+
+			keyFrame->u3 = x / textureW;
+			keyFrame->v3 = (y + h) / textureH;
+
+			keyFrame->quad.setSize(w, h);
+		}
+	}
+}
+
+
+void Sprite::setFPS(int FPS)
+{
+	mFPS = FPS;
+}
+
+
+void Sprite::setLooped(bool isLooped)
+{
+	mIsLooped = isLooped;
+}
+
+
+void Sprite::setPosition(float x, float y)
+{
+	mPosX = x;
+	mPosY = y;
+}
+
+
+void Sprite::update(unsigned int deltaTimeMs)
+{
+	if (deltaTimeMs != 0 && mFPS != 0)
+	{
+		mTickMs += deltaTimeMs;
+		int keyFrameDelta = mTickMs / (1000 / mFPS);
+
+		if (keyFrameDelta != 0)
+		{
+			mTickMs = 0;
+			if (mIsLooped)
+			{
+				mCurrentKeyFrame += keyFrameDelta;
+				mCurrentKeyFrame %= mKeyFrames.size();
+			}
+			else
+			{
+				mCurrentKeyFrame = std::min(mCurrentKeyFrame + keyFrameDelta, mKeyFrames.size() - 1);
+			}
+		}
+	}
+
+	mTransformation.create(0, mPosX, mPosY, 1.0f, 1.0f);
+}
+
+
+void Sprite::draw()
+{
+	KeyFrame* keyFrame = mKeyFrames[mCurrentKeyFrame];
+	keyFrame->quad.setTransformation(mTransformation);
+	keyFrame->quad.update();
+
+	Vertex_Vector_XYZ_RGBA_UV vertices;
+	vertices.resize(4);
+
+	vertices[0].setPosition(keyFrame->quad.getCorner(Quad::QUAD_CORNER_TL));
+	vertices[0].texture_uv[0] = keyFrame->u0;
+	vertices[0].texture_uv[1] = keyFrame->v0;
+	vertices[0].setColor(mColor);
+
+	vertices[1].setPosition(keyFrame->quad.getCorner(Quad::QUAD_CORNER_TR));
+	vertices[1].texture_uv[0] = keyFrame->u1;
+	vertices[1].texture_uv[1] = keyFrame->v1;
+	vertices[1].setColor(mColor);
+
+	vertices[2].setPosition(keyFrame->quad.getCorner(Quad::QUAD_CORNER_BR));
+	vertices[2].texture_uv[0] = keyFrame->u2;
+	vertices[2].texture_uv[1] = keyFrame->v2;
+	vertices[2].setColor(mColor);
+
+	vertices[3].setPosition(keyFrame->quad.getCorner(Quad::QUAD_CORNER_BL));
+	vertices[3].texture_uv[0] = keyFrame->u3;
+	vertices[3].texture_uv[1] = keyFrame->v3;
+	vertices[3].setColor(mColor);
+
+	Index_Vector indices;
+	indices.resize(6);
+	indices[0] = 0;
+	indices[1] = 1;
+	indices[2] = 2;
+	indices[3] = 2;
+	indices[4] = 3;
+	indices[5] = 0;
+
+	GL_Render& gl = GL_Render::get();
+	gl.setDrawMode(GL_TRIANGLES);
+	gl.setTexture(mAtlas->getTexture().getId());
+	gl.enableBlending(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	gl.draw_XYZ_RGBA_UV(vertices, indices);
+}

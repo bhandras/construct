@@ -32,19 +32,14 @@ close proximity is there even a 50% chance of executing more than 2 tests.
 
 
 Quad::Quad()
-: mRotationRad(0.0f)
-, mScale(1.0f)
-, mHotSpot(QUAD_HOTSPOT_TL)
+: mHotSpot(QUAD_HOTSPOT_TL)
 { }
 
 
 Quad::Quad(const Quad& other)
 {
-	mPosition = other.mPosition;
 	mSize = other.mSize;
-	mRotationRad = other.mRotationRad;
 	mHotSpot = other.mHotSpot;
-	mScale = other.mScale;
 
 	mCorners[0] = other.mCorners[0];
 	mCorners[1] = other.mCorners[1];
@@ -63,9 +58,7 @@ Quad& Quad::operator=(const Quad& other)
 {
 	if (this != &other)
 	{
-		mPosition = other.mPosition;
 		mSize = other.mSize;
-		mRotationRad = other.mRotationRad;
 		mHotSpot = other.mHotSpot;
 
 		mCorners[0] = other.mCorners[0];
@@ -119,7 +112,6 @@ void Quad::update()
 		break;
 	}
 
-	mTransformation.create(mRotationRad, mPosition.x, mPosition.y, mScale, mScale);
 	mCentroid += hotSpotDelta;
 	mTransformation.transform(mCentroid);
 	mCentroid -= hotSpotDelta;
@@ -147,21 +139,9 @@ void Quad::setHotSpot(HotSpot hotSpot)
 }
 
 
-void Quad::setPosition(const Vector2f& position)
+void Quad::setTransformation(const Affine2df& t)
 {
-	mPosition = position;
-}
-
-
-void Quad::setRotationDeg(float angleDeg)
-{
-	mRotationRad = MathUtil::Numeric::deg2Rad(angleDeg);
-}
-
-
-void Quad::setScale(float scale)
-{
-	mScale = scale;
+	mTransformation = t;
 }
 
 

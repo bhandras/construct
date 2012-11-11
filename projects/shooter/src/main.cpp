@@ -20,6 +20,8 @@ TriangleShape t;
 RectangleShape rect;
 BitmapFont font;
 Quad q;
+TextureAtlas* atlas;
+Sprite sprite;
 
 bool InitOGLES()
 {
@@ -132,11 +134,27 @@ bool InitOGLES()
 
 	GL_Render::get().init();
 	font.load("vector_skin_font.bff");
+	atlas = new TextureAtlas("peasant.xml");
+	atlas->load();
+
+	sprite.setAtlas(atlas);
+	sprite.addKeyFrameImage("peasant_walk0");
+	sprite.addKeyFrameImage("peasant_walk1");
+	sprite.addKeyFrameImage("peasant_walk2");
+	sprite.addKeyFrameImage("peasant_walk3");
+	sprite.addKeyFrameImage("peasant_walk4");
+	sprite.addKeyFrameImage("peasant_walk5");
+	sprite.addKeyFrameImage("peasant_walk6");
+	sprite.addKeyFrameImage("peasant_walk7");
+	sprite.setFPS(10);
+	sprite.setLooped(true);
 
 	return TRUE; 
 }
 
 #include <sstream>
+
+
 
 
 void Render()
@@ -172,11 +190,17 @@ void Render()
 
 
 	q.setSize(100, 100);
-	q.setPosition(Vector2f(300, 500));
-	q.setRotationDeg(r);
+	Affine2df t;
+	t.create(MathUtil::Numeric::deg2Rad(r), 300, 500, 1.0f, 1.0f);
+
+	q.setTransformation(t);
 	q.setHotSpot(Quad::QUAD_HOTSPOT_CENTER);
 	q.update();
 	q.draw(Color4(100, 100, 100, 255));
+
+	sprite.setPosition(150, 400);
+	sprite.update(10);
+	sprite.draw();
 
 	std::stringstream strStream;
 	strStream << "Draw calls: " << drawCalls;

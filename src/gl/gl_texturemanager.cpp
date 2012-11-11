@@ -50,7 +50,7 @@ bool GL_TextureManager::loadTexture(const std::string& path)
 }
 
 
-GL_TextureManager::GL_Texture GL_TextureManager::acquireTexture(const std::string& path)
+GL_Texture GL_TextureManager::acquireTexture(const std::string& path)
 {
 	TextureData& textureData = mTextures[path];
 	textureData.refCount++;

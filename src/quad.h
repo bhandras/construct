@@ -7,12 +7,18 @@
 // 2d size container
 struct Size2
 {
-	Size2() : w(0.0f), h(0.0f) {}
-	Size2(float _w, float _h) : w(_w), h(_h) {}
+	Size2()
+		: w(0.0f), h(0.0f) {}
+	
+	Size2(float _w, float _h)
+		: w(_w), h(_h) {}
 
 	/// Common helper constructors to avoit casting in the code.
-	Size2(int _w, int _h) : w(static_cast<float>(_w)), h(static_cast<float>(_h)) {}
-	Size2(unsigned _w, unsigned _h) : w(static_cast<float>(_w)), h(static_cast<float>(_h)) {}
+	Size2(int _w, int _h)
+		: w(static_cast<float>(_w)), h(static_cast<float>(_h)) {}
+	
+	Size2(unsigned _w, unsigned _h)
+		: w(static_cast<float>(_w)), h(static_cast<float>(_h)) {}
 
 	float w;
 	float h;
@@ -67,20 +73,11 @@ public:
 	/// Get specific corner point of the box.
 	const Vector2f& getCorner(CornerIndex index) const { return mCorners[static_cast<int>(index)]; }
 
-	const Vector2f& getPosition() const { return mPosition; }
-
-	/// Move the box.
-	void setPosition(const Vector2f& position);
-
-	float getW() const { return mSize.w * mScale; }
+	float getW() const { return mSize.w; }
 	
-	float getH() const { return mSize.h * mScale; }
+	float getH() const { return mSize.h; }
 
-	/// Reset rotation to given angle (in radians) and rotate the box around its centroid.
-	void setRotationDeg(float angleDeg);
-
-	/// Set the scale of the rect (scale is used for centered scaling)
-	void setScale(float scale);
+	void setTransformation(const Affine2df& t);
 
 	/// Check if 2d point is inside the box.
 	bool isInside(const Vector2f& point) const;
@@ -98,10 +95,7 @@ private:
 	/// Returns true if other overlaps one dimension of this.
 	bool overlaps1Way(const Quad& other) const;
 
-	Vector2f mPosition;
 	Size2 mSize;
-	float mRotationRad;
-	float mScale;
 	Affine2df mTransformation;
 
 	HotSpot mHotSpot;

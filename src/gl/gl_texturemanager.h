@@ -4,26 +4,28 @@
 #include <map>
 
 
+class GL_Texture
+{
+public:
+	GLuint getW() const { return mWidth; }
+	GLuint getH() const { return mHeight; }
+	GLuint getId() const { return mId; }
+	std::string getPath() const { return mPath; }
+
+private:
+	// GL_TextureManager can access/fill members
+	friend class GL_TextureManager;
+	std::string mPath;
+
+	GLuint mWidth;
+	GLuint mHeight;
+	GLuint mId;
+};
+
+
 class GL_TextureManager
 {
 public:
-	class GL_Texture
-	{
-	public:
-		GLuint getW() const { return mWidth; }
-		GLuint getH() const { return mHeight; }
-		GLuint getId() const { return mId; }
-
-	private:
-		// GL_TextureManager can access/fill members
-		friend class GL_TextureManager;
-		std::string mPath;
-
-		GLuint mWidth;
-		GLuint mHeight;
-		GLuint mId;
-	};
-
 	static GL_TextureManager& get()
 	{
 		static GL_TextureManager instance;
