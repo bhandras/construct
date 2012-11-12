@@ -1,9 +1,6 @@
 #pragma once
 
 
-#include <algorithm>
-
-
 struct Color4
 {
 	/// init with black, non transparent value

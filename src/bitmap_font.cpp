@@ -1,7 +1,4 @@
-#include <fstream>
-#include <assert.h>
-#include "gl/gl.h"
-#include "bitmap_font.h"
+#include "construct.h"
 
 
 // Maximum string length

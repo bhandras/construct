@@ -1,5 +1,4 @@
-#include "xml.h"
-#include "texture_atlas.h"
+#include "construct.h"
 
 
 TextureAtlas::TextureAtlas(const std::string& path)
@@ -29,9 +28,9 @@ bool TextureAtlas::load()
 
 	for (e = e.first(); e.isValid(); e = e.next())
 	{
-		std::string Key = e.name();
+		std::string key = e.name();
 
-		if (Key == "image")
+		if (key.compare("image") == 0)
 		{
 			ImageRect imageRect;
 			e.attribute("x", imageRect.x);

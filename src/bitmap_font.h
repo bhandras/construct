@@ -1,10 +1,6 @@
 #pragma once
 
 
-#include <string>
-#include "color4.h"
-
-
 class BitmapFont
 {
 public:

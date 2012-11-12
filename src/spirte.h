@@ -1,25 +1,17 @@
 #pragma once
 
 
-#include "gl/gl.h"
-#include "quad.h"
-#include "color4.h"
-#include "texture_atlas.h"
-
-
-class Sprite
+class Sprite : public Actor2d
 {
 public:
 	Sprite();
-	~Sprite();
+	virtual ~Sprite();
 	
 	void setAtlas(const TextureAtlas* atlas);
 	void addKeyFrameImage(const std::string& name);
 
 	void setFPS(int FPS);
 	void setLooped(bool isLooped);
-
-	void setPosition(float x, float y);
 
 	void update(unsigned int deltaTimeMs);
 	void draw();
@@ -41,9 +33,4 @@ private:
 	int mFPS;
 	bool mIsLooped;
 	Color4 mColor;
-
-	float mPosX;
-	float mPosY;
-
-	Affine2df mTransformation;
 };

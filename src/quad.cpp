@@ -1,6 +1,4 @@
-#include <cassert>
-#include "gl/gl.h"
-#include "quad.h"
+#include "construct.h"
 
 /*
 

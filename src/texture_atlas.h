@@ -1,10 +1,6 @@
 #pragma once
 
 
-#include <map>
-#include "gl/gl.h"
-
-
 class TextureAtlas
 {
 public:

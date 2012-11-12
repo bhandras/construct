@@ -1,7 +1,4 @@
-#include <cmath>
-#include "math.h"
-
-
+#include "construct.h"
 // Perlin noise functions taken from this tutorial: http://freespace.virgin.net/hugo.elias/models/m_perlin.htm
 
 
@@ -289,21 +286,4 @@ float MathUtil::Numeric::deg2Rad(float angleDeg)
 float MathUtil::Numeric::rad2Deg(float angleRad)
 {
 	return angleRad * 180.0f / static_cast<float>(M_PI);
-}
-
-
-void MathUtil::Geometry::rotate(float angleRad, Vector2f* pointArray, int numPoints)
-{
-	float sa = sin(angleRad);
-	float ca = cos(angleRad);
-
-	for (int i = 0; i < numPoints; ++i)
-	{
-		Vector2f& p = pointArray[i];
-		float x = p.x * ca - p.y * sa;
-		float y = p.y * ca + p.x * sa;
-
-		p.x = x;
-		p.y = y;
-	}
 }

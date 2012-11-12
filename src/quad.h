@@ -1,8 +1,5 @@
 #pragma once
 
-#include <cassert>
-#include "math/math.h"
-
 
 // 2d size container
 struct Size2

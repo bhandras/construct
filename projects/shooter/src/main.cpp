@@ -25,6 +25,7 @@ Sprite sprite;
 
 bool InitOGLES()
 {
+
 	EGLConfig configs[10];
 	EGLConfig config;
 	EGLint matchingConfigs;
@@ -154,11 +155,13 @@ bool InitOGLES()
 
 #include <sstream>
 
-
-
+unsigned int deltaMS = 0;
+float totalDrawTimeSec = 0.0f;
+unsigned frames = 0;
 
 void Render()
 {
+	unsigned int startTick = GetTickCount();
 	glViewport (0, 0, w, h);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -177,6 +180,7 @@ void Render()
 	t.setOutlineColor(Color4(255, 255, 255, 255));
 	t.setOutlined(true);
 	t.setRotationDeg(r);
+	t.update(deltaMS);
 	t.draw();
 
 	rect.setPosition(400, 400);
@@ -186,8 +190,8 @@ void Render()
 	rect.setRotationDeg(r);
 	rect.setOutlineColor(Color4(255, 255, 255, 255));
 	rect.setOutlined(true);
+	rect.update(deltaMS);
 	rect.draw();
-
 
 	q.setSize(100, 100);
 	Affine2df t;
@@ -197,12 +201,20 @@ void Render()
 	q.setHotSpot(Quad::QUAD_HOTSPOT_CENTER);
 	q.update();
 	q.draw(Color4(100, 100, 100, 255));
+	
+	for (int i = 0; i < 100; ++i)
+	{
+		sprite.setPosition(rand() % 1024, rand() % 1024);
+		sprite.update(deltaMS);
+		sprite.draw();
+	}
 
 	sprite.setPosition(150, 400);
-	sprite.update(10);
+	sprite.update(deltaMS);
 	sprite.draw();
 
 	std::stringstream strStream;
+	
 	strStream << "Draw calls: " << drawCalls;
 
 	font.drawString(strStream.str(), 0, 50, BitmapFont::ALIGN_TL);
@@ -211,6 +223,8 @@ void Render()
 	r += 0.5f;
 
 	eglSwapBuffers(glesDisplay, glesSurface);
+	unsigned int endTick = GetTickCount();
+	deltaMS = (endTick - startTick);
 }
 
 
@@ -286,7 +300,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 
 		Render();
 	}
-
+	//_CrtDumpMemoryLeaks();
 	DestroyWindow(hWnd);
 	UnregisterClass(appName, hInst);
 	return 0;

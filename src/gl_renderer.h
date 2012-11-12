@@ -1,13 +1,6 @@
 #pragma once
 
 
-#include <vector>
-#include <list>
-#include <map>
-
-#include "../math/math.h"
-#include "../color4.h"
-
 struct Vertex_XYZ_RGBA
 {
 	Vertex_XYZ_RGBA()
@@ -90,6 +83,8 @@ struct RenderBatch
 	};
 
 	Type type;
+
+	virtual ~RenderBatch() {}
 };
 
 
@@ -158,8 +153,8 @@ private:
 	void attachShader(const char* program, const char* path, GL_Program::ShaderType type);
 	void setActiveProgram(const char* name);
 
-	typedef std::map<std::string, GL_Program> ProgramMap;
-	ProgramMap mProgramMap;
+	typedef std::map<std::string, GL_Program> GL_ProgramMap;
+	GL_ProgramMap mProgramMap;
 	GL_Program* mActiveProgram;
 	
 	GLenum mDrawMode;

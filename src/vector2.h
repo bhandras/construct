@@ -1,9 +1,6 @@
 #pragma once
 
 
-#include "numeric_traits.h"
-
-
 template <class T>
 class Vector2
 {

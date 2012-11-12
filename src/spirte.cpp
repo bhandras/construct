@@ -1,4 +1,4 @@
-#include "spirte.h"
+#include "construct.h"
 
 
 Sprite::Sprite()
@@ -8,8 +8,6 @@ Sprite::Sprite()
 , mFPS(0)
 , mIsLooped(false)
 , mColor(1.0f, 1.0f, 1.0f, 1.0f)
-, mPosX(0.0f)
-, mPosY(0.0f)
 { }
 
 
@@ -37,25 +35,30 @@ void Sprite::addKeyFrameImage(const std::string& name)
 		float x, y, w, h;
 		if (mAtlas->getImage(name, x, y, w, h))
 		{
-			float textureW = mAtlas->getTexture().getW();
-			float textureH = mAtlas->getTexture().getH();
+			float textureW = static_cast<float>(mAtlas->getTexture().getW());
+			float textureH = static_cast<float>(mAtlas->getTexture().getH());
 
 			KeyFrame* keyFrame = new KeyFrame;
-			mKeyFrames.push_back(keyFrame);
-
-			keyFrame->u0 = x / textureW;
-			keyFrame->v0 = y / textureH;
-
-			keyFrame->u1 = (x + w) / textureW;
-			keyFrame->v1 = y / textureH;
-
-			keyFrame->u2 = (x + w) / textureW;
-			keyFrame->v2 = (y + h) / textureH;
-
-			keyFrame->u3 = x / textureW;
-			keyFrame->v3 = (y + h) / textureH;
-
 			keyFrame->quad.setSize(w, h);
+
+			x /= textureW;
+			y /= textureH;
+			w /= textureW;
+			h /= textureH;
+
+			keyFrame->u0 = x;
+			keyFrame->v0 = y;
+
+			keyFrame->u1 = x + w;
+			keyFrame->v1 = y;
+
+			keyFrame->u2 = x + w;
+			keyFrame->v2 = y + h;
+
+			keyFrame->u3 = x;
+			keyFrame->v3 = y + h;
+
+			mKeyFrames.push_back(keyFrame);
 		}
 	}
 }
@@ -70,13 +73,6 @@ void Sprite::setFPS(int FPS)
 void Sprite::setLooped(bool isLooped)
 {
 	mIsLooped = isLooped;
-}
-
-
-void Sprite::setPosition(float x, float y)
-{
-	mPosX = x;
-	mPosY = y;
 }
 
 
@@ -102,7 +98,7 @@ void Sprite::update(unsigned int deltaTimeMs)
 		}
 	}
 
-	mTransformation.create(0, mPosX, mPosY, 1.0f, 1.0f);
+	Actor2d::update(deltaTimeMs);
 }
 
 

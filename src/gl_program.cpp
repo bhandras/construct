@@ -1,5 +1,4 @@
-#include "gl.h"
-#include <iostream>
+#include "construct.h"
 
 
 GL_Program::GL_Program()
@@ -57,6 +56,7 @@ bool GL_Program::link()
 			char* log = new char[logLen];
 			glGetProgramInfoLog(mProgramId, logLen, &logLen, log);
 			std::cerr << "GL program link failed: " << log << std::endl;
+			delete [] log;
 		}
 		else
 		{

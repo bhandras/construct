@@ -1,9 +1,6 @@
 #pragma once
 
 
-#include <string>
-
-
 class GL_Program
 {
 public:

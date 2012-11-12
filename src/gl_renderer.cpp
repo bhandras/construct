@@ -1,9 +1,4 @@
-#include "../common.h"
-#include "gl.h"
-#include "shaders.h"
-
-#include <iostream>
-#include <fstream>
+#include "construct.h"
 
 
 GL_Render::GL_Render()
@@ -175,7 +170,7 @@ void GL_Render::draw_XYZ_RGBA_UV(const Vertex_Vector_XYZ_RGBA_UV& vertices, cons
 
 	mBatchNextIndex = maxIndex + 1;
 
-	if (mDrawMode != GL_TRIANGLES || mDrawMode != GL_LINES || mDrawMode != GL_POINTS)
+	if (mDrawMode != GL_TRIANGLES && mDrawMode != GL_LINES && mDrawMode != GL_POINTS)
 	{
 		flush();
 	}
@@ -282,7 +277,7 @@ void GL_Render::attachShader(const char* program, const char* path, GL_Program::
 
 void GL_Render::setActiveProgram(const char* name)
 {
-	ProgramMap::iterator it = mProgramMap.find(name);
+	GL_ProgramMap::iterator it = mProgramMap.find(name);
 
 	if (it != mProgramMap.end())
 	{

@@ -1,12 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="math">
-      <UniqueIdentifier>{6a9471a2-c151-484e-b59a-3842c6648084}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="gl">
-      <UniqueIdentifier>{4ca8379f-750e-481b-8ec6-3333b82ba0c6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3rdparty">
       <UniqueIdentifier>{cf83b64f-4dbd-42a6-8c97-b4445843d04d}</UniqueIdentifier>
     </Filter>
@@ -18,89 +12,43 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\math\math_util.h">
-      <Filter>math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\math\matrix44.h">
-      <Filter>math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\math\matrix44_stack.h">
-      <Filter>math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\math\numeric_traits.h">
-      <Filter>math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\math\vector2.h">
-      <Filter>math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\math\vector3.h">
-      <Filter>math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\math\vector4.h">
-      <Filter>math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\math\math.h">
-      <Filter>math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gl\gl.h">
-      <Filter>gl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gl\gl_program.h">
-      <Filter>gl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gl\gl_renderer.h">
-      <Filter>gl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\foreach.h" />
-    <ClInclude Include="..\..\src\common.h" />
-    <ClInclude Include="..\..\src\construct.h" />
-    <ClInclude Include="..\..\src\color4.h" />
-    <ClInclude Include="..\..\src\shape2d.h" />
-    <ClInclude Include="..\..\src\gl\shaders.h">
-      <Filter>gl</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\3rdparty\lodepng\lodepng.h">
       <Filter>3rdparty\lodepng</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\gl\gl_texturemanager.h">
-      <Filter>gl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\bitmap_font.h" />
-    <ClInclude Include="..\..\src\quad.h" />
-    <ClInclude Include="..\..\src\math\affine_2d.h">
-      <Filter>math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\spirte.h" />
-    <ClInclude Include="..\..\src\texture_atlas.h" />
     <ClInclude Include="..\..\src\3rdparty\tinyxml\tinystr.h">
       <Filter>3rdparty\tinyxml</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\3rdparty\tinyxml\tinyxml.h">
       <Filter>3rdparty\tinyxml</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\actor2d.h" />
+    <ClInclude Include="..\..\src\affine_2d.h" />
+    <ClInclude Include="..\..\src\basic_shapes.h" />
+    <ClInclude Include="..\..\src\bitmap_font.h" />
+    <ClInclude Include="..\..\src\color4.h" />
+    <ClInclude Include="..\..\src\construct.h" />
+    <ClInclude Include="..\..\src\foreach.h" />
+    <ClInclude Include="..\..\src\gl_program.h" />
+    <ClInclude Include="..\..\src\gl_renderer.h" />
+    <ClInclude Include="..\..\src\gl_shaders.h" />
+    <ClInclude Include="..\..\src\gl_texturemanager.h" />
+    <ClInclude Include="..\..\src\math_util.h" />
+    <ClInclude Include="..\..\src\matrix44.h" />
+    <ClInclude Include="..\..\src\matrix44_stack.h" />
+    <ClInclude Include="..\..\src\numeric_traits.h" />
+    <ClInclude Include="..\..\src\quad.h" />
+    <ClInclude Include="..\..\src\shape2d.h" />
+    <ClInclude Include="..\..\src\spirte.h" />
+    <ClInclude Include="..\..\src\texture_atlas.h" />
+    <ClInclude Include="..\..\src\vector2.h" />
+    <ClInclude Include="..\..\src\vector3.h" />
+    <ClInclude Include="..\..\src\vector4.h" />
     <ClInclude Include="..\..\src\xml.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\math\math_util.cpp">
-      <Filter>math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gl\gl_program.cpp">
-      <Filter>gl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gl\gl_renderer.cpp">
-      <Filter>gl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\shape2d.cpp" />
     <ClCompile Include="..\..\src\3rdparty\lodepng\lodepng.cpp">
       <Filter>3rdparty\lodepng</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\gl\gl_texturemanager.cpp">
-      <Filter>gl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\bitmap_font.cpp" />
-    <ClCompile Include="..\..\src\quad.cpp" />
-    <ClCompile Include="..\..\src\spirte.cpp" />
-    <ClCompile Include="..\..\src\texture_atlas.cpp" />
     <ClCompile Include="..\..\src\3rdparty\tinyxml\tinystr.cpp">
       <Filter>3rdparty\tinyxml</Filter>
     </ClCompile>
@@ -113,5 +61,17 @@
     <ClCompile Include="..\..\src\3rdparty\tinyxml\tinyxmlparser.cpp">
       <Filter>3rdparty\tinyxml</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\actor2d.cpp" />
+    <ClCompile Include="..\..\src\basic_shapes.cpp" />
+    <ClCompile Include="..\..\src\bitmap_font.cpp" />
+    <ClCompile Include="..\..\src\gl_program.cpp" />
+    <ClCompile Include="..\..\src\gl_renderer.cpp" />
+    <ClCompile Include="..\..\src\gl_texturemanager.cpp" />
+    <ClCompile Include="..\..\src\math_util.cpp" />
+    <ClCompile Include="..\..\src\quad.cpp" />
+    <ClCompile Include="..\..\src\spirte.cpp" />
+    <ClCompile Include="..\..\src\texture_atlas.cpp" />
+    <ClCompile Include="..\..\src\xml.cpp" />
+    <ClCompile Include="..\..\src\construct.cpp" />
   </ItemGroup>
 </Project>

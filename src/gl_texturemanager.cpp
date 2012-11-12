@@ -1,5 +1,5 @@
-#include "gl.h"
-#include "../3rdparty/lodepng/lodepng.h"
+#include "construct.h"
+#include "3rdparty/lodepng/lodepng.h"
 
 // more OpenGL info here: http://iphonedevelopment.blogspot.com/2009/05/opengl-es-from-ground-up-part-6_25.html
 

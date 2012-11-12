@@ -7,7 +7,6 @@
  */
 
 /* Platform-specific types and definitions for OpenGL ES 2.X  gl2.h
- * Last modified on 2008/12/19
  *
  * Adopters may modify khrplatform.h and this file to suit their platform.
  * You are encouraged to submit all modifications to the Khronos group so that

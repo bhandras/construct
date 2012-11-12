@@ -26,7 +26,7 @@
 
 /* Khronos platform-specific types and definitions.
  *
- * $Revision: 1.4 $ on $Date: 2009/05/06 13:30:53 $
+ * $Revision: 1.5 $ on $Date: 2011/05/31 15:09:03 $
  *
  * Adopters may modify this file to suit their platform. Adopters are
  * encouraged to submit platform specific modifications to the Khronos
@@ -104,12 +104,6 @@
 #   else
 #       define KHRONOS_APICALL __declspec(dllimport)
 #   endif
-#elif defined (__SYMBIAN32__)
-#   if defined (__GCC32__)
-#       define KHRONOS_APICALL __declspec(dllexport)
-#   else
-#       define KHRONOS_APICALL IMPORT_C
-#   endif
 #else
 #   define KHRONOS_APICALL
 #endif
@@ -141,18 +135,7 @@
 /*-------------------------------------------------------------------------
  * basic type definitions
  *-----------------------------------------------------------------------*/
-#if defined(__SYMBIAN32__)
-
-#include <e32def.h>
-
-typedef TInt32                 khronos_int32_t;
-typedef TUint32                khronos_uint32_t;
-typedef TInt64                 khronos_int64_t;
-typedef TUint64                khronos_uint64_t;
-#define KHRONOS_SUPPORT_INT64   1
-#define KHRONOS_SUPPORT_FLOAT   1
-
-#elif (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L) || defined(__GNUC__) || defined(__SCO__) || defined(__USLC__)
+#if (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L) || defined(__GNUC__) || defined(__SCO__) || defined(__USLC__)
 
 
 /*
@@ -207,19 +190,6 @@ typedef unsigned long long int  khronos_uint64_t;
 #endif /* __arch64__ */
 #define KHRONOS_SUPPORT_INT64   1
 #define KHRONOS_SUPPORT_FLOAT   1
-
-#elif defined(_UITRON_)
-
-/*
- * uITRON
- */
-typedef signed int              khronos_int32_t;
-typedef unsigned int	        khronos_uint32_t;
-typedef long long               khronos_int64_t;
-typedef unsigned long long      khronos_uint64_t;
-#define KHRONOS_SUPPORT_INT64   1
-#define KHRONOS_SUPPORT_FLOAT   1
-
 
 #elif 0
 

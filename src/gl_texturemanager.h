@@ -1,9 +1,6 @@
 #pragma once
 
 
-#include <map>
-
-
 class GL_Texture
 {
 public:

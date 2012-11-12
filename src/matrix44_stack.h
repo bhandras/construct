@@ -1,9 +1,6 @@
 #pragma once
 
 
-#include <stack>
-
-
 template <class T>
 class Matrix44Stack
 {
