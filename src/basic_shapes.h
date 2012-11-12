@@ -34,11 +34,13 @@ private:
 class CircleShape : public Shape2d
 {
 public:
-	CircleShape() : mRadius(0.0f) {}
+	CircleShape() : mNumSlices(16), mRadius(0.0f) {}
+	void setNumSlices(int numSlices) { mNumSlices = numSlices; }
 	void setRadius(float r) { mRadius = r; }
 
 	virtual void draw() override;
 
 private:
+	int mNumSlices;
 	float mRadius;
 };

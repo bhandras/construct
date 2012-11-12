@@ -5,13 +5,11 @@ template <class T>
 class Matrix44
 {
 public:
-	typedef NumericTraits<T> Traits;
-
 	Matrix44()
 	{
 		for (int i = 0; i < 16; ++i)
 		{
-			mData[i] = Traits::zero();
+			m[i] = static_cast<T>(0);
 		}
 	}
 
@@ -34,7 +32,7 @@ public:
 	{
 		for (int i = 0; i < 16; ++i)
 		{
-			mData[i] = other.mData[i];
+			m[i] = other.m[i];
 		}
 	}
 
@@ -42,7 +40,7 @@ public:
 	{
 		for (int i = 0; i < 16; ++i)
 		{
-			mData[i] = t[i];
+			m[i] = t[i];
 		}
 	}
 
@@ -50,7 +48,7 @@ public:
 	{
 		for (int i = 0; i < 16; ++i)
 		{
-			mData[i] = other.mData[i];
+			m[i] = other.m[i];
 		}
 
 		return *this;
@@ -64,17 +62,17 @@ public:
 
 	T& operator()(const int i, const int j)
 	{
-		return mData[(i << 2) + j];
+		return m[(i << 2) + j];
 	}
 
 	T operator()(const int i, const int j) const
 	{
-		return mData[(i << 2) + j];
+		return m[(i << 2) + j];
 	}
 
 	const T* data() const
 	{
-		return mData;
+		return m;
 	}
 
 	Matrix44 operator+(const Matrix44& other) const
@@ -83,12 +81,11 @@ public:
 
 		for (int i = 0; i < 16; ++i)
 		{
-			result.mData[i] = mData[i] + other.mData[i];
+			result.m[i] = m[i] + other.m[i];
 		}
 
 		return result;
 	}
-
 
 	Matrix44 operator-(const Matrix44& other) const
 	{
@@ -96,11 +93,12 @@ public:
 
 		for (int i = 0; i < 16; ++i)
 		{
-			result.mData[i] = mData[i] - other.mData[i];
+			result.m[i] = m[i] - other.m[i];
 		}
 
 		return result;
 	}
+
 	Matrix44 operator*(const Matrix44& other) const
 	{
 #define M1(Y,X) m[(Y << 2) + X]
@@ -132,9 +130,9 @@ public:
 	{
 #define M(X,Y) m[(Y << 2) + X]
 
-		T x = v.x();
-		T y = v.y();
-		T z = v.z();
+		T x = v.x;
+		T y = v.y;
+		T z = v.z;
 
 		return Vector3<T>(
 			M(0,0)*x + M(1,0)*y + M(2,0)*z + M(3,0),
@@ -150,7 +148,7 @@ public:
 
 		for (int i = 0; i < 16; ++i)
 		{
-			result.mData[i] = mData[i] * scalar;
+			result.m[i] = m[i] * scalar;
 		}
 
 		return result;
@@ -158,13 +156,13 @@ public:
 
 	void identity()
 	{
-#define M(Y,X) mData[(Y << 2) + X]
+#define M(Y,X) m[(Y << 2) + X]
 
 		for (int i = 0; i < 16; ++i)
 		{
-			mData[i] = Traits::zero();
+			m[i] = static_cast<T>(0);
 		}
-		M(0,0) = M(1,1) = M(2,2) = M(3,3) = Traits::one();
+		M(0,0) = M(1,1) = M(2,2) = M(3,3) = static_cast<T>(1);
 
 #undef M
 	}
@@ -174,11 +172,11 @@ public:
 		Matrix44 result;
 		result.identity();
 
-#define M(Y,X) result.mData[(Y << 2) + X]
+#define M(Y,X) result.m[(Y << 2) + X]
 
-		M(3,0) = translation.z();
-		M(3,1) = translation.y();
-		M(3,2) = translation.z();
+		M(3,0) = translation.x;
+		M(3,1) = translation.y;
+		M(3,2) = translation.z;
 
 #undef M
 
@@ -187,14 +185,14 @@ public:
 
 	static Matrix44 ScalingMatrix(const Vector3<T>& scale)
 	{
-		Matrix44 Result;
-		Result.identity();
+		Matrix44 result;
+		result.identity();
 
-#define M(Y,X) Result.mData[(Y << 2) + X]
+#define M(Y,X) result.m[(Y << 2) + X]
 
-		M(0,0) = scale.x();
-		M(1,1) = scale.y();
-		M(2,2) = scale.z();
+		M(0,0) = scale.x;
+		M(1,1) = scale.y;
+		M(2,2) = scale.z;
 
 #undef M
 
@@ -207,28 +205,28 @@ public:
 		float sinAngle = sin(angle);
 
 		float a = 1.0f - cosAngle;
-		float ax = a * axis.x();
-		float ay = a * axis.y();
-		float az = a * axis.z();
+		float ax = a * axis.x;
+		float ay = a * axis.y;
+		float az = a * axis.z;
 
 		Matrix44 result;
 		result.identity();
 
-		result.mData[0] = ax * axis.x() + cosAngle;
-		result.mData[1] = ax * axis.y() - axis.z() * sinAngle;
-		result.mData[2] = ax * axis.z() + axis.y() * sinAngle;
+		result.m[0] = ax * axis.x() + cosAngle;
+		result.m[1] = ax * axis.y() - axis.z() * sinAngle;
+		result.m[2] = ax * axis.z() + axis.y() * sinAngle;
 
-		result.mData[4] = ay * axis.x() + axis.z() * sinAngle;
-		result.mData[5] = ay * axis.y() + cosAngle;
-		result.mData[6] = ay * axis.z() - axis.x() * sinAngle;
+		result.m[4] = ay * axis.x() + axis.z() * sinAngle;
+		result.m[5] = ay * axis.y() + cosAngle;
+		result.m[6] = ay * axis.z() - axis.x() * sinAngle;
 
-		result.mData[8]  = az * axis.x() - axis.y() * sinAngle;
-		result.mData[9]  = az * axis.y() + axis.x() * sinAngle;
-		result.mData[10] = az * axis.z() + cosAngle;
+		result.m[8]  = az * axis.x() - axis.y() * sinAngle;
+		result.m[9]  = az * axis.y() + axis.x() * sinAngle;
+		result.m[10] = az * axis.z() + cosAngle;
 
 		return result; 
 	}
 
 private:
-	T mData[16];
+	T m[16];
 };

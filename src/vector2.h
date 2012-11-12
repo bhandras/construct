@@ -27,6 +27,12 @@ public:
 	Vector2(unsigned _x, unsigned _y)
 		: x(static_cast<T>(_x)), y(static_cast<T>(_y)) {}
 	
+	void set(T _x, T _y)
+	{
+		x = _x;
+		y = _y;
+	}
+
 	Vector2& operator=(const Vector2& v)
 	{
 		x = v.x;

@@ -22,6 +22,7 @@ BitmapFont font;
 Quad q;
 TextureAtlas* atlas;
 Sprite sprite;
+CircleShape c;
 
 bool InitOGLES()
 {
@@ -182,6 +183,17 @@ void Render()
 	t.setRotationDeg(r);
 	t.update(deltaMS);
 	t.draw();
+
+	c.setPosition(150, 150);
+	c.setRadius(100);
+	c.setFillColor(Color4(100, 0, 0, 255));
+	c.setFilled(true);
+	c.setOutlineColor(Color4(255, 255, 255, 255));
+	c.setOutlined(true);
+	c.setRotationDeg(r);
+	c.update(deltaMS);
+	c.setNumSlices(32);
+	c.draw();
 
 	rect.setPosition(400, 400);
 	rect.setSize(150, 100);

@@ -53,7 +53,6 @@
 #include "numeric_traits.h"
 #include "vector2.h"
 #include "vector3.h"
-#include "vector4.h"
 #include "matrix44.h"
 #include "matrix44_stack.h"
 #include "affine_2d.h"
@@ -61,7 +60,6 @@
 
 typedef Vector2<float> Vector2f;
 typedef Vector3<float> Vector3f;
-typedef Vector4<float> Vector4f;
 typedef Matrix44<float> Matrix44f;
 typedef Matrix44Stack<float> Matrix44fStack;
 typedef Affine2d<float> Affine2df;

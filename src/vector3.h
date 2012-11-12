@@ -6,117 +6,90 @@ class Vector3
 {
 public:
 	typedef NumericTraits<T> Traits;
+	T x;
+	T y;
+	T z;
 
 	Vector3()
-		: _x(static_cast<T>(0)), _y(static_cast<T>(0)), _z(static_cast<T>(0)) {}
+		: x(static_cast<T>(0)), y(static_cast<T>(0)), z(static_cast<T>(0)) {}
 
 	Vector3(const Vector3& other)
-		: _x(other._x), _y(other._y), _z(other._z) {}
+		: x(other.x), y(other.y), z(other.z) {}
 
-	Vector3(T x, T y, T z)
-		: _x(x), _y(y), _z(z) {}
+	Vector3(T _x, T _y, T _z)
+		: x(_x), y(_y), z(_z) {}
 
-	void set(T x, T y, T z)
+	void set(T _x, T _y, T _z)
 	{
-		_x = x;
-		_y = y;
-		_z = z;
-	}
-	
-	T& x()
-	{
-		return _x;
-	}
-
-	T& y()
-	{
-		return _y;
-	}
-
-	T& z()
-	{
-		return _z;
-	}
-
-	T x() const
-	{
-		return _x;
-	}
-
-	T y() const
-	{
-		return _y;
-	}
-
-	T z() const
-	{
-		return _z;
+		x = _x;
+		y = _y;
+		z = _z;
 	}
 
 	Vector3& operator=(const Vector3& other)
 	{
-		_x = other._x;
-		_y = other._y;
-		_z = other._z;
+		x = other.x;
+		y = other.y;
+		z = other.z;
 
 		return *this;
 	}
 
 	Vector3 operator+(const Vector3& other) const
 	{
-		return Vector3(_x + other._x, _y + other._y, _z + other._z);
+		return Vector3(x + other.x, y + other.y, z + other.z);
 	}
 
 	Vector3 operator-(const Vector3& other) const
 	{
-		return Vector3(_x - other._x, _y - other._y, _z - other._z);
+		return Vector3(x - other.x, y - other.y, z - other.z);
 	}
 
 	Vector3 operator*(float scalar) const
 	{
-		return Vector3(_x * scalar, _y * scalar, _z * scalar);
+		return Vector3(x * scalar, y * scalar, z * scalar);
 	}
 
 	T dot(const Vector3& other) const
 	{
-		return _x * other._x + _y * other._y + _z * other._z;
+		return x * other.x + y * other.y + z * other.z;
 	}
 
 	Vector3 cross(const Vector3& other) const
 	{
 		return Vector3(
-			_y * other._z - _z * other._y,
-			_z * other._x - _x * other._z,
-			_x * other._y - _y * other._x
+			y * other.z - z * other.y,
+			z * other.x - x * other.z,
+			x * other.y - y * other.x
 		);
 	}
 
 	Vector3& operator+=(const Vector3& other)
 	{
-		_x += other._x;
-		_y += other._y;
-		_z += other._z;
+		x += other.x;
+		y += other.y;
+		z += other.z;
 
 		return *this;
 	}
 
 	Vector3& operator-=(const Vector3& other)
 	{
-		_x -= other._x;
-		_y -= other._y;
-		_z -= other._z;
+		x -= other.x;
+		y -= other.y;
+		z -= other.z;
 
 		return *this;
 	}
 
 	bool operator==(const Vector3& other) const
 	{
-		return _x == other._x && _y == other._y && _z == other._z;
+		return x == other.x && y == other.y && z == other.z;
 	}
 
 	bool operator!=(const Vector3& other) const
 	{
-		return _x != other._x || _y != other._y || _z != other._z;
+		return x != other.x || y != other.y || z != other.z;
 	}
 
 	void normalize()
@@ -125,19 +98,14 @@ public:
 
 		if (length > Traits::eps())
 		{
-			_x /= length;
-			_y /= length;
-			_z /= length;
+			x /= length;
+			y /= length;
+			z /= length;
 		}
 	}
 
 	T length() const
 	{
-		return sqrt(_x * _x + _y * _y + _z * _z);
+		return sqrt(x * x + y * y + z * z);
 	}
-
-private:
-	T _x;
-	T _y;
-	T _z;
 };

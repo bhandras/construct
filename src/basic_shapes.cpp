@@ -162,35 +162,47 @@ void TriangleShape::draw()
 
 void CircleShape::draw()
 {
-#pragma message("todo")
-	/*
-	float vertices[34];
+	Vertex_Vector_XYZ_RGBA vertices;
+	vertices.resize(mNumSlices + 1);
+	Index_Vector indices;
+	indices.resize(mNumSlices + 1);
 
-	for (int i = 0; i < 32; i += 2)
+	float partAngle = 2.0f * NumericTraits<float>::pi() / mNumSlices;
+
+	for (int i = 0; i < mNumSlices; ++i)
 	{
-		vertices[i] = mX + cos(MathUtil::deg2Rad(360.0f / 32.0f * static_cast<float>(i))) * mRadius;
-		vertices[i+1] = mY + sin(MathUtil::deg2Rad(360.0f / 32.0f * static_cast<float>(i))) * mRadius;
+		Vector2f p;
+		p.x = cos(partAngle * static_cast<float>(i)) * mRadius;
+		p.y = sin(partAngle * static_cast<float>(i)) * mRadius;
+		mTransformation.transform(p);
+		vertices[i].setPosition(p);
+		indices[i] = i;
 	}
-	vertices[32] = vertices[0];
-	vertices[33] = vertices[1];
 
-	glVertexPointer(2, GL_FLOAT, 0, vertices);
-	glEnableClientState(GL_VERTEX_ARRAY);
+	vertices[mNumSlices] = vertices[1];
+	indices[mNumSlices] = 0;
 
-	glDisable(GL_TEXTURE_2D);
+	GL_Render& gl = GL_Render::get();
 
 	if (mDrawArea)
 	{
-		mAreaFillColor.glColor();
-		glDrawArrays(GL_TRIANGLE_FAN, 0, 16);
+		for (int i = 0; i < mNumSlices + 1; ++i)
+		{
+			vertices[i].setColor(mAreaFillColor);
+		}
+
+		gl.setDrawMode(GL_TRIANGLE_FAN);
+		gl.draw_XYZ_RGBA(vertices, indices);
 	}
 
 	if (mDrawOutline)
 	{
-		mOutlineColor.glColor();
-		glDrawArrays(GL_LINE_STRIP, 0, 17);
-	}
+		for (int i = 0; i < mNumSlices + 1; ++i)
+		{
+			vertices[i].setColor(mOutlineColor);
+		}
 
-	glDisableClientState(GL_VERTEX_ARRAY);
-	*/
+		gl.setDrawMode(GL_LINE_LOOP);
+		gl.draw_XYZ_RGBA(vertices, indices);
+	}
 }
