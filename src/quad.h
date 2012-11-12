@@ -83,7 +83,9 @@ public:
 	bool overlaps(const Quad& other) const;
 
 	/// Render the box to OpenGL surface.
-	void draw(const Color4& color) const;
+	void draw(const Color4& color, float x0, float y0, float x1, float y1) const;
+
+	void intersect(const Vector2f& p0, const Vector2f& p1, Vector2f& result);
 
 private:
 	/// Updates the axes after the corners move. Assumes the corners actually form a rectangle.
@@ -101,4 +103,6 @@ private:
 	Vector2f mAxis[2];
 	float mOrigin[2];
 	Vector2f mCentroid;
+
+	Vector2f mNormals[4];
 };

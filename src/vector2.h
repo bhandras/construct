@@ -92,7 +92,7 @@ public:
 
 	T cross(const Vector2& other) const
 	{
-		return x * other.y - y * other.x;
+		return x * other.x - x * other.y;
 	}
 
 	T dot(const Vector2& other) const

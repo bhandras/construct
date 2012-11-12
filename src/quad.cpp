@@ -112,14 +112,21 @@ void Quad::update()
 
 	mCentroid += hotSpotDelta;
 	mTransformation.transform(mCentroid);
-	mCentroid -= hotSpotDelta;
-
+	
 	// create corners
 	for (int i = 0; i < 4; ++i)
 	{
 		mCorners[i] += hotSpotDelta;
 		mTransformation.transform(mCorners[i]);
-		mCorners[i] -= hotSpotDelta;
+	}
+
+	for (int i = 0; i < 4; ++i)
+	{
+		mNormals[i] = mCorners[(i+1) % 4] - mCorners[i];
+		mNormals[i].normalize();
+		float tmp = mNormals[i].x;
+		mNormals[i].x = mNormals[i].y;
+		mNormals[i].y = -tmp;
 	}
 }
 
@@ -169,27 +176,89 @@ bool Quad::overlaps(const Quad& other) const
 }
 
 
-void Quad::draw(const Color4& color) const
+void Quad::intersect(const Vector2f& p0, const Vector2f& p1, Vector2f& result)
+{
+	Vector2f v = p1 - p0;
+	v.normalize();
+
+	for (int i = 0; i < 4; i += 1)
+	{
+		int j = (i + 1) % 4;
+		float dot = v.dot(mNormals[i]);
+		if (dot < 0.0f)
+		{
+			Intersection2d::line(mCorners[i], mCorners[j], p0, p1, result);
+			return;
+		}
+	}
+
+	result = p1;
+}
+
+
+void Quad::draw(const Color4& color, float x0, float y0, float x1, float y1) const
 {
 	Vertex_Vector_XYZ_RGBA vertices;
-	vertices.resize(4);
+	vertices.resize(8);
 
 	Index_Vector indices;
-	indices.resize(4);
+	indices.resize(8);
 
-	for (int i = 0; i < 4; ++i)
+	Vector2f v(x1 - x0, y1 - y0);
+	v.normalize();
+	GL_Render& gl = GL_Render::get();
+
+	for (int i = 0; i < 8; i += 2)
 	{
-		vertices[i].setPosition(mCorners[i]);
-		vertices[i].setColor(color);
+		Vector2f a = mCorners[(i/2) % 4];
+		Vector2f b = mCorners[(i/2 + 1) % 4];
+		Vector2f t = a + (b - a) * 0.5f;
+		Vector2f n = mNormals[(i/2)%4];
+
+		// draw normal
+		Vertex_Vector_XYZ_RGBA line;
+		line.resize(2);
+		line[0].setPosition(t);
+		line[0].setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		line[1].setPosition(t + (n * 20.0f));
+		line[1].setColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+		Index_Vector ind;
+		ind.resize(2);
+		ind[0] = 0;
+		ind[1] = 1;
+		gl.setDrawMode(GL_LINES);
+		gl.draw_XYZ_RGBA(line, ind);
+
+		vertices[i].setPosition(mCorners[(i/2) % 4]);
+		vertices[(i + 1)%8].setPosition(mCorners[(i/2 + 1)%4]);
+
+		Vector2f intersection;
+		float dot = v.dot(mNormals[(i/2)%4]);
+		if (dot < 0.0f)
+		{
+			vertices[i].setColor(1.0f, 0.0f, 0.0f, 1.0f);
+			vertices[(i+1)%8].setColor(1.0f, 0.0f, 0.0f, 1.0f);
+		}
+		else
+		{
+			vertices[i].setColor(color);
+			vertices[(i + 1)%8].setColor(color);
+		}
 	}
+	
 
 	indices[0] = 0;
 	indices[1] = 1;
 	indices[2] = 2;
 	indices[3] = 3;
+	indices[4] = 4;
+	indices[5] = 5;
+	indices[6] = 6;
+	indices[7] = 7;
 
-	GL_Render& gl = GL_Render::get();
-	gl.setDrawMode(GL_LINE_LOOP);
+	
+	gl.setDrawMode(GL_LINES);
 	gl.draw_XYZ_RGBA(vertices, indices);
 }
 

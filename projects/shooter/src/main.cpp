@@ -1,4 +1,6 @@
 #include "construct.h"
+#include <windows.h>
+#include <WindowsX.h>
 
 HINSTANCE hInst;
 HWND hWnd;
@@ -159,6 +161,8 @@ bool InitOGLES()
 unsigned int deltaMS = 0;
 float totalDrawTimeSec = 0.0f;
 unsigned frames = 0;
+int mouseX = 0;
+int mouseY = 0;
 
 void Render()
 {
@@ -212,14 +216,14 @@ void Render()
 	q.setTransformation(t);
 	q.setHotSpot(Quad::QUAD_HOTSPOT_CENTER);
 	q.update();
-	q.draw(Color4(100, 100, 100, 255));
+	q.draw(Color4(100, 100, 100, 255), mouseX, mouseY, 300, 500);
 	
-	for (int i = 0; i < 100; ++i)
-	{
-		sprite.setPosition(rand() % 1024, rand() % 1024);
-		sprite.update(deltaMS);
-		sprite.draw();
-	}
+	//for (int i = 0; i < 100; ++i)
+	//{
+	//	sprite.setPosition(rand() % 1024, rand() % 1024);
+	//	sprite.update(deltaMS);
+	//	sprite.draw();
+	//}
 
 	sprite.setPosition(150, 400);
 	sprite.update(deltaMS);
@@ -228,8 +232,26 @@ void Render()
 	std::stringstream strStream;
 	
 	strStream << "Draw calls: " << drawCalls;
-
 	font.drawString(strStream.str(), 0, 50, BitmapFont::ALIGN_TL);
+
+
+	Vertex_Vector_XYZ_RGBA line;
+	line.resize(2);
+	line[0].setPosition(Vector2f(mouseX, mouseY));
+	line[0].setColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+	Vector2f intersection;
+	q.intersect(Vector2f(mouseX, mouseY), Vector2f(300, 500), intersection);
+
+	line[1].setPosition(intersection);
+	line[1].setColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+	Index_Vector ind;
+	ind.resize(2);
+	ind[0] = 0;
+	ind[1] = 1;
+	gl.setDrawMode(GL_LINES);
+	gl.draw_XYZ_RGBA(line, ind);
 
 	gl.endFrame();
 	r += 0.5f;
@@ -295,7 +317,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
-			if (msg.message==WM_QUIT)
+			 if (msg.message == WM_MOUSEMOVE)
+			 {
+				 mouseX = GET_X_LPARAM(msg.lParam);
+				 mouseY = GET_Y_LPARAM(msg.lParam);
+			}
+			else if (msg.message==WM_QUIT)
 			{
 				done = true;
 			}
