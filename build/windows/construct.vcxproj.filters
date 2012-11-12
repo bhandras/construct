@@ -43,6 +43,8 @@
     <ClInclude Include="..\..\src\vector2.h" />
     <ClInclude Include="..\..\src\vector3.h" />
     <ClInclude Include="..\..\src\xml.h" />
+    <ClInclude Include="..\..\src\functor.h" />
+    <ClInclude Include="..\..\src\intersection.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\3rdparty\lodepng\lodepng.cpp">
@@ -72,5 +74,6 @@
     <ClCompile Include="..\..\src\texture_atlas.cpp" />
     <ClCompile Include="..\..\src\xml.cpp" />
     <ClCompile Include="..\..\src\construct.cpp" />
+    <ClCompile Include="..\..\src\intersection.cpp" />
   </ItemGroup>
 </Project>

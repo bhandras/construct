@@ -80,10 +80,12 @@
     <ClInclude Include="..\..\src\color4.h" />
     <ClInclude Include="..\..\src\construct.h" />
     <ClInclude Include="..\..\src\foreach.h" />
+    <ClInclude Include="..\..\src\functor.h" />
     <ClInclude Include="..\..\src\gl_program.h" />
     <ClInclude Include="..\..\src\gl_renderer.h" />
     <ClInclude Include="..\..\src\gl_shaders.h" />
     <ClInclude Include="..\..\src\gl_texturemanager.h" />
+    <ClInclude Include="..\..\src\intersection.h" />
     <ClInclude Include="..\..\src\math_util.h" />
     <ClInclude Include="..\..\src\matrix44.h" />
     <ClInclude Include="..\..\src\matrix44_stack.h" />
@@ -113,6 +115,7 @@
     <ClCompile Include="..\..\src\gl_program.cpp" />
     <ClCompile Include="..\..\src\gl_renderer.cpp" />
     <ClCompile Include="..\..\src\gl_texturemanager.cpp" />
+    <ClCompile Include="..\..\src\intersection.cpp" />
     <ClCompile Include="..\..\src\math_util.cpp" />
     <ClCompile Include="..\..\src\quad.cpp" />
     <ClCompile Include="..\..\src\spirte.cpp" />

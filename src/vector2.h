@@ -90,6 +90,11 @@ public:
 		return *this;
 	}
 
+	T cross(const Vector2& other) const
+	{
+		return x * other.y - y * other.x;
+	}
+
 	T dot(const Vector2& other) const
 	{
 		return x * other.x + y * other.y;

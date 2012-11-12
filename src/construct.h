@@ -33,6 +33,7 @@
 
 // common stuff
 #include "foreach.h"
+#include "functor.h"
 #include "xml.h"
 #include "color4.h"
 
@@ -63,6 +64,8 @@ typedef Vector3<float> Vector3f;
 typedef Matrix44<float> Matrix44f;
 typedef Matrix44Stack<float> Matrix44fStack;
 typedef Affine2d<float> Affine2df;
+
+#include "intersection.h"
 
 // opengl es 2.0
 #include "gl_shaders.h"
