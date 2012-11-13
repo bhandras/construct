@@ -74,7 +74,7 @@
     <ClInclude Include="..\..\src\3rdparty\tinyxml\tinystr.h" />
     <ClInclude Include="..\..\src\3rdparty\tinyxml\tinyxml.h" />
     <ClInclude Include="..\..\src\actor2d.h" />
-    <ClInclude Include="..\..\src\affine_2d.h" />
+    <ClInclude Include="..\..\src\affine2d.h" />
     <ClInclude Include="..\..\src\basic_shapes.h" />
     <ClInclude Include="..\..\src\bitmap_font.h" />
     <ClInclude Include="..\..\src\color4.h" />

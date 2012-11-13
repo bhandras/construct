@@ -11,6 +11,9 @@ public:
 
 	virtual ~Shape2d() {}
 
+	// find intersection with line segment (result is the closest to p0)
+	virtual bool intersectLineSegment(const Vector2f& p0, const Vector2f& p1, Vector2f& intersection) { return false; }
+
 	const Color4& getFillColor() const { return mAreaFillColor; }
 	const Color4& getOutlineColor() const { return mOutlineColor; }
 

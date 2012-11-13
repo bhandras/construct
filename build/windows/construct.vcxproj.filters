@@ -22,7 +22,6 @@
       <Filter>3rdparty\tinyxml</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\actor2d.h" />
-    <ClInclude Include="..\..\src\affine_2d.h" />
     <ClInclude Include="..\..\src\basic_shapes.h" />
     <ClInclude Include="..\..\src\bitmap_font.h" />
     <ClInclude Include="..\..\src\color4.h" />
@@ -45,6 +44,7 @@
     <ClInclude Include="..\..\src\xml.h" />
     <ClInclude Include="..\..\src\functor.h" />
     <ClInclude Include="..\..\src\intersection.h" />
+    <ClInclude Include="..\..\src\affine2d.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\3rdparty\lodepng\lodepng.cpp">

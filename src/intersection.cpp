@@ -3,38 +3,21 @@
 
 bool Intersection2d::line(const Vector2f& a1, const Vector2f& a2, const Vector2f& b1, const Vector2f& b2, Vector2f& intersection)
 {
-	Vector2f a = a2 - a1;
-	Vector2f b = b2 - b1;
-	
-	float f = a.cross(b);
+	float s1_x = a2.x - a1.x;
+	float s1_y = a2.y - a1.y;
 
-	// b cross d == 0 means that the lines are parallel
-	if (fabs(f) < NumericTraits<float>::eps())
+	float s2_x = b2.x - b1.x;
+	float s2_y = b2.y - b1.y;
+
+	float s = (-s1_y * (a1.x - b1.x) + s1_x * (a1.y - b1.y)) / (-s2_x * s1_y + s1_x * s2_y);
+	float t = ( s2_x * (a1.y - b1.y) - s2_y * (a1.x - b1.x)) / (-s2_x * s1_y + s1_x * s2_y);
+
+	if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
 	{
-		return false;
+		intersection.x = a1.x + (t * s1_x);
+		intersection.y = a1.y + (t * s1_y);
+		return true;
 	}
 
-	Vector2f c = b2 - a2;
-	float aa = a.cross(c);
-	float bb = b.cross(c);
-
-	if(f < 0)
-	{
-		if(aa > 0)     return false;
-		if(bb > 0)     return false;
-		if(aa < f)     return false;
-		if(bb < f)     return false;
-	}
-	else
-	{
-		if(aa < 0)     return false;
-		if(bb < 0)     return false;
-		if(aa > f)     return false;
-		if(bb > f)     return false;
-	}
-
-	float t = 1.0f - (aa / f);
-	intersection = a1 + a * t;
-
-	return true;
+	return false;
 }

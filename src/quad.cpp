@@ -185,9 +185,8 @@ void Quad::intersect(const Vector2f& p0, const Vector2f& p1, Vector2f& result)
 	{
 		int j = (i + 1) % 4;
 		float dot = v.dot(mNormals[i]);
-		if (dot < 0.0f)
+		if (dot < 0.0f && Intersection2d::line(mCorners[i], mCorners[j], p0, p1, result))
 		{
-			Intersection2d::line(mCorners[i], mCorners[j], p0, p1, result);
 			return;
 		}
 	}

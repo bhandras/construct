@@ -23,7 +23,7 @@ struct Size2
 
 
 /// 2d oriented bounding box
-class Quad
+class Quad : public Shape2d
 {
 public:
 	///
@@ -44,17 +44,11 @@ public:
 		QUAD_HOTSPOT_CENTER
 	};
 
-	/// Default constructor.
 	Quad();
-
-	/// Copy constructor.
 	Quad(const Quad& other);
-
-	/// Assignment operator.
 	Quad& operator=(const Quad& other);
 
-	/// Reset the box to its original position + rotation.
-	void update();
+	virtual void update(unsigned int deltaTimeMs);
 
 	void setSize(float w, float h);
 
