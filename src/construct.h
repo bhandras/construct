@@ -1,20 +1,32 @@
 #pragma once
 
+
+#ifdef __APPLE__
+
+#include <Availability.h>
+
 // GLES2 includes
-#if defined(TARGET_OS_IPHONE)
-#include <OpenGLES/ES2/gl.h>
-#include <OpenGLES/ES2/glext.h>
+#ifdef __MAC_OS_X_VERSION_MAX_ALLOWED
+	#include <OpenGL/OpenGL.h>
+	#include <GLUT/GLUT.h>
+#else
+	#include <OpenGLES/ES2/gl.h>
+	#include <OpenGLES/ES2/glext.h>
 #endif
+
+#endif //__APPLE__
 
 #ifdef _WIN32
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
+	#ifndef NOMINMAX
+		#define NOMINMAX
+	#endif
 
-#include <windows.h>
-#include "GLES2/gl2.h"
-#include "EGL/egl.h"
-#endif
+	#include <windows.h>
+	#include "GLES2/gl2.h"
+	#include "EGL/egl.h"
+#endif // _WIN32
+
+
 
 #define MAX_OPENGL_TEXTURE_MEMORY 64 * 1024 * 1024
 
@@ -56,7 +68,7 @@
 #include "vector3.h"
 #include "matrix44.h"
 #include "matrix44_stack.h"
-#include "affine_2d.h"
+#include "affine2d.h"
 #include "math_util.h"
 
 typedef Vector2<float> Vector2f;
@@ -75,9 +87,9 @@ typedef Affine2d<float> Affine2df;
 
 // 2d vis
 #include "texture_atlas.h"
-#include "quad.h"
 #include "actor2d.h"
 #include "shape2d.h"
+#include "quad.h"
 #include "basic_shapes.h"
 #include "spirte.h"
 #include "bitmap_font.h"

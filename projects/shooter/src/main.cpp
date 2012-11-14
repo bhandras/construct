@@ -1,4 +1,5 @@
 #include "construct.h"
+#ifdef WIN32
 #include <windows.h>
 #include <WindowsX.h>
 
@@ -360,3 +361,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
+#else
+int main()
+{
+	return 0;
+}
+#endif // WIN32
+

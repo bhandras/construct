@@ -56,7 +56,7 @@ public:
 
 	Affine2d mul(const Affine2d& other) const
 	{
-		AffineTransform2d result;
+		Affine2d result;
 
 		result.m[C0R0] = (m[C0R0] * other.m[C0R0]) + (m[C1R0] * other.m[C0R1]);
 		result.m[C0R1] = (m[C0R1] * other.m[C0R0]) + (m[C1R1] * other.m[C0R1]);

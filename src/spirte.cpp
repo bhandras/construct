@@ -106,7 +106,7 @@ void Sprite::draw()
 {
 	KeyFrame* keyFrame = mKeyFrames[mCurrentKeyFrame];
 	keyFrame->quad.setTransformation(mTransformation);
-	keyFrame->quad.update();
+	keyFrame->quad.update(0); // TODO
 
 	Vertex_Vector_XYZ_RGBA_UV vertices;
 	vertices.resize(4);

@@ -75,7 +75,7 @@ Quad& Quad::operator=(const Quad& other)
 }
 
 
-void Quad::update()
+void Quad::update(unsigned int deltaTimeMs)
 {
 	// create an axis aligned box first
 	Vector2f x(mSize.w, 0.0f);

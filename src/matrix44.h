@@ -196,7 +196,7 @@ public:
 
 #undef M
 
-		return Result;
+		return result;
 	}
 
 	static Matrix44 RotationMatrix(float angle, const Vector3<T>& axis)
