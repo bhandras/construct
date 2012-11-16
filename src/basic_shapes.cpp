@@ -68,18 +68,18 @@ void RectangleShape::draw()
 
 	GL_Render& gl = GL_Render::get();
 
-	if (mDrawArea)
+	if (mFill)
 	{
-		vertices[0].setColor(mAreaFillColor);
-		vertices[1].setColor(mAreaFillColor);
-		vertices[2].setColor(mAreaFillColor);
-		vertices[3].setColor(mAreaFillColor);
+		vertices[0].setColor(mFillColor);
+		vertices[1].setColor(mFillColor);
+		vertices[2].setColor(mFillColor);
+		vertices[3].setColor(mFillColor);
 
 		gl.setDrawMode(GL_TRIANGLES);
 		gl.draw_XYZ_RGBA(vertices, indices);
 	}
 
-	if (mDrawOutline)
+	if (mOutline)
 	{
 		vertices[0].setColor(mOutlineColor);
 		vertices[1].setColor(mOutlineColor);
@@ -138,17 +138,17 @@ void TriangleShape::draw()
 	
 	GL_Render& gl = GL_Render::get();
 
-	if (mDrawArea)
+	if (mFill)
 	{
-		vertices[0].setColor(mAreaFillColor);
-		vertices[1].setColor(mAreaFillColor);
-		vertices[2].setColor(mAreaFillColor);
+		vertices[0].setColor(mFillColor);
+		vertices[1].setColor(mFillColor);
+		vertices[2].setColor(mFillColor);
 
 		gl.setDrawMode(GL_TRIANGLES);
 		gl.draw_XYZ_RGBA(vertices, indices);
 	}
 
-	if (mDrawOutline)
+	if (mOutline)
 	{
 		vertices[0].setColor(mOutlineColor);
 		vertices[1].setColor(mOutlineColor);
@@ -184,18 +184,18 @@ void CircleShape::draw()
 
 	GL_Render& gl = GL_Render::get();
 
-	if (mDrawArea)
+	if (mFill)
 	{
 		for (int i = 0; i < mNumSlices + 1; ++i)
 		{
-			vertices[i].setColor(mAreaFillColor);
+			vertices[i].setColor(mFillColor);
 		}
 
 		gl.setDrawMode(GL_TRIANGLE_FAN);
 		gl.draw_XYZ_RGBA(vertices, indices);
 	}
 
-	if (mDrawOutline)
+	if (mOutline)
 	{
 		for (int i = 0; i < mNumSlices + 1; ++i)
 		{

@@ -77,9 +77,7 @@ public:
 	bool overlaps(const Quad& other) const;
 
 	/// Render the box to OpenGL surface.
-	virtual void draw(); // TODO
-	
-	void draw(const Color4& color, float x0, float y0, float x1, float y1) const;
+	virtual void draw();
 
 	void intersect(const Vector2f& p0, const Vector2f& p1, Vector2f& result);
 

@@ -195,70 +195,48 @@ void Quad::intersect(const Vector2f& p0, const Vector2f& p1, Vector2f& result)
 }
 
 
-void Quad::draw(const Color4& color, float x0, float y0, float x1, float y1) const
+void Quad::draw()
 {
 	Vertex_Vector_XYZ_RGBA vertices;
-	vertices.resize(8);
+	vertices.resize(4);
+
+	vertices[0].setPosition(mCorners[0]);
+	vertices[1].setPosition(mCorners[1]);
+	vertices[2].setPosition(mCorners[2]);
+	vertices[3].setPosition(mCorners[3]);
 
 	Index_Vector indices;
-	indices.resize(8);
-
-	Vector2f v(x1 - x0, y1 - y0);
-	v.normalize();
-	GL_Render& gl = GL_Render::get();
-
-	for (int i = 0; i < 8; i += 2)
-	{
-		Vector2f a = mCorners[(i/2) % 4];
-		Vector2f b = mCorners[(i/2 + 1) % 4];
-		Vector2f t = a + (b - a) * 0.5f;
-		Vector2f n = mNormals[(i/2)%4];
-
-		// draw normal
-		Vertex_Vector_XYZ_RGBA line;
-		line.resize(2);
-		line[0].setPosition(t);
-		line[0].setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		line[1].setPosition(t + (n * 20.0f));
-		line[1].setColor(1.0f, 1.0f, 1.0f, 1.0f);
-
-		Index_Vector ind;
-		ind.resize(2);
-		ind[0] = 0;
-		ind[1] = 1;
-		gl.setDrawMode(GL_LINES);
-		gl.draw_XYZ_RGBA(line, ind);
-
-		vertices[i].setPosition(mCorners[(i/2) % 4]);
-		vertices[(i + 1)%8].setPosition(mCorners[(i/2 + 1)%4]);
-
-		Vector2f intersection;
-		float dot = v.dot(mNormals[(i/2)%4]);
-		if (dot < 0.0f)
-		{
-			vertices[i].setColor(1.0f, 0.0f, 0.0f, 1.0f);
-			vertices[(i+1)%8].setColor(1.0f, 0.0f, 0.0f, 1.0f);
-		}
-		else
-		{
-			vertices[i].setColor(color);
-			vertices[(i + 1)%8].setColor(color);
-		}
-	}
-	
-
+	indices.resize(6);
 	indices[0] = 0;
 	indices[1] = 1;
 	indices[2] = 2;
-	indices[3] = 3;
-	indices[4] = 4;
-	indices[5] = 5;
-	indices[6] = 6;
-	indices[7] = 7;
+	indices[3] = 2;
+	indices[4] = 3;
+	indices[5] = 0;
 
-	
-	gl.setDrawMode(GL_LINES);
-	gl.draw_XYZ_RGBA(vertices, indices);
+	GL_Render& gl = GL_Render::get();
+
+	if (mFill)
+	{
+		vertices[0].setColor(mFillColor);
+		vertices[1].setColor(mFillColor);
+		vertices[2].setColor(mFillColor);
+		vertices[3].setColor(mFillColor);
+
+		gl.setDrawMode(GL_TRIANGLES);
+		gl.draw_XYZ_RGBA(vertices, indices);
+	}
+
+	if (mOutline)
+	{
+		vertices[0].setColor(mOutlineColor);
+		vertices[1].setColor(mOutlineColor);
+		vertices[2].setColor(mOutlineColor);
+		vertices[3].setColor(mOutlineColor);
+
+		gl.setDrawMode(GL_LINE_LOOP);
+		gl.draw_XYZ_RGBA(vertices, indices);
+	}
 }
 
 

@@ -216,8 +216,13 @@ void Render()
 
 	q.setTransformation(t);
 	q.setHotSpot(Quad::QUAD_HOTSPOT_CENTER);
-	q.update();
-	q.draw(Color4(100, 100, 100, 255), mouseX, mouseY, 300, 500);
+	q.update(10);
+	//q.draw(Color4(100, 100, 100, 255), mouseX, mouseY, 300, 500);
+	q.setFillColor(Color4(0, 100, 0, 255));
+	q.setOutlineColor(Color4(0, 255, 0, 255));
+	q.setFilled(true);
+	q.setOutlined(true);
+	q.draw();
 	
 	//for (int i = 0; i < 100; ++i)
 	//{
@@ -228,31 +233,47 @@ void Render()
 
 	sprite.setPosition(150, 400);
 	sprite.update(deltaMS);
-	sprite.draw();
+	//sprite.draw();
 
 	std::stringstream strStream;
 	
 	strStream << "Draw calls: " << drawCalls;
 	font.drawString(strStream.str(), 0, 50, BitmapFont::ALIGN_TL);
+	
+	Vector2f A(mouseX, mouseY);
+	Vector2f B(300, 500);
+	B = A + ((B - A) * 1.5);
 
+	Vector2f N(B - A);
+	N.normalize();
+	N.rotate(MathUtil::Numeric::deg2Rad(90));
+	Vector2f P0 = B - (N * 150);
+	
+	for (int i = 0; i < 300; ++i)
+	{
+		Vector2f end(P0 + (N * i));
+		float L = (end - A).length();
+		Vertex_Vector_XYZ_RGBA line;
+		line.resize(2);
+		line[0].setPosition(Vector2f(mouseX, mouseY));
+		line[0].setColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-	Vertex_Vector_XYZ_RGBA line;
-	line.resize(2);
-	line[0].setPosition(Vector2f(mouseX, mouseY));
-	line[0].setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		Vector2f intersection;
+		q.intersect(Vector2f(mouseX, mouseY), end, intersection);
 
-	Vector2f intersection;
-	q.intersect(Vector2f(mouseX, mouseY), Vector2f(300, 500), intersection);
+		line[1].setPosition(intersection);
+		float x = (L - (intersection - A).length());
+		if (x < 0.01f) x = 0.0f;
+		float col = x / L;
+		line[1].setColor(col, col, col, 1.0f);
 
-	line[1].setPosition(intersection);
-	line[1].setColor(1.0f, 1.0f, 1.0f, 1.0f);
-
-	Index_Vector ind;
-	ind.resize(2);
-	ind[0] = 0;
-	ind[1] = 1;
-	gl.setDrawMode(GL_LINES);
-	gl.draw_XYZ_RGBA(line, ind);
+		Index_Vector ind;
+		ind.resize(2);
+		ind[0] = 0;
+		ind[1] = 1;
+		gl.setDrawMode(GL_LINES);
+		gl.draw_XYZ_RGBA(line, ind);
+	}
 
 	gl.endFrame();
 	r += 0.5f;

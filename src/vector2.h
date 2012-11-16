@@ -135,11 +135,11 @@ public:
 	{
 		float sa = sin(angleRad);
 		float ca = cos(angleRad);
-		float x = x * ca - y * sa;
-		float y = y * ca + x * sa;
+		float _x = x * ca - y * sa;
+		float _y = y * ca + x * sa;
 
-		x = x;
-		y = y;
+		x = _x;
+		y = _y;
 	}
 
 	T length() const
