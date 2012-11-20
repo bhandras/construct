@@ -19,13 +19,12 @@ EGLContext glesContext;
 
 
 float r = 0.0f;
-TriangleShape t;
-RectangleShape rect;
+Triangle t;
 BitmapFont font;
 Quad q;
 TextureAtlas* atlas;
 Sprite sprite;
-CircleShape c;
+Circle c;
 
 bool InitOGLES()
 {
@@ -158,7 +157,7 @@ bool InitOGLES()
 	Context::setFillColor(Color4(0, 100, 0, 255));
 	Context::setOutlineColor(Color4(0, 255, 0, 255));
 	Context::setFilled(true);
-	Context::setOutlined(true);
+	//Context::setOutlined(true);
 
 	return TRUE; 
 }
@@ -185,43 +184,24 @@ void Render()
 	gl.beginFrame();
 	gl.setOrthoProjection(0.0f, static_cast<float>(w), static_cast<float>(h), 0.0f, 1.0f, -1.0f);
 
-	t.setPosition(100, 100);
+	Affine2df tr;
+	tr.create(MathUtil::Numeric::deg2Rad(r), 100, 100, 1.0f, 1.0f);
+	t.setTransformation(tr);
 	t.setSize(100);
-	t.setFillColor(Color4(100, 0, 0, 255));
-	t.setFilled(true);
-	t.setOutlineColor(Color4(255, 255, 255, 255));
-	t.setOutlined(true);
-	t.setRotationDeg(r);
-	t.update(deltaMS);
+	t.update();
 	t.draw();
 
-	c.setPosition(150, 150);
+	tr.create(MathUtil::Numeric::deg2Rad(r), 150, 150, 1.0f, 1.0f);
+	c.setTransformation(tr);
 	c.setRadius(100);
-	c.setFillColor(Color4(100, 0, 0, 255));
-	c.setFilled(true);
-	c.setOutlineColor(Color4(255, 255, 255, 255));
-	c.setOutlined(true);
-	c.setRotationDeg(r);
-	c.update(deltaMS);
-	c.setNumSlices(32);
+	c.update();
 	c.draw();
 
-	rect.setPosition(400, 400);
-	rect.setSize(150, 100);
-	rect.setFillColor(Color4(0, 100, 0, 255));
-	rect.setFilled(true);
-	rect.setRotationDeg(r);
-	rect.setOutlineColor(Color4(255, 255, 255, 255));
-	rect.setOutlined(true);
-	rect.update(deltaMS);
-	rect.draw();
-
 	q.setSize(100, 100);
-	Affine2df t;
-	t.create(MathUtil::Numeric::deg2Rad(r), 300, 500, 1.0f, 1.0f);
+	tr.create(MathUtil::Numeric::deg2Rad(r), 300, 500, 1.0f, 1.0f);
 
-	q.setTransformation(t);
-	q.update(10);
+	q.setTransformation(tr);
+	q.update();
 	//q.draw(Color4(100, 100, 100, 255), mouseX, mouseY, 300, 500);
 	q.draw();
 	
@@ -234,7 +214,7 @@ void Render()
 
 	sprite.setPosition(150, 400);
 	sprite.update(deltaMS);
-	//sprite.draw();
+	sprite.draw();
 
 	std::stringstream strStream;
 	

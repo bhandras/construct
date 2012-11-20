@@ -8,42 +8,22 @@ Quad::Quad()
 }
 
 
-Quad::Quad(const Quad& other)
+void Quad::update()
 {
-	mSize = other.mSize;
-	mEdges.resize(4);
-	mNormals.resize(4);
+	float w2 = mSize.w / 2.0f;
+	float h2 = mSize.h / 2.0f;
 
-	mEdges = other.mEdges;
-}
+	mEdges[QUAD_EDGE_TL].x = -w2;
+	mEdges[QUAD_EDGE_TL].y = -h2;
 
+	mEdges[QUAD_EDGE_TR].x = w2;
+	mEdges[QUAD_EDGE_TR].y = -h2;
 
-Quad& Quad::operator=(const Quad& other)
-{
-	if (this != &other)
-	{
-		mSize = other.mSize;
-		mEdges = other.mEdges;
-	}
+	mEdges[QUAD_EDGE_BR].x = w2;
+	mEdges[QUAD_EDGE_BR].y = h2;
 
-	return *this;
-}
-
-
-void Quad::update(unsigned int deltaTimeMs)
-{
-	// create an axis aligned box first
-	Vector2f x(mSize.w, 0.0f);
-	Vector2f y(0.0f, mSize.h);
-
-	mEdges[QUAD_CORNER_TL].x = 0.0f;
-	mEdges[QUAD_CORNER_TL].y = 0.0f;
-	mEdges[QUAD_CORNER_TR] = x;
-	mEdges[QUAD_CORNER_BR] = x + y;
-	mEdges[QUAD_CORNER_BL] = y;
-	mCentroid = (mEdges[0] + mEdges[1] + mEdges[2] + mEdges[3]) * 0.25f;
-
-	mTransformation.transform(mCentroid);
+	mEdges[QUAD_EDGE_BL].x = -w2;
+	mEdges[QUAD_EDGE_BL].y = h2;
 	
 	// create corners
 	for (int i = 0; i < 4; ++i)
@@ -70,12 +50,6 @@ void Quad::setSize(float w, float h)
 }
 
 
-void Quad::setTransformation(const Affine2df& t)
-{
-	mTransformation = t;
-}
-
-
 void Quad::intersect(const Vector2f& p0, const Vector2f& p1, Vector2f& result)
 {
 	Vector2f v = p1 - p0;
@@ -92,51 +66,4 @@ void Quad::intersect(const Vector2f& p0, const Vector2f& p1, Vector2f& result)
 	}
 
 	result = p1;
-}
-
-
-void Quad::draw()
-{
-	Vertex_Vector_XYZ_RGBA vertices;
-	vertices.resize(4);
-
-	vertices[0].setPosition(mEdges[0]);
-	vertices[1].setPosition(mEdges[1]);
-	vertices[2].setPosition(mEdges[2]);
-	vertices[3].setPosition(mEdges[3]);
-
-	Index_Vector indices;
-	indices.resize(6);
-	indices[0] = 0;
-	indices[1] = 1;
-	indices[2] = 2;
-	indices[3] = 2;
-	indices[4] = 3;
-	indices[5] = 0;
-
-	GL_Render& gl = GL_Render::get();
-
-	if (Context::isFilled())
-	{
-		const Color4 c = Context::getFillColor();
-		vertices[0].setColor(c);
-		vertices[1].setColor(c);
-		vertices[2].setColor(c);
-		vertices[3].setColor(c);
-
-		gl.setDrawMode(GL_TRIANGLES);
-		gl.draw_XYZ_RGBA(vertices, indices);
-	}
-
-	if (Context::isOutlined())
-	{
-		const Color4 c = Context::getOutlineColor();
-		vertices[0].setColor(c);
-		vertices[1].setColor(c);
-		vertices[2].setColor(c);
-		vertices[3].setColor(c);
-
-		gl.setDrawMode(GL_LINE_LOOP);
-		gl.draw_XYZ_RGBA(vertices, indices);
-	}
 }

@@ -93,5 +93,5 @@ typedef Affine2d<float> Affine2df;
 #include "polygon.h"
 #include "quad.h"
 #include "basic_shapes.h"
-#include "spirte.h"
+#include "sprite.h"
 #include "bitmap_font.h"

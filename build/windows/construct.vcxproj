@@ -92,8 +92,7 @@
     <ClInclude Include="..\..\src\numeric_traits.h" />
     <ClInclude Include="..\..\src\polygon.h" />
     <ClInclude Include="..\..\src\quad.h" />
-    <ClInclude Include="..\..\src\shape2d.h" />
-    <ClInclude Include="..\..\src\spirte.h" />
+    <ClInclude Include="..\..\src\sprite.h" />
     <ClInclude Include="..\..\src\context.h" />
     <ClInclude Include="..\..\src\texture_atlas.h" />
     <ClInclude Include="..\..\src\vector2.h" />
@@ -121,7 +120,7 @@
     <ClCompile Include="..\..\src\math_util.cpp" />
     <ClCompile Include="..\..\src\polygon.cpp" />
     <ClCompile Include="..\..\src\quad.cpp" />
-    <ClCompile Include="..\..\src\spirte.cpp" />
+    <ClCompile Include="..\..\src\sprite.cpp" />
     <ClCompile Include="..\..\src\context.cpp" />
     <ClCompile Include="..\..\src\texture_atlas.cpp" />
     <ClCompile Include="..\..\src\xml.cpp" />

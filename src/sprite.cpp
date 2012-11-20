@@ -106,27 +106,27 @@ void Sprite::draw()
 {
 	KeyFrame* keyFrame = mKeyFrames[mCurrentKeyFrame];
 	keyFrame->quad.setTransformation(mTransformation);
-	keyFrame->quad.update(0); // TODO
+	keyFrame->quad.update();
 
 	Vertex_Vector_XYZ_RGBA_UV vertices;
 	vertices.resize(4);
 
-	vertices[0].setPosition(keyFrame->quad.getCorner(Quad::QUAD_CORNER_TL));
+	vertices[0].setPosition(keyFrame->quad.getEdge(Quad::QUAD_EDGE_TL));
 	vertices[0].texture_uv[0] = keyFrame->u0;
 	vertices[0].texture_uv[1] = keyFrame->v0;
 	vertices[0].setColor(mColor);
 
-	vertices[1].setPosition(keyFrame->quad.getCorner(Quad::QUAD_CORNER_TR));
+	vertices[1].setPosition(keyFrame->quad.getEdge(Quad::QUAD_EDGE_TR));
 	vertices[1].texture_uv[0] = keyFrame->u1;
 	vertices[1].texture_uv[1] = keyFrame->v1;
 	vertices[1].setColor(mColor);
 
-	vertices[2].setPosition(keyFrame->quad.getCorner(Quad::QUAD_CORNER_BR));
+	vertices[2].setPosition(keyFrame->quad.getEdge(Quad::QUAD_EDGE_BR));
 	vertices[2].texture_uv[0] = keyFrame->u2;
 	vertices[2].texture_uv[1] = keyFrame->v2;
 	vertices[2].setColor(mColor);
 
-	vertices[3].setPosition(keyFrame->quad.getCorner(Quad::QUAD_CORNER_BL));
+	vertices[3].setPosition(keyFrame->quad.getEdge(Quad::QUAD_EDGE_BL));
 	vertices[3].texture_uv[0] = keyFrame->u3;
 	vertices[3].texture_uv[1] = keyFrame->v3;
 	vertices[3].setColor(mColor);
