@@ -9,26 +9,49 @@ void Polygon::setTransformation(const Affine2df& t)
 
 bool Polygon::intersects(const Polygon& other)
 {
-	for (size_t i = 0; i < mEdges.size() - 1; ++i)
+	for (size_t j = mEdges.size() - 1, i = 0; i < mEdges.size(); j = i, ++i)
 	{
-		Vector2f& v0 = mEdges[i];
-		Vector2f& v1 = mEdges[i + 1];
+		const Vector2f& v0 = mEdges[i];
+		const Vector2f& v1 = mEdges[j];
 
 		// normal of ab
 		Vector2f n(-(v1.y - v0.y), v1.x - v0.x);
 
-		float a0, a1;
-		calculateProjectedInterval(*this, n, a0, a1);
-
-		float b0, b1;
-		calculateProjectedInterval(other, n, b0, b1);
-
-		bool overlap = (b1 > a0 && a0 > b0) || (b1 > a1 && a1 > b0) || (a0 < b0 && a1 > b1);
-
-		if (overlap)
+		if (axisSeparatesPolygons(n, *this, other))
 		{
-			return true;
+			return false;
 		}
+	}
+
+	for (size_t j = other.mEdges.size() - 1, i = 0; i < other.mEdges.size(); j = i, ++i)
+	{
+		const Vector2f& v0 = other.mEdges[i];
+		const Vector2f& v1 = other.mEdges[j];
+
+		// normal of ab
+		Vector2f n(-(v1.y - v0.y), v1.x - v0.x);
+
+		if (axisSeparatesPolygons(n, *this, other))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+
+bool Polygon::axisSeparatesPolygons(const Vector2f& axis, const Polygon& p1, const Polygon& p2)
+{
+	float a0, a1;
+	calculateProjectedInterval(p1, axis, a0, a1);
+
+	float b0, b1;
+	calculateProjectedInterval(p2, axis, b0, b1);
+
+	if (a1 < b0 || b1 < a0)
+	{
+		true;
 	}
 
 	return false;
@@ -37,11 +60,11 @@ bool Polygon::intersects(const Polygon& other)
 
 void Polygon::calculateProjectedInterval(const Polygon& p, const Vector2f& axis, float& a, float& b)
 {
-	a = b = p.mEdges[0].dot(axis);
+	a = b = axis.dot(p.mEdges[0]);
 
 	for (size_t i = 1; i < p.mEdges.size(); ++i)
 	{
-		float x = p.mEdges[0].dot(axis);
+		float x = axis.dot(p.mEdges[i]);
 
 		if (x < a)
 		{

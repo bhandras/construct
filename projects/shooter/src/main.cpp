@@ -185,17 +185,31 @@ void Render()
 	gl.setOrthoProjection(0.0f, static_cast<float>(w), static_cast<float>(h), 0.0f, 1.0f, -1.0f);
 
 	Affine2df tr;
-	tr.create(MathUtil::Numeric::deg2Rad(r), 100, 100, 1.0f, 1.0f);
+	tr.create(MathUtil::Numeric::deg2Rad(r), mouseX, mouseY, 1.0f, 1.0f);
 	t.setTransformation(tr);
 	t.setSize(100);
 	t.update();
-	t.draw();
+	
 
 	tr.create(MathUtil::Numeric::deg2Rad(r), 150, 150, 1.0f, 1.0f);
 	c.setTransformation(tr);
 	c.setRadius(100);
 	c.update();
-	c.draw();
+	
+	if (t.intersects(c))
+	{
+		Context::push();
+		Context::setFillColor(Color4(100, 0, 0, 128));
+		Context::setFilled(true);
+		c.draw();
+		Context::pop();
+	}
+	else
+	{
+		c.draw();
+	}
+
+	t.draw();
 
 	q.setSize(100, 100);
 	tr.create(MathUtil::Numeric::deg2Rad(r), 300, 500, 1.0f, 1.0f);

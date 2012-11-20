@@ -15,6 +15,7 @@ public:
 	virtual void draw();
 
 private:
+	static bool axisSeparatesPolygons(const Vector2f& axis, const Polygon& p1, const Polygon& p2);
 	static void calculateProjectedInterval(const Polygon& p, const Vector2f& axis, float& a, float& b);
 
 protected:

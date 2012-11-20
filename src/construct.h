@@ -89,7 +89,6 @@ typedef Affine2d<float> Affine2df;
 #include "context.h"
 #include "texture_atlas.h"
 #include "actor2d.h"
-#include "shape2d.h"
 #include "polygon.h"
 #include "quad.h"
 #include "basic_shapes.h"
