@@ -154,6 +154,12 @@ bool InitOGLES()
 	sprite.setFPS(10);
 	sprite.setLooped(true);
 
+	Context::push();
+	Context::setFillColor(Color4(0, 100, 0, 255));
+	Context::setOutlineColor(Color4(0, 255, 0, 255));
+	Context::setFilled(true);
+	Context::setOutlined(true);
+
 	return TRUE; 
 }
 
@@ -215,13 +221,8 @@ void Render()
 	t.create(MathUtil::Numeric::deg2Rad(r), 300, 500, 1.0f, 1.0f);
 
 	q.setTransformation(t);
-	q.setHotSpot(Quad::QUAD_HOTSPOT_CENTER);
 	q.update(10);
 	//q.draw(Color4(100, 100, 100, 255), mouseX, mouseY, 300, 500);
-	q.setFillColor(Color4(0, 100, 0, 255));
-	q.setOutlineColor(Color4(0, 255, 0, 255));
-	q.setFilled(true);
-	q.setOutlined(true);
 	q.draw();
 	
 	//for (int i = 0; i < 100; ++i)

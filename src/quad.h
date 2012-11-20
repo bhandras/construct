@@ -23,7 +23,7 @@ struct Size2
 
 
 /// 2d oriented bounding box
-class Quad : public Shape2d
+class Quad : public Polygon
 {
 public:
 	///
@@ -35,15 +35,6 @@ public:
 		QUAD_CORNER_BL = 3
 	};
 
-	enum HotSpot
-	{
-		QUAD_HOTSPOT_TL,
-		QUAD_HOTSPOT_TR,
-		QUAD_HOTSPOT_BR,
-		QUAD_HOTSPOT_BL,
-		QUAD_HOTSPOT_CENTER
-	};
-
 	Quad();
 	Quad(const Quad& other);
 	Quad& operator=(const Quad& other);
@@ -52,17 +43,11 @@ public:
 
 	void setSize(float w, float h);
 
-	/// Set hot spot for rendering
-	void setHotSpot(HotSpot hotSpot);
-
-	/// Get the current hot spot
-	HotSpot getHotSpot() const { return mHotSpot; }
-
 	/// Get calculated centroid of the box.
 	Vector2f getCentroid() const { return mCentroid; }
 
 	/// Get specific corner point of the box.
-	const Vector2f& getCorner(CornerIndex index) const { return mCorners[static_cast<int>(index)]; }
+	const Vector2f& getCorner(CornerIndex index) const { return mEdges[static_cast<int>(index)]; }
 
 	float getW() const { return mSize.w; }
 	
@@ -82,21 +67,5 @@ public:
 	void intersect(const Vector2f& p0, const Vector2f& p1, Vector2f& result);
 
 private:
-	/// Updates the axes after the corners move. Assumes the corners actually form a rectangle.
-	void refresh();
-
-	/// Returns true if other overlaps one dimension of this.
-	bool overlaps1Way(const Quad& other) const;
-
 	Size2 mSize;
-	Affine2df mTransformation;
-
-	HotSpot mHotSpot;
-
-	Vector2f mCorners[4];
-	Vector2f mAxis[2];
-	float mOrigin[2];
-	Vector2f mCentroid;
-
-	Vector2f mNormals[4];
 };
