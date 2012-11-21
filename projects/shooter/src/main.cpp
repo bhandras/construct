@@ -216,8 +216,19 @@ void Render()
 
 	q.setTransformation(tr);
 	q.update();
-	//q.draw(Color4(100, 100, 100, 255), mouseX, mouseY, 300, 500);
-	q.draw();
+
+	if (t.intersects(q))
+	{
+		Context::push();
+		Context::setFillColor(Color4(100, 0, 0, 128));
+		Context::setFilled(true);
+		q.draw();
+		Context::pop();
+	}
+	else
+	{
+		q.draw();
+	}
 	
 	//for (int i = 0; i < 100; ++i)
 	//{

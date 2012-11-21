@@ -11,11 +11,11 @@ bool Polygon::intersects(const Polygon& other)
 {
 	for (size_t j = mEdges.size() - 1, i = 0; i < mEdges.size(); j = i, ++i)
 	{
-		const Vector2f& v0 = mEdges[i];
-		const Vector2f& v1 = mEdges[j];
+		const Vector2f& v0 = mEdges[j];
+		const Vector2f& v1 = mEdges[i];
 
 		// normal of ab
-		Vector2f n(-(v1.y - v0.y), v1.x - v0.x);
+		Vector2f n(-(v1.y - v0.y), (v1.x - v0.x));
 
 		if (axisSeparatesPolygons(n, *this, other))
 		{
@@ -25,11 +25,11 @@ bool Polygon::intersects(const Polygon& other)
 
 	for (size_t j = other.mEdges.size() - 1, i = 0; i < other.mEdges.size(); j = i, ++i)
 	{
-		const Vector2f& v0 = other.mEdges[i];
-		const Vector2f& v1 = other.mEdges[j];
+		const Vector2f& v0 = other.mEdges[j];
+		const Vector2f& v1 = other.mEdges[i];
 
 		// normal of ab
-		Vector2f n(-(v1.y - v0.y), v1.x - v0.x);
+		Vector2f n(-(v1.y - v0.y), (v1.x - v0.x));
 
 		if (axisSeparatesPolygons(n, *this, other))
 		{
@@ -49,9 +49,9 @@ bool Polygon::axisSeparatesPolygons(const Vector2f& axis, const Polygon& p1, con
 	float b0, b1;
 	calculateProjectedInterval(p2, axis, b0, b1);
 
-	if (a1 < b0 || b1 < a0)
+	if ((a1 < b0) || (b1 < a0))
 	{
-		true;
+		return true;
 	}
 
 	return false;
