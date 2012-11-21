@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<atlas texture="texture1.png">
+    <image name="stand0" x="0" y="0" w="9" h="10"/>
+    <image name="stand1" x="14" y="0" w="9" h="10"/>
+    <image name="stand2" x="28" y="0" w="9" h="10"/>
+    <image name="stand3" x="42" y="0" w="9" h="10"/>
+    <image name="stand4" x="56" y="0" w="9" h="10"/>
+
+    <image name="walk0" x="0" y="11" w="9" h="10"/>
+    <image name="walk1" x="14" y="11" w="9" h="10"/>
+    <image name="walk2" x="28" y="11" w="9" h="10"/>
+    <image name="walk3" x="41" y="11" w="8" h="10"/>
+    <image name="walk4" x="54" y="11" w="9" h="10"/>
+
+    <image name="jump0" x="0" y="22" w="9" h="9"/>
+    <image name="jump1" x="14" y="22" w="9" h="9"/>
+    <image name="jump2" x="28" y="22" w="9" h="9"/>
+</atlas>

@@ -7,7 +7,6 @@ float r = 0.0f;
 Triangle t;
 Quad q;
 
-Sprite sprite;
 Circle c;
 
 
@@ -25,20 +24,32 @@ void Game::init(unsigned w, unsigned h)
 
 	GL_Render::get().init();
 	mFont.load("vector_skin_font.bff");
-	mAtlas = new TextureAtlas("peasant.xml");
+	mAtlas = new TextureAtlas("player.xml");
 	mAtlas->load();
 
-	sprite.setAtlas(mAtlas);
-	sprite.addKeyFrameImage("peasant_walk0");
-	sprite.addKeyFrameImage("peasant_walk1");
-	sprite.addKeyFrameImage("peasant_walk2");
-	sprite.addKeyFrameImage("peasant_walk3");
-	sprite.addKeyFrameImage("peasant_walk4");
-	sprite.addKeyFrameImage("peasant_walk5");
-	sprite.addKeyFrameImage("peasant_walk6");
-	sprite.addKeyFrameImage("peasant_walk7");
-	sprite.setFPS(10);
-	sprite.setLooped(true);
+	mPlayer.setAtlas(mAtlas);
+	
+	mPlayer.addKeyFrameImage("stand", "stand0");
+	mPlayer.addKeyFrameImage("stand", "stand1");
+	mPlayer.addKeyFrameImage("stand", "stand2");
+	mPlayer.addKeyFrameImage("stand", "stand3");
+	mPlayer.addKeyFrameImage("stand", "stand4");
+	
+	mPlayer.addKeyFrameImage("walk", "walk0");
+	mPlayer.addKeyFrameImage("walk", "walk1");
+	mPlayer.addKeyFrameImage("walk", "walk2");
+	mPlayer.addKeyFrameImage("walk", "walk3");
+	mPlayer.addKeyFrameImage("walk", "walk4");
+
+	mPlayer.addKeyFrameImage("jump", "jump0");
+	mPlayer.addKeyFrameImage("jump", "jump1");
+	mPlayer.addKeyFrameImage("jump", "jump2");
+
+	mPlayer.selectAnimation("walk");
+
+	mPlayer.setFPS(5);
+	mPlayer.setScale(10, 10);
+	mPlayer.setLooped(true);
 
 	Context::push();
 	Context::setFillColor(Color4(0, 100, 0, 255));
@@ -106,9 +117,9 @@ void Game::step(unsigned mouseX, unsigned mouseY, bool mouseBtn1, bool mouseBtn2
 	//	sprite.draw();
 	//}
 
-	sprite.setPosition(150, 400);
-	sprite.update(deltaTimeMs);
-	sprite.draw();
+	mPlayer.setPosition(150, 150);
+	mPlayer.update(deltaTimeMs);
+	mPlayer.draw();
 
 	std::stringstream strStream;
 

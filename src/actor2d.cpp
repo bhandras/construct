@@ -39,7 +39,7 @@ void Actor2d::update(unsigned int deltaTimeMs)
 {
 	if (mDirty)
 	{
-		mTransformation.create(mRotationRad, mPosX, mPosY, 1.0f, 1.0f);
+		mTransformation.create(mRotationRad, mPosX, mPosY, mScaleX, mScaleY);
 		mDirty = false;
 	}
 }

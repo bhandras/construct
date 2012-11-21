@@ -8,8 +8,9 @@ public:
 	virtual ~Sprite();
 	
 	void setAtlas(const TextureAtlas* atlas);
-	void addKeyFrameImage(const std::string& name);
+	void addKeyFrameImage(const std::string& anim, const std::string& name);
 
+	void selectAnimation(const std::string& anim);
 	void setFPS(int FPS);
 	void setLooped(bool isLooped);
 
@@ -26,7 +27,11 @@ private:
 		Quad quad;
 	};
 
-	std::vector<KeyFrame*> mKeyFrames;
+	typedef std::vector<KeyFrame*> KeyFrameArray;
+	typedef std::map<std::string, KeyFrameArray> AnimationMap;
+	
+	AnimationMap mAnimationMap;
+	std::string mCurrentAnimation;
 	size_t mCurrentKeyFrame;
 	unsigned int mTickMs;
 

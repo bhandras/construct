@@ -41,8 +41,8 @@ bool GL_TextureManager::loadTexture(const std::string& path)
 
 	glGenTextures(1, &texture.mId);
 	glBindTexture(GL_TEXTURE_2D, texture.mId);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); 
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, static_cast<GLsizei>(texture.mWidth), static_cast<GLsizei>(texture.mHeight), 0, GL_RGBA, GL_UNSIGNED_BYTE, &image[0]);
 
 	mTextures[path] = textureData;

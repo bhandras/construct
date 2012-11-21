@@ -15,4 +15,6 @@ private:
 
 	BitmapFont mFont;
 	TextureAtlas* mAtlas;
+
+	Sprite mPlayer;
 };

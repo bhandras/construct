@@ -13,12 +13,16 @@ Sprite::Sprite()
 
 Sprite::~Sprite()
 {
-	for (size_t i = 0; i < mKeyFrames.size(); ++i)
+	foreach(AnimationMap, mAnimationMap, mapIt)
 	{
-		delete mKeyFrames[i];
+		KeyFrameArray& keyFrameArray = mapIt->second;
+		for (size_t i = 0; i < keyFrameArray.size(); ++i)
+		{
+			delete keyFrameArray[i];
+		}
 	}
 
-	mKeyFrames.clear();
+	mAnimationMap.clear();
 }
 
 
@@ -28,7 +32,7 @@ void Sprite::setAtlas(const TextureAtlas* atlas)
 }
 
 
-void Sprite::addKeyFrameImage(const std::string& name)
+void Sprite::addKeyFrameImage(const std::string& anim, const std::string& name)
 {
 	if (mAtlas)
 	{
@@ -58,9 +62,15 @@ void Sprite::addKeyFrameImage(const std::string& name)
 			keyFrame->u3 = x;
 			keyFrame->v3 = y + h;
 
-			mKeyFrames.push_back(keyFrame);
+			mAnimationMap[anim].push_back(keyFrame);
 		}
 	}
+}
+
+
+void Sprite::selectAnimation(const std::string& anim)
+{
+	mCurrentAnimation = anim;
 }
 
 
@@ -89,11 +99,11 @@ void Sprite::update(unsigned int deltaTimeMs)
 			if (mIsLooped)
 			{
 				mCurrentKeyFrame += keyFrameDelta;
-				mCurrentKeyFrame %= mKeyFrames.size();
+				mCurrentKeyFrame %= mAnimationMap.size();
 			}
 			else
 			{
-				mCurrentKeyFrame = std::min(mCurrentKeyFrame + keyFrameDelta, mKeyFrames.size() - 1);
+				mCurrentKeyFrame = std::min(mCurrentKeyFrame + keyFrameDelta, mAnimationMap[mCurrentAnimation].size() - 1);
 			}
 		}
 	}
@@ -104,7 +114,8 @@ void Sprite::update(unsigned int deltaTimeMs)
 
 void Sprite::draw()
 {
-	KeyFrame* keyFrame = mKeyFrames[mCurrentKeyFrame];
+	KeyFrameArray& keyFrameArray = mAnimationMap[mCurrentAnimation];
+	KeyFrame* keyFrame = keyFrameArray[mCurrentKeyFrame];
 	keyFrame->quad.setTransformation(mTransformation);
 	keyFrame->quad.update();
 
