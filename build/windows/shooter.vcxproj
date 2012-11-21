@@ -11,12 +11,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\projects\shooter\src\main.cpp" />
+    <ClCompile Include="..\..\projects\shooter\src\game.cpp" />
+    <ClCompile Include="..\..\projects\shooter\src\main_win32.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="construct.vcxproj">
       <Project>{0e962437-5e82-47c9-b584-2aacd05998d5}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\projects\shooter\src\game.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2A3A2879-0620-47B4-A382-C661E6135A41}</ProjectGuid>

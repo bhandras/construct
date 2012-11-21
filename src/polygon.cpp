@@ -9,8 +9,8 @@ void Polygon::setTransformation(const Affine2df& t)
 
 bool Polygon::intersects(const Polygon& other, Vector2f& pushVector)
 {
-	std::vector<Vector2f> overlappingAxis;
-	overlappingAxis.reserve(mEdges.size() + other.mEdges.size());
+	float minDistance = NumericTraits<float>::max();
+	Vector2f minTranslation;
 
 	for (size_t j = mEdges.size() - 1, i = 0; i < mEdges.size(); j = i, ++i)
 	{
@@ -25,7 +25,12 @@ bool Polygon::intersects(const Polygon& other, Vector2f& pushVector)
 			return false;
 		}
 
-		overlappingAxis.push_back(n);
+		float distance = n.dot(n);
+		if (distance < minDistance)
+		{
+			minDistance = distance;
+			minTranslation = n;
+		}
 	}
 
 	for (size_t j = other.mEdges.size() - 1, i = 0; i < other.mEdges.size(); j = i, ++i)
@@ -41,28 +46,21 @@ bool Polygon::intersects(const Polygon& other, Vector2f& pushVector)
 			return false;
 		}
 
-		overlappingAxis.push_back(n);
-	}
-
-	pushVector = overlappingAxis[0];
-	float minDistance = pushVector.dot(pushVector);
-
-	for (size_t i = 1; i < overlappingAxis.size(); ++i)
-	{
-		float distance = overlappingAxis[i].dot(overlappingAxis[i]);
+		float distance = n.dot(n);
 		if (distance < minDistance)
 		{
 			minDistance = distance;
-			pushVector = overlappingAxis[i];
+			minTranslation = n;
 		}
 	}
 
 	Vector2f positionDelta = mTransformation.translation() - other.mTransformation.translation();
-	if (positionDelta.dot(pushVector) < 0.0f)
+	if (positionDelta.dot(minTranslation) < 0.0f)
 	{
-		pushVector *= -1.0f;
+		minTranslation *= -1.0f;
 	}
 
+	pushVector = minTranslation;
 	return true;
 }
 
