@@ -186,6 +186,7 @@ void Render()
 
 	Affine2df tr;
 	tr.create(MathUtil::Numeric::deg2Rad(r), mouseX, mouseY, 1.0f, 1.0f);
+	//pushVector.x = pushVector.y = 0.0f;
 	t.setTransformation(tr);
 	t.setSize(100);
 	t.update();
@@ -195,9 +196,15 @@ void Render()
 	c.setTransformation(tr);
 	c.setRadius(100);
 	c.update();
-	
-	if (t.intersects(c))
+
+	Vector2f pushVector;
+
+	if (t.intersects(c, pushVector))
 	{
+		tr.create(MathUtil::Numeric::deg2Rad(r), mouseX + pushVector.x, mouseY + pushVector.y, 1.0f, 1.0f);
+		t.setTransformation(tr);
+		t.update();
+
 		Context::push();
 		Context::setFillColor(Color4(100, 0, 0, 128));
 		Context::setFilled(true);
@@ -216,19 +223,8 @@ void Render()
 
 	q.setTransformation(tr);
 	q.update();
-
-	if (t.intersects(q))
-	{
-		Context::push();
-		Context::setFillColor(Color4(100, 0, 0, 128));
-		Context::setFilled(true);
-		q.draw();
-		Context::pop();
-	}
-	else
-	{
-		q.draw();
-	}
+	q.draw();
+	
 	
 	//for (int i = 0; i < 100; ++i)
 	//{

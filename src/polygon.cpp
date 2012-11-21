@@ -7,8 +7,11 @@ void Polygon::setTransformation(const Affine2df& t)
 }
 
 
-bool Polygon::intersects(const Polygon& other)
+bool Polygon::intersects(const Polygon& other, Vector2f& pushVector)
 {
+	std::vector<Vector2f> overlappingAxis;
+	overlappingAxis.reserve(mEdges.size() + other.mEdges.size());
+
 	for (size_t j = mEdges.size() - 1, i = 0; i < mEdges.size(); j = i, ++i)
 	{
 		const Vector2f& v0 = mEdges[j];
@@ -21,6 +24,8 @@ bool Polygon::intersects(const Polygon& other)
 		{
 			return false;
 		}
+
+		overlappingAxis.push_back(n);
 	}
 
 	for (size_t j = other.mEdges.size() - 1, i = 0; i < other.mEdges.size(); j = i, ++i)
@@ -35,13 +40,34 @@ bool Polygon::intersects(const Polygon& other)
 		{
 			return false;
 		}
+
+		overlappingAxis.push_back(n);
+	}
+
+	pushVector = overlappingAxis[0];
+	float minDistance = pushVector.dot(pushVector);
+
+	for (size_t i = 1; i < overlappingAxis.size(); ++i)
+	{
+		float distance = overlappingAxis[i].dot(overlappingAxis[i]);
+		if (distance < minDistance)
+		{
+			minDistance = distance;
+			pushVector = overlappingAxis[i];
+		}
+	}
+
+	Vector2f positionDelta = mTransformation.translation() - other.mTransformation.translation();
+	if (positionDelta.dot(pushVector) < 0.0f)
+	{
+		pushVector *= -1.0f;
 	}
 
 	return true;
 }
 
 
-bool Polygon::axisSeparatesPolygons(const Vector2f& axis, const Polygon& p1, const Polygon& p2)
+bool Polygon::axisSeparatesPolygons(Vector2f& axis, const Polygon& p1, const Polygon& p2)
 {
 	float a0, a1;
 	calculateProjectedInterval(p1, axis, a0, a1);
@@ -53,6 +79,14 @@ bool Polygon::axisSeparatesPolygons(const Vector2f& axis, const Polygon& p1, con
 	{
 		return true;
 	}
+
+	// find the minimum overlap
+	float d1 = a1 - b0;
+	float d2 = b1 - a0;
+	float d = d1 < d2 ? d1 : d2;
+
+	// normalize axis to the lenght of the overlapping part
+	axis *= d / axis.dot(axis);
 
 	return false;
 }
