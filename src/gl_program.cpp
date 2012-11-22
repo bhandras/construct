@@ -14,7 +14,31 @@ GL_Program::~GL_Program()
 
 void GL_Program::setShader(GL_Program::ShaderType type, const std::string& source)
 {
-	mShaderSources[type] = source;
+	const char* header[2] = {
+			// Define GLSL version
+#ifdef GL_ES_VERSION_2_0
+			"#version 100\n"
+#else
+			"#version 120\n"
+#endif
+			,
+			// GLES2 precision specifiers
+#ifdef GL_ES_VERSION_2_0
+			// Define default float precision for fragment shaders:
+			(type == GL_Program::FragmentShader) ?
+			"precision mediump float;\n"
+			: ""
+			// Note: OpenGL ES automatically defines this:
+			// #define GL_ES
+#else
+			// Ignore GLES 2 precision specifiers:
+			"#define lowp\n"
+			"#define mediump\n"
+			"#define highp\n"
+#endif
+	};
+
+	mShaderSources[type] = std::string(header[0]) + std::string(header[1]) + source;
 }
 
 
