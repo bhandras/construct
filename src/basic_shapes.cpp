@@ -49,7 +49,7 @@ Circle::Circle(int numSlices)
 
 void Circle::update()
 {
-	int numSlices = mEdges.size();
+	size_t numSlices = mEdges.size();
 	float partAngle = 2.0f * NumericTraits<float>::pi() / numSlices;
 
 	for (int i = 0; i < numSlices; ++i)

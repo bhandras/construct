@@ -1,0 +1,276 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E50F12E6165E5AAD009193D6 /* game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E50F12E4165E5AAD009193D6 /* game.cpp */; };
+		E50F12EC165E5B85009193D6 /* libconstruct.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E50F12D5165E5A47009193D6 /* libconstruct.a */; };
+		E50F12EE165E5B8B009193D6 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E50F12ED165E5B8B009193D6 /* OpenGL.framework */; };
+		E50F12F0165E5B93009193D6 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E50F12EF165E5B93009193D6 /* GLUT.framework */; };
+		E50F12F2165E5BD8009193D6 /* main_osx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E50F12F1165E5BD8009193D6 /* main_osx.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E50F12D4165E5A47009193D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E50F12CD165E5A47009193D6 /* construct.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E50F127C165E5984009193D6;
+			remoteInfo = construct;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E50F12B9165E5A00009193D6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E50F12BB165E5A00009193D6 /* shooter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = shooter; sourceTree = BUILT_PRODUCTS_DIR; };
+		E50F12CD165E5A47009193D6 /* construct.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = construct.xcodeproj; sourceTree = "<group>"; };
+		E50F12E4165E5AAD009193D6 /* game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = game.cpp; path = ../../projects/shooter/src/game.cpp; sourceTree = "<group>"; };
+		E50F12E5165E5AAD009193D6 /* game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = game.h; path = ../../projects/shooter/src/game.h; sourceTree = "<group>"; };
+		E50F12ED165E5B8B009193D6 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		E50F12EF165E5B93009193D6 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		E50F12F1165E5BD8009193D6 /* main_osx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main_osx.cpp; path = ../../projects/shooter/src/main_osx.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E50F12B8165E5A00009193D6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E50F12F0165E5B93009193D6 /* GLUT.framework in Frameworks */,
+				E50F12EE165E5B8B009193D6 /* OpenGL.framework in Frameworks */,
+				E50F12EC165E5B85009193D6 /* libconstruct.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E50F12B0165E5A00009193D6 = {
+			isa = PBXGroup;
+			children = (
+				E50F12EF165E5B93009193D6 /* GLUT.framework */,
+				E50F12ED165E5B8B009193D6 /* OpenGL.framework */,
+				E50F12E8165E5AC3009193D6 /* libs */,
+				E50F12E7165E5ABB009193D6 /* src */,
+				E50F12BC165E5A00009193D6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E50F12BC165E5A00009193D6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E50F12BB165E5A00009193D6 /* shooter */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E50F12CE165E5A47009193D6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E50F12D5165E5A47009193D6 /* libconstruct.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E50F12E7165E5ABB009193D6 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				E50F12F1165E5BD8009193D6 /* main_osx.cpp */,
+				E50F12E4165E5AAD009193D6 /* game.cpp */,
+				E50F12E5165E5AAD009193D6 /* game.h */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		E50F12E8165E5AC3009193D6 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				E50F12CD165E5A47009193D6 /* construct.xcodeproj */,
+			);
+			name = libs;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E50F12BA165E5A00009193D6 /* shooter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E50F12C5165E5A00009193D6 /* Build configuration list for PBXNativeTarget "shooter" */;
+			buildPhases = (
+				E50F12B7165E5A00009193D6 /* Sources */,
+				E50F12B8165E5A00009193D6 /* Frameworks */,
+				E50F12B9165E5A00009193D6 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = shooter;
+			productName = shooter;
+			productReference = E50F12BB165E5A00009193D6 /* shooter */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E50F12B2165E5A00009193D6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "András Bánki Horváth";
+			};
+			buildConfigurationList = E50F12B5165E5A00009193D6 /* Build configuration list for PBXProject "shooter" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E50F12B0165E5A00009193D6;
+			productRefGroup = E50F12BC165E5A00009193D6 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = E50F12CE165E5A47009193D6 /* Products */;
+					ProjectRef = E50F12CD165E5A47009193D6 /* construct.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				E50F12BA165E5A00009193D6 /* shooter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		E50F12D5165E5A47009193D6 /* libconstruct.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libconstruct.a;
+			remoteRef = E50F12D4165E5A47009193D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E50F12B7165E5A00009193D6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E50F12E6165E5AAD009193D6 /* game.cpp in Sources */,
+				E50F12F2165E5BD8009193D6 /* main_osx.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		E50F12C3165E5A00009193D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		E50F12C4165E5A00009193D6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		E50F12C6165E5A00009193D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				HEADER_SEARCH_PATHS = "${PROJECT_DIR}/../../src";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E50F12C7165E5A00009193D6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				HEADER_SEARCH_PATHS = "${PROJECT_DIR}/../../src";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E50F12B5165E5A00009193D6 /* Build configuration list for PBXProject "shooter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E50F12C3165E5A00009193D6 /* Debug */,
+				E50F12C4165E5A00009193D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E50F12C5165E5A00009193D6 /* Build configuration list for PBXNativeTarget "shooter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E50F12C6165E5A00009193D6 /* Debug */,
+				E50F12C7165E5A00009193D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E50F12B2165E5A00009193D6 /* Project object */;
+}
