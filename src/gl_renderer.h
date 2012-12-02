@@ -69,7 +69,7 @@ struct Vertex_XYZ_RGBA_UV
 };
 
 
-typedef std::vector<GLshort> Index_Vector;
+typedef std::vector<GLushort> Index_Vector;
 typedef std::vector<Vertex_XYZ_RGBA> Vertex_Vector_XYZ_RGBA;
 typedef std::vector<Vertex_XYZ_RGBA_UV> Vertex_Vector_XYZ_RGBA_UV;
 
@@ -85,6 +85,7 @@ struct RenderBatch
 	Type type;
 
 	virtual ~RenderBatch() {}
+	virtual size_t numVertices() const = 0;
 };
 
 
@@ -95,6 +96,8 @@ struct XYZ_RGBA_RenderBatch : public RenderBatch
 		type = RenderBatch::T_XYZ_RGBA;
 	}
 
+	virtual size_t numVertices() const { return vertices.size(); }
+	
 	Vertex_Vector_XYZ_RGBA vertices;
 	Index_Vector indices;
 };
@@ -107,6 +110,8 @@ struct XYZ_RGBA_UV_RenderBatch : public RenderBatch
 		type = RenderBatch::T_XYZ_RGBA_UV;
 	}
 
+	virtual size_t numVertices() const { return vertices.size(); }
+	
 	GLuint textureId;
 	Vertex_Vector_XYZ_RGBA_UV vertices;
 	Index_Vector indices;

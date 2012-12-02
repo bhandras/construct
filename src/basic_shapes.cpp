@@ -52,7 +52,7 @@ void Circle::update()
 	size_t numSlices = mEdges.size();
 	float partAngle = 2.0f * NumericTraits<float>::pi() / numSlices;
 
-	for (int i = 0; i < numSlices; ++i)
+	for (size_t i = 0; i < numSlices; ++i)
 	{
 		mEdges[i].x = cos(partAngle * static_cast<float>(i)) * mRadius;
 		mEdges[i].y = sin(partAngle * static_cast<float>(i)) * mRadius;

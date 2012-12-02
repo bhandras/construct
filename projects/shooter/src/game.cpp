@@ -3,6 +3,7 @@
 #include "construct.h"
 #include "game.h"
 
+
 float r = 0.0f;
 Triangle t;
 Quad q;
@@ -67,6 +68,9 @@ void Game::step(unsigned mouseX, unsigned mouseY, bool mouseBtn1, bool mouseBtn2
 
 	gl.beginFrame();
 	gl.setOrthoProjection(0.0f, static_cast<float>(mW), static_cast<float>(mH), 0.0f, 1.0f, -1.0f);
+
+
+	mWorld.draw();
 
 	Affine2df tr;
 	tr.create(MathUtil::Numeric::deg2Rad(r), mouseX, mouseY, 1.0f, 1.0f);

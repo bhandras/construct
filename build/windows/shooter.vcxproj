@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\projects\shooter\src\game.cpp" />
+    <ClCompile Include="..\..\projects\shooter\src\world.cpp" />
     <ClCompile Include="..\..\projects\shooter\src\main_win32.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -21,6 +22,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\projects\shooter\src\game.h" />
+    <ClInclude Include="..\..\projects\shooter\src\world.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2A3A2879-0620-47B4-A382-C661E6135A41}</ProjectGuid>

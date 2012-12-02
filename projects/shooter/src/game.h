@@ -1,5 +1,7 @@
 #pragma once
 
+#include "world.h"
+
 
 class Game
 {
@@ -17,4 +19,5 @@ private:
 	TextureAtlas* mAtlas;
 
 	Sprite mPlayer;
+	World mWorld;
 };
