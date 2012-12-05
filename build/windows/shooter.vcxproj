@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\projects\shooter\src\game.cpp" />
+    <ClCompile Include="..\..\projects\shooter\src\player.cpp" />
     <ClCompile Include="..\..\projects\shooter\src\world.cpp" />
     <ClCompile Include="..\..\projects\shooter\src\main_win32.cpp" />
   </ItemGroup>
@@ -22,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\projects\shooter\src\game.h" />
+    <ClInclude Include="..\..\projects\shooter\src\player.h" />
     <ClInclude Include="..\..\projects\shooter\src\world.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

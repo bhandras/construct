@@ -48,7 +48,7 @@
 #include "functor.h"
 #include "xml.h"
 #include "color4.h"
-
+#include "input.h"
 
 // math
 #ifndef M_PI

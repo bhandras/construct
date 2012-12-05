@@ -8,6 +8,8 @@ public:
 	virtual ~Actor2d() {}
 
 	void setPosition(float x, float y);
+	void getPosition(float& x, float& y);
+
 	void setRotationDeg(float angleDeg);
 	void setScale(float scaleX, float scaleY);
 

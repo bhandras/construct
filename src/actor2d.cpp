@@ -20,6 +20,13 @@ void Actor2d::setPosition(float x, float y)
 }
 
 
+void Actor2d::getPosition(float& x, float& y)
+{
+	x = mPosX;
+	y = mPosY;
+}
+
+
 void Actor2d::setRotationDeg(float angleDeg)
 {
 	mDirty = true;

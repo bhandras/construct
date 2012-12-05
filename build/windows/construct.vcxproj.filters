@@ -46,6 +46,7 @@
     <ClInclude Include="..\..\src\polygon.h" />
     <ClInclude Include="..\..\src\context.h" />
     <ClInclude Include="..\..\src\sprite.h" />
+    <ClInclude Include="..\..\src\input.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\3rdparty\lodepng\lodepng.cpp">
@@ -78,5 +79,6 @@
     <ClCompile Include="..\..\src\polygon.cpp" />
     <ClCompile Include="..\..\src\context.cpp" />
     <ClCompile Include="..\..\src\sprite.cpp" />
+    <ClCompile Include="..\..\src\input.cpp" />
   </ItemGroup>
 </Project>

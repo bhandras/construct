@@ -25,32 +25,9 @@ void Game::init(unsigned w, unsigned h)
 
 	GL_Render::get().init();
 	mFont.load("vector_skin_font.bff");
-	mAtlas = new TextureAtlas("player.xml");
-	mAtlas->load();
 
-	mPlayer.setAtlas(mAtlas);
-	
-	mPlayer.addKeyFrameImage("stand", "stand0");
-	mPlayer.addKeyFrameImage("stand", "stand1");
-	mPlayer.addKeyFrameImage("stand", "stand2");
-	mPlayer.addKeyFrameImage("stand", "stand3");
-	mPlayer.addKeyFrameImage("stand", "stand4");
-	
-	mPlayer.addKeyFrameImage("walk", "walk0");
-	mPlayer.addKeyFrameImage("walk", "walk1");
-	mPlayer.addKeyFrameImage("walk", "walk2");
-	mPlayer.addKeyFrameImage("walk", "walk3");
-	mPlayer.addKeyFrameImage("walk", "walk4");
-
-	mPlayer.addKeyFrameImage("jump", "jump0");
-	mPlayer.addKeyFrameImage("jump", "jump1");
-	mPlayer.addKeyFrameImage("jump", "jump2");
-
-	mPlayer.selectAnimation("walk");
-
-	mPlayer.setFPS(5);
-	mPlayer.setScale(10, 10);
-	mPlayer.setLooped(true);
+	mPlayer.init();
+	mPlayer.setPosition(150, 150);
 
 	Context::push();
 	Context::setFillColor(Color4(0, 100, 0, 255));
@@ -61,7 +38,7 @@ void Game::init(unsigned w, unsigned h)
 
 
 
-void Game::step(unsigned mouseX, unsigned mouseY, bool mouseBtn1, bool mouseBtn2, unsigned deltaTimeMs)
+void Game::step(unsigned deltaTimeMs)
 {
 	GL_Render& gl = GL_Render::get();
 	int drawCalls = gl.getNumDrawCalls();
@@ -73,6 +50,9 @@ void Game::step(unsigned mouseX, unsigned mouseY, bool mouseBtn1, bool mouseBtn2
 	mWorld.draw();
 
 	Affine2df tr;
+	int mouseX, mouseY;
+	Input::getPointer(mouseX, mouseY);
+
 	tr.create(MathUtil::Numeric::deg2Rad(r), mouseX, mouseY, 1.0f, 1.0f);
 	//pushVector.x = pushVector.y = 0.0f;
 	t.setTransformation(tr);
@@ -121,7 +101,16 @@ void Game::step(unsigned mouseX, unsigned mouseY, bool mouseBtn1, bool mouseBtn2
 	//	sprite.draw();
 	//}
 
-	mPlayer.setPosition(150, 150);
+	if (Input::isKeyDown(Input::K_LEFT))
+	{
+		mPlayer.move(Player::D_LEFT);
+	}
+
+	if (Input::isKeyDown(Input::K_RIGHT))
+	{
+		mPlayer.move(Player::D_RIGHT);
+	}
+
 	mPlayer.update(deltaTimeMs);
 	mPlayer.draw();
 
@@ -130,7 +119,7 @@ void Game::step(unsigned mouseX, unsigned mouseY, bool mouseBtn1, bool mouseBtn2
 	strStream << "Draw calls: " << drawCalls;
 	mFont.drawString(strStream.str(), 0, 50, BitmapFont::ALIGN_TL);
 
-	if (mouseBtn1)
+	if (Input::isButtonDown(Input::B_LEFT))
 	{
 		Vector2f A(mouseX, mouseY);
 		Vector2f B(300, 500);

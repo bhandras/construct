@@ -85,6 +85,7 @@
     <ClInclude Include="..\..\src\gl_renderer.h" />
     <ClInclude Include="..\..\src\gl_shaders.h" />
     <ClInclude Include="..\..\src\gl_texturemanager.h" />
+    <ClInclude Include="..\..\src\input.h" />
     <ClInclude Include="..\..\src\intersection.h" />
     <ClInclude Include="..\..\src\math_util.h" />
     <ClInclude Include="..\..\src\matrix44.h" />
@@ -116,6 +117,7 @@
     <ClCompile Include="..\..\src\gl_program.cpp" />
     <ClCompile Include="..\..\src\gl_renderer.cpp" />
     <ClCompile Include="..\..\src\gl_texturemanager.cpp" />
+    <ClCompile Include="..\..\src\input.cpp" />
     <ClCompile Include="..\..\src\intersection.cpp" />
     <ClCompile Include="..\..\src\math_util.cpp" />
     <ClCompile Include="..\..\src\polygon.cpp" />

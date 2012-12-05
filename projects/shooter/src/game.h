@@ -1,6 +1,7 @@
 #pragma once
 
 #include "world.h"
+#include "player.h"
 
 
 class Game
@@ -9,7 +10,7 @@ public:
 	Game();
 
 	void init(unsigned w, unsigned h);
-	void step(unsigned mouseX, unsigned mouseY, bool mouseBtn1, bool mouseBtn2, unsigned deltaTimeMs);
+	void step(unsigned deltaTimeMs);
 
 private:
 	unsigned mW;
@@ -18,6 +19,6 @@ private:
 	BitmapFont mFont;
 	TextureAtlas* mAtlas;
 
-	Sprite mPlayer;
+	Player mPlayer;
 	World mWorld;
 };

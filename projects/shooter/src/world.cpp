@@ -12,9 +12,9 @@ World::World()
 		}
 	}
 
-	for (int i = 0; i < w; ++i)
+	for (int i = 10; i < w; ++i)
 	{
-		mTiles[h - 1][i] = 1;
+		mTiles[70][i] = 1;
 	}
 }
 
@@ -23,8 +23,8 @@ void World::draw()
 {
 	Affine2df transform;
 
-	static const int tileW = 15;
-	static const int tileH = 15;
+	static const int tileW = 10;
+	static const int tileH = 10;
 
 	for (int i = 0; i < h; ++i)
 	{
@@ -36,7 +36,7 @@ void World::draw()
 				{
 					Quad quad;
 					quad.setSize(tileW, tileH);
-					transform.translation(i * tileW, j * tileH);
+					transform.translation(j * tileW, i * tileH);
 					quad.setTransformation(transform);
 					quad.update();
 					quad.draw();

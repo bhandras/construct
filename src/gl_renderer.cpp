@@ -202,8 +202,12 @@ void GL_Render::flush()
 			glEnableVertexAttribArray(attribPosition);
 			glVertexAttribPointer(attribSourceColor, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex_XYZ_RGBA), &batch->vertices[0].color_rgba);
 			glEnableVertexAttribArray(attribSourceColor);
-
+			
 			glDrawElements(mDrawMode, batch->indices.size(), GL_UNSIGNED_SHORT, &batch->indices[0]);
+
+			glDisableVertexAttribArray(attribPosition);
+			glDisableVertexAttribArray(attribSourceColor);
+
 			++mDrawCalls;
 			break;
 		}
@@ -234,6 +238,11 @@ void GL_Render::flush()
 			glUniform1i(textureUniform, 0);
 
 			glDrawElements(mDrawMode, batch->indices.size(), GL_UNSIGNED_SHORT, &batch->indices[0]);
+
+			glDisableVertexAttribArray(attribPosition);
+			glDisableVertexAttribArray(attribSourceColor);
+			glDisableVertexAttribArray(attribTextureCoor);
+
 			++mDrawCalls;
 			break;
 		}
