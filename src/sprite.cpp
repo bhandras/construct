@@ -118,7 +118,7 @@ namespace Construct
 	{
 		KeyFrameArray& keyFrameArray = mAnimationMap[mCurrentAnimation];
 		KeyFrame* keyFrame = keyFrameArray[mCurrentKeyFrame];
-		keyFrame->quad.setTransformation(mTransformation);
+		keyFrame->quad.transformation() = mTransformation;
 		keyFrame->quad.update();
 
 		Vertex_Vector_XYZ_RGBA_UV vertices;

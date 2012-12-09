@@ -8,12 +8,6 @@ namespace Construct
 	{ }
 
 
-	void Polygon::setTransformation(const Affine2df& t)
-	{
-		mTransformation = t;
-	}
-
-
 	void Polygon::draw()
 	{
 		Vertex_Vector_XYZ_RGBA vertices;

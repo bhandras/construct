@@ -24,8 +24,6 @@ World::World()
 
 void World::draw()
 {
-	Affine2df transform;
-
 	static const int tileW = 10;
 	static const int tileH = 10;
 
@@ -39,8 +37,7 @@ void World::draw()
 				{
 					Quad quad;
 					quad.setSize(tileW, tileH);
-					transform.translation(j * tileW, i * tileH);
-					quad.setTransformation(transform);
+					quad.transformation().translation(j * tileW, i * tileH);
 					quad.update();
 					quad.draw();
 				}

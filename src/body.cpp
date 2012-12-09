@@ -3,12 +3,18 @@
 
 namespace Construct
 {
-	Body::Body()
-		: mShape(0)
-		, mInvMass(0)
+	Body::Body(Type type)
+		: mType(type)
+		, mShape(0)
 		, mFriction(0)
 		, mElasticity(0)
 	{ }
+
+
+	Body::Type Body::getType() const
+	{
+		return mType;
+	}
 
 
 	void Body::setShape(Shape* shape)
@@ -43,6 +49,9 @@ namespace Construct
 
 	void Body::update(unsigned int deltaTimeMs)
 	{
-
+		if (mShape)
+		{
+			mShape->transformation().setTranslation(mPosition.x, mPosition.y);
+		}
 	}
 }

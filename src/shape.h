@@ -16,9 +16,10 @@ namespace Construct
 		Shape(Type type) : mType(type) {}
 		virtual ~Shape() {}
 		Type getType() { return mType; }
+		Affine2df& transformation() { return mTransformation; }
 
 	protected:
 		Type mType;
+		Affine2df mTransformation;
 	};
-
 }

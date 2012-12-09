@@ -135,6 +135,13 @@ namespace Construct
 			m[C2R1] = 0;
 		}
 
+
+		void setTranslation(T x, T y)
+		{
+			m[C2R0] = x;
+			m[C2R1] = y;
+		}
+
 		void create(float rotationAngleRad, T translationX, T translationY, T scaleX, T scaleY)
 		{
 			float ca = cos(rotationAngleRad);

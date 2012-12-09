@@ -6,7 +6,16 @@ namespace Construct
 	class Body
 	{
 	public:
-		Body();
+		enum Type
+		{
+			StaticBody,
+			DynamicBody
+		};
+
+		Body(Type type);
+
+		Type getType() const;
+
 		void setShape(Shape* shape);
 		Shape* getShape();
 
@@ -18,11 +27,11 @@ namespace Construct
 		void update(unsigned int deltaTimeMs);
 
 	protected:
+		Type mType;
 		Shape* mShape;
 		Vector2f mPosition;
 		Vector2f mVelocity;
 
-		float mInvMass;
 		float mFriction;
 		float mElasticity;
 	};

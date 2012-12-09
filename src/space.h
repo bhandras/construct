@@ -10,7 +10,7 @@ namespace Construct
 	{
 	public:
 		~Space();
-		Body* addBody();
+		Body* addBody(Body::Type bodyType);
 		void update(unsigned int deltaTimeMs);
 
 	private:

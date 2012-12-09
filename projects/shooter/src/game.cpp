@@ -53,15 +53,12 @@ void Game::step(unsigned deltaTimeMs)
 	int mouseX, mouseY;
 	Input::getPointer(mouseX, mouseY);
 
-	tr.create(MathUtil::Numeric::deg2Rad(r), mouseX, mouseY, 1.0f, 1.0f);
 	//pushVector.x = pushVector.y = 0.0f;
-	t.setTransformation(tr);
+	t.transformation().create(MathUtil::Numeric::deg2Rad(r), (float)mouseX, (float)mouseY, 1.0f, 1.0f);
 	t.setSize(100);
 	t.update();
 
-
-	tr.create(MathUtil::Numeric::deg2Rad(r), 150, 150, 1.0f, 1.0f);
-	c.setTransformation(tr);
+	c.transformation().create(MathUtil::Numeric::deg2Rad(r), 150.0f, 150.0f, 1.0f, 1.0f);
 	c.setRadius(100);
 	c.update();
 
@@ -87,9 +84,7 @@ void Game::step(unsigned deltaTimeMs)
 	t.draw();
 
 	q.setSize(100, 100);
-	tr.create(MathUtil::Numeric::deg2Rad(r), 300, 500, 1.0f, 1.0f);
-
-	q.setTransformation(tr);
+	q.transformation().create(MathUtil::Numeric::deg2Rad(r), 300.0f, 500.0f, 1.0f, 1.0f);
 	q.update();
 	q.draw();
 
@@ -132,7 +127,7 @@ void Game::step(unsigned deltaTimeMs)
 
 		for (int i = 0; i < 300; ++i)
 		{
-			Vector2f end(P0 + (N * i));
+			Vector2f end(P0 + (N * (float)i));
 			float L = (end - A).length();
 			Vertex_Vector_XYZ_RGBA line;
 			line.resize(2);

@@ -12,9 +12,9 @@ namespace Construct
 	}
 
 
-	Body* Space::addBody()
+	Body* Space::addBody(Body::Type bodyType)
 	{
-		Body* body = new Body();
+		Body* body = new Body(bodyType);
 		mBodies.push_back(body);
 		return body;
 	}
@@ -30,6 +30,13 @@ namespace Construct
 			for (size_t j = i + 1; j < mBodies.size(); ++j)
 			{
 				Body* body2 = mBodies[j];
+				
+				if (body1->getType() == Body::StaticBody && body2->getType() == Body::StaticBody)
+				{
+					// static bodies do not collide
+					continue;
+				}
+				
 				Shape* shape2 = body2->getShape();
 
 				if (shape1 && shape2)
@@ -40,9 +47,21 @@ namespace Construct
 						Polygon* p1 = static_cast<Polygon*>(shape1);
 						Polygon* p2 = static_cast<Polygon*>(shape2);
 						Vector2f pushVector;
-						if (Collision2d::intersectPolygons(p1->edges(), p1->translation(), p2->edges(), p2->translation(), pushVector))
+						if (Collision2d::intersectPolygons(p1->edges(), p1->transformation().translation(), p2->edges(), p2->transformation().translation(), pushVector))
 						{
-
+							if (body1->getType() == Body::StaticBody)
+							{
+								body2->translate(pushVector);
+							}
+							else if (body1->getType() == Body::StaticBody)
+							{
+								body1->translate(pushVector);
+							}
+							else
+							{
+								body1->translate(pushVector * -0.5f);
+								body2->translate(pushVector * 0.5f);
+							}
 						}
 					}
 				}
