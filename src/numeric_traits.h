@@ -20,37 +20,40 @@
 #define FLT_EPS 1e-7f
 
 
-template <class T>
-struct NumericTraits {};
-
-
-template<>
-struct NumericTraits<double>
+namespace Construct
 {
-	static double eps()	{ return DBL_EPS; }
-	static double min()	{ return -DBL_MAX; }
-	static double max()	{ return DBL_MAX; }
-
-	static double zero(void) { return 0.0; }
-	static double one(void)	{ return 1.0; }
-	static double pi(void) { return 3.14159265358979323846; }
-	static double pi2(void)	{ return pi() * 2.0; }
-
-	static int toInt(double a) { return (int)(a > 0 ? a + 0.5 : a - 0.5); }
-};
+	template <class T>
+	struct NumericTraits {};
 
 
-template<>
-struct NumericTraits<float>
-{
-	static float eps() { return FLT_EPS; }
-	static float min() { return -FLT_MAX; }
-	static float max() { return FLT_MAX; }
+	template<>
+	struct NumericTraits<double>
+	{
+		static double eps()	{ return DBL_EPS; }
+		static double min()	{ return -DBL_MAX; }
+		static double max()	{ return DBL_MAX; }
 
-	static float zero() { return 0.0f; }
-	static float one() { return 1.0f; }
-	static float pi() { return 3.14159265358979323846f; }
-	static float pi2() { return pi() * 2.f; }
+		static double zero(void) { return 0.0; }
+		static double one(void)	{ return 1.0; }
+		static double pi(void) { return 3.14159265358979323846; }
+		static double pi2(void)	{ return pi() * 2.0; }
 
-	static int toInt(float a) { return (int)(a > 0 ? a + 0.5f : a - 0.5f ); }
-};
+		static int toInt(double a) { return (int)(a > 0 ? a + 0.5 : a - 0.5); }
+	};
+
+
+	template<>
+	struct NumericTraits<float>
+	{
+		static float eps() { return FLT_EPS; }
+		static float min() { return -FLT_MAX; }
+		static float max() { return FLT_MAX; }
+
+		static float zero() { return 0.0f; }
+		static float one() { return 1.0f; }
+		static float pi() { return 3.14159265358979323846f; }
+		static float pi2() { return pi() * 2.f; }
+
+		static int toInt(float a) { return (int)(a > 0 ? a + 0.5f : a - 0.5f ); }
+	};
+}

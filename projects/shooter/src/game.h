@@ -16,8 +16,8 @@ private:
 	unsigned mW;
 	unsigned mH;
 
-	BitmapFont mFont;
-	TextureAtlas* mAtlas;
+	Construct::BitmapFont mFont;
+	Construct::TextureAtlas* mAtlas;
 
 	Player mPlayer;
 	World mWorld;

@@ -59,7 +59,6 @@
     <ClInclude Include="..\..\src\vector3.h" />
     <ClInclude Include="..\..\src\xml.h" />
     <ClInclude Include="..\..\src\functor.h" />
-    <ClInclude Include="..\..\src\intersection.h" />
     <ClInclude Include="..\..\src\affine2d.h" />
     <ClInclude Include="..\..\src\polygon.h" />
     <ClInclude Include="..\..\src\context.h" />
@@ -143,6 +142,10 @@
     <ClInclude Include="..\..\src\3rdparty\chipmunk\include\chipmunk\constraints\cpConstraint.h">
       <Filter>3rdparty\chipmunk\include\chipmunk\constraints</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\space.h" />
+    <ClInclude Include="..\..\src\body.h" />
+    <ClInclude Include="..\..\src\shape.h" />
+    <ClInclude Include="..\..\src\collision.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\3rdparty\lodepng\lodepng.cpp">
@@ -171,7 +174,6 @@
     <ClCompile Include="..\..\src\texture_atlas.cpp" />
     <ClCompile Include="..\..\src\xml.cpp" />
     <ClCompile Include="..\..\src\construct.cpp" />
-    <ClCompile Include="..\..\src\intersection.cpp" />
     <ClCompile Include="..\..\src\polygon.cpp" />
     <ClCompile Include="..\..\src\context.cpp" />
     <ClCompile Include="..\..\src\sprite.cpp" />
@@ -263,5 +265,8 @@
     <ClCompile Include="..\..\src\3rdparty\chipmunk\src\chipmunk.c">
       <Filter>3rdparty\chipmunk\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\space.cpp" />
+    <ClCompile Include="..\..\src\body.cpp" />
+    <ClCompile Include="..\..\src\collision.cpp" />
   </ItemGroup>
 </Project>

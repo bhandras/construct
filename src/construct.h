@@ -42,6 +42,7 @@
 #include <iostream>
 #include <fstream>
 
+#include "3rdparty/chipmunk/include/chipmunk/chipmunk.h"
 
 // common stuff
 #include "foreach.h"
@@ -71,13 +72,16 @@
 #include "affine2d.h"
 #include "math_util.h"
 
-typedef Vector2<float> Vector2f;
-typedef Vector3<float> Vector3f;
-typedef Matrix44<float> Matrix44f;
-typedef Matrix44Stack<float> Matrix44fStack;
-typedef Affine2d<float> Affine2df;
 
-#include "intersection.h"
+namespace Construct
+{
+	typedef Vector2<float> Vector2f;
+	typedef Vector3<float> Vector3f;
+	typedef Matrix44<float> Matrix44f;
+	typedef Matrix44Stack<float> Matrix44fStack;
+	typedef Affine2d<float> Affine2df;
+}
+
 
 // opengl es 2.0
 #include "gl_shaders.h"
@@ -85,12 +89,23 @@ typedef Affine2d<float> Affine2df;
 #include "gl_renderer.h"
 #include "gl_texturemanager.h"
 
+
+// physics
+#include "collision.h"
+#include "shape.h"
+#include "body.h"
+#include "space.h"
+
+
+#include "polygon.h"
+
+
 // 2d vis
 #include "context.h"
 #include "texture_atlas.h"
 #include "actor2d.h"
-#include "polygon.h"
 #include "quad.h"
 #include "basic_shapes.h"
 #include "sprite.h"
 #include "bitmap_font.h"
+

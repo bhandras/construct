@@ -25,6 +25,6 @@ private:
 	float mVelocityX;
 	float mVelocityY;
 
-	TextureAtlas mSpriteAtlas;
-	Sprite mPlayerSprite;
+	Construct::TextureAtlas mSpriteAtlas;
+	Construct::Sprite mPlayerSprite;
 };

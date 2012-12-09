@@ -1,54 +1,57 @@
 #pragma once
 
 
-template <class T>
-class Matrix44Stack
+namespace Construct
 {
-public:
-	typedef Matrix44<T> Matrix44t;
-
-	Matrix44Stack()
+	template <class T>
+	class Matrix44Stack
 	{
-		Matrix44t m;
-		m.identity();
-		mStack.push(m);
-	}
+	public:
+		typedef Matrix44<T> Matrix44t;
 
-	void push()
-	{
-		Matrix44t m;
-		m.identity();
-		mStack.push(m);
-	}
+		Matrix44Stack()
+		{
+			Matrix44t m;
+			m.identity();
+			mStack.push(m);
+		}
 
-	void pop()
-	{
-		mStack.pop();
-	}
+		void push()
+		{
+			Matrix44t m;
+			m.identity();
+			mStack.push(m);
+		}
 
-	void mul(const Matrix44t& m)
-	{
-		mStack.top() = mStack.top() * m;
-	}
-
-	Matrix44t& get()
-	{
-		return mStack.top();
-	}
-
-	void set(const Matrix44t& m)
-	{
-		mStack.top() = m;
-	}
-
-	void clear()
-	{
-		while (mStack.size() > 1)
+		void pop()
 		{
 			mStack.pop();
 		}
-	}
 
-private:
-	std::stack<Matrix44t> mStack;
-};
+		void mul(const Matrix44t& m)
+		{
+			mStack.top() = mStack.top() * m;
+		}
+
+		Matrix44t& get()
+		{
+			return mStack.top();
+		}
+
+		void set(const Matrix44t& m)
+		{
+			mStack.top() = m;
+		}
+
+		void clear()
+		{
+			while (mStack.size() > 1)
+			{
+				mStack.pop();
+			}
+		}
+
+	private:
+		std::stack<Matrix44t> mStack;
+	};
+}

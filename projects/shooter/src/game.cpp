@@ -3,11 +3,11 @@
 #include "construct.h"
 #include "game.h"
 
+using namespace Construct;
 
 float r = 0.0f;
 Triangle t;
 Quad q;
-
 Circle c;
 
 
@@ -67,7 +67,7 @@ void Game::step(unsigned deltaTimeMs)
 
 	Vector2f pushVector;
 
-	if (t.intersects(c, pushVector))
+	/*if (t.intersects(c, pushVector))
 	{
 		tr.create(MathUtil::Numeric::deg2Rad(r), mouseX + pushVector.x, mouseY + pushVector.y, 1.0f, 1.0f);
 		t.setTransformation(tr);
@@ -79,7 +79,7 @@ void Game::step(unsigned deltaTimeMs)
 		c.draw();
 		Context::pop();
 	}
-	else
+	else*/
 	{
 		c.draw();
 	}

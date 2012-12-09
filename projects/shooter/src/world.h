@@ -13,5 +13,3 @@ private:
 	static const int h = 100;
 	char mTiles[w][h];
 };
-
-

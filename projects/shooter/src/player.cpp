@@ -2,6 +2,9 @@
 #include "player.h"
 
 
+using namespace Construct;
+
+
 Player::Player()
 : mDirection(D_RIGHT) 
 , mVelocityX(0.0f)

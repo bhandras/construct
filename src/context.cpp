@@ -1,64 +1,67 @@
 #include "construct.h"
 
 
-std::stack<Context::ContextData> Context::mStack;
-
-
-void Context::setFilled(bool isFilled)
+namespace Construct
 {
-	mStack.top().isFilled = isFilled;
-}
+	std::stack<Context::ContextData> Context::mStack;
 
 
-void Context::setFillColor(const Color4& fillColor)
-{
-	mStack.top().fillColor = fillColor;
-}
+	void Context::setFilled(bool isFilled)
+	{
+		mStack.top().isFilled = isFilled;
+	}
 
 
-bool Context::isFilled()
-{
-	return mStack.top().isFilled;
-}
+	void Context::setFillColor(const Color4& fillColor)
+	{
+		mStack.top().fillColor = fillColor;
+	}
 
 
-const Color4& Context::getFillColor()
-{
-	return mStack.top().fillColor;
-}
+	bool Context::isFilled()
+	{
+		return mStack.top().isFilled;
+	}
 
 
-void Context::setOutlined(bool isOutlined)
-{
-	mStack.top().isOutlined = isOutlined;
-}
+	const Color4& Context::getFillColor()
+	{
+		return mStack.top().fillColor;
+	}
 
 
-void Context::setOutlineColor(const Color4& outlineColor)
-{
-	mStack.top().outlineColor = outlineColor;
-}
+	void Context::setOutlined(bool isOutlined)
+	{
+		mStack.top().isOutlined = isOutlined;
+	}
 
 
-bool Context::isOutlined()
-{
-	return mStack.top().isOutlined;
-}
+	void Context::setOutlineColor(const Color4& outlineColor)
+	{
+		mStack.top().outlineColor = outlineColor;
+	}
 
 
-const Color4& Context::getOutlineColor()
-{
-	return mStack.top().outlineColor;
-}
+	bool Context::isOutlined()
+	{
+		return mStack.top().isOutlined;
+	}
 
 
-void Context::push()
-{
-	mStack.push(ContextData());
-}
+	const Color4& Context::getOutlineColor()
+	{
+		return mStack.top().outlineColor;
+	}
 
 
-void Context::pop()
-{
-	mStack.pop();
+	void Context::push()
+	{
+		mStack.push(ContextData());
+	}
+
+
+	void Context::pop()
+	{
+		mStack.pop();
+	}
 }

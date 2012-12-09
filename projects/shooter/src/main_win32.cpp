@@ -206,19 +206,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 			switch (msg.message)
 			{
 			case WM_MOUSEMOVE:
-				Input::setPointerState(GET_X_LPARAM(msg.lParam), GET_Y_LPARAM(msg.lParam));
+				Construct::Input::setPointerState(GET_X_LPARAM(msg.lParam), GET_Y_LPARAM(msg.lParam));
 				break;
 			case WM_LBUTTONDOWN:
-				Input::setButtonState(Input::B_LEFT, true);
+				Construct::Input::setButtonState(Construct::Input::B_LEFT, true);
 				break;
 			case WM_LBUTTONUP:
-				Input::setButtonState(Input::B_LEFT, false);
+				Construct::Input::setButtonState(Construct::Input::B_LEFT, false);
 				break;
 			case WM_RBUTTONDOWN:
-				Input::setButtonState(Input::B_RIGHT, true);
+				Construct::Input::setButtonState(Construct::Input::B_RIGHT, true);
 				break;
 			case WM_RBUTTONUP:
-				Input::setButtonState(Input::B_RIGHT, false);
+				Construct::Input::setButtonState(Construct::Input::B_RIGHT, false);
 				break;
 			case WM_QUIT:
 				done = true;
@@ -228,13 +228,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 				switch (msg.wParam)
 				{
 				case VK_LEFT:
-					Input::setKeyState(Input::K_LEFT, true);
+					Construct::Input::setKeyState(Construct::Input::K_LEFT, true);
 					break;
 				case VK_RIGHT:
-					Input::setKeyState(Input::K_RIGHT, true);
+					Construct::Input::setKeyState(Construct::Input::K_RIGHT, true);
 					break;
 				case VK_UP:
-					Input::setKeyState(Input::K_UP, true);
+					Construct::Input::setKeyState(Construct::Input::K_UP, true);
 					break;
 				}
 				break;
@@ -243,13 +243,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 				switch (msg.wParam)
 				{
 				case VK_LEFT:
-					Input::setKeyState(Input::K_LEFT, false);
+					Construct::Input::setKeyState(Construct::Input::K_LEFT, false);
 					break;
 				case VK_RIGHT:
-					Input::setKeyState(Input::K_RIGHT, false);
+					Construct::Input::setKeyState(Construct::Input::K_RIGHT, false);
 					break;
 				case VK_UP:
-					Input::setKeyState(Input::K_UP, false);
+					Construct::Input::setKeyState(Construct::Input::K_UP, false);
 					break;
 				}
 				break;

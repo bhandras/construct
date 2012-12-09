@@ -2,6 +2,9 @@
 #include "world.h"
 
 
+using namespace Construct;
+
+
 World::World()
 {
 	for (int i = 0; i < h; ++i)

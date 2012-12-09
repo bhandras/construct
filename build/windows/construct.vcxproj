@@ -103,6 +103,7 @@
     <ClInclude Include="..\..\src\affine2d.h" />
     <ClInclude Include="..\..\src\basic_shapes.h" />
     <ClInclude Include="..\..\src\bitmap_font.h" />
+    <ClInclude Include="..\..\src\body.h" />
     <ClInclude Include="..\..\src\color4.h" />
     <ClInclude Include="..\..\src\construct.h" />
     <ClInclude Include="..\..\src\foreach.h" />
@@ -112,13 +113,15 @@
     <ClInclude Include="..\..\src\gl_shaders.h" />
     <ClInclude Include="..\..\src\gl_texturemanager.h" />
     <ClInclude Include="..\..\src\input.h" />
-    <ClInclude Include="..\..\src\intersection.h" />
+    <ClInclude Include="..\..\src\collision.h" />
     <ClInclude Include="..\..\src\math_util.h" />
     <ClInclude Include="..\..\src\matrix44.h" />
     <ClInclude Include="..\..\src\matrix44_stack.h" />
     <ClInclude Include="..\..\src\numeric_traits.h" />
     <ClInclude Include="..\..\src\polygon.h" />
     <ClInclude Include="..\..\src\quad.h" />
+    <ClInclude Include="..\..\src\shape.h" />
+    <ClInclude Include="..\..\src\space.h" />
     <ClInclude Include="..\..\src\sprite.h" />
     <ClInclude Include="..\..\src\context.h" />
     <ClInclude Include="..\..\src\texture_atlas.h" />
@@ -309,6 +312,7 @@
     <ClCompile Include="..\..\src\actor2d.cpp" />
     <ClCompile Include="..\..\src\basic_shapes.cpp" />
     <ClCompile Include="..\..\src\bitmap_font.cpp" />
+    <ClCompile Include="..\..\src\body.cpp" />
     <ClCompile Include="..\..\src\construct.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -318,10 +322,11 @@
     <ClCompile Include="..\..\src\gl_renderer.cpp" />
     <ClCompile Include="..\..\src\gl_texturemanager.cpp" />
     <ClCompile Include="..\..\src\input.cpp" />
-    <ClCompile Include="..\..\src\intersection.cpp" />
+    <ClCompile Include="..\..\src\collision.cpp" />
     <ClCompile Include="..\..\src\math_util.cpp" />
     <ClCompile Include="..\..\src\polygon.cpp" />
     <ClCompile Include="..\..\src\quad.cpp" />
+    <ClCompile Include="..\..\src\space.cpp" />
     <ClCompile Include="..\..\src\sprite.cpp" />
     <ClCompile Include="..\..\src\context.cpp" />
     <ClCompile Include="..\..\src\texture_atlas.cpp" />

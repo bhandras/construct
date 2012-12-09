@@ -1,29 +1,32 @@
 #pragma once
 
 
-// equilateral triangle shape
-class Triangle : public Polygon
+namespace Construct
 {
-public:
-	Triangle();
+	// equilateral triangle shape
+	class Triangle : public Polygon
+	{
+	public:
+		Triangle();
 
-	void setSize(float size);
-	virtual void update() override;
+		void setSize(float size);
+		virtual void update() override;
 
-private:
-	float mSize;
-};
+	private:
+		float mSize;
+	};
 
 
-// 
-class Circle : public Polygon
-{
-public:
-	Circle(int numSlices = 16);
-	void setRadius(float r) { mRadius = r; }
+	// 
+	class Circle : public Polygon
+	{
+	public:
+		Circle(int numSlices = 16);
+		void setRadius(float r) { mRadius = r; }
 
-	virtual void update() override;
+		virtual void update() override;
 
-private:
-	float mRadius;
-};
+	private:
+		float mRadius;
+	};
+}
