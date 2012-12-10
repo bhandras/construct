@@ -12,11 +12,13 @@ public:
 	void jump(float x, float y);
 	void draw();
 
-	void playerContact(Construct::Body* body);
+	void playerContact(Construct::Body* body, const Construct::Vector2f& pushVector);
 
 private:
 	bool mOnTheGround;
 	Construct::Quad mBox;
+	Construct::Quad mBox2;
+
 	Construct::Quad mGround;
 
 	Construct::Quad mWalls[2];
@@ -39,7 +41,6 @@ private:
 	unsigned mW;
 	unsigned mH;
 
-	Construct::BitmapFont mFont;
 	Construct::TextureAtlas* mAtlas;
 
 	Player mPlayer;

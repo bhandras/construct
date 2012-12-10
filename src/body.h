@@ -26,10 +26,16 @@ namespace Construct
 		void setVelocity(const Vector2f& velocity);
 		const Vector2f& getVelocity();
 
+		void setElasticity(float elasticity);
+		float getElasticity() const;
+
+		void setFriction(float friction);
+		float getFriction() const;
+
 		void update(unsigned int deltaTimeMs);
 
-		void contact(Body* body);
-		void setContactCallback(IFunctor<void(Body*)>* callback);
+		void contact(Body* body, const Vector2f& pushVector);
+		void setContactCallback(IFunctor<void(Body*, const Vector2f&)>* callback);
 
 	protected:
 		Type mType;
@@ -40,6 +46,6 @@ namespace Construct
 		float mFriction;
 		float mElasticity;
 
-		IFunctor<void(Body*)>* mContactCallback;
+		IFunctor<void(Body*, const Vector2f&)>* mContactCallback;
 	};
 }

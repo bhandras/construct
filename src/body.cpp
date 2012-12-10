@@ -64,6 +64,30 @@ namespace Construct
 	}
 
 
+	void Body::setElasticity(float elasticity)
+	{
+		mElasticity = elasticity;
+	}
+
+
+	float Body::getElasticity() const
+	{
+		return mElasticity;
+	}
+
+
+	void Body::setFriction(float friction)
+	{
+		mFriction = friction;
+	}
+
+
+	float Body::getFriction() const
+	{
+		return mFriction;
+	}
+
+
 	void Body::update(unsigned int deltaTimeMs)
 	{
 		mPosition += mVelocity;
@@ -76,16 +100,16 @@ namespace Construct
 	}
 
 
-	void Body::contact(Body* body)
+	void Body::contact(Body* body, const Vector2f& pushVector)
 	{
 		if (mContactCallback)
 		{
-			mContactCallback->call(body);
+			mContactCallback->call(body, pushVector);
 		}
 	}
 
 
-	void Body::setContactCallback(IFunctor<void(Body*)>* callback)
+	void Body::setContactCallback(IFunctor<void(Body*, const Vector2f&)>* callback)
 	{
 		if (mContactCallback)
 		{

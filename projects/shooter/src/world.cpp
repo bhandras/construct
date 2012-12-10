@@ -24,8 +24,8 @@ World::World()
 
 void World::draw()
 {
-	static const int tileW = 10;
-	static const int tileH = 10;
+	static const float tileW = 10.0f;
+	static const float tileH = 10.0f;
 
 	for (int i = 0; i < h; ++i)
 	{

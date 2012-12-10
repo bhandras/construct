@@ -15,6 +15,9 @@ namespace Construct
 		void update(unsigned int deltaTimeMs);
 
 	private:
+		void handleCollision(Body* body1, Body* body2, const Vector2f& minSeparation);
+		Vector2f calculateVelocity(const Vector2f& v, const Vector2f& n, float elasticity, float friction) const;
+
 		Vector2f mGravity;
 		std::vector<Body*> mBodies;
 	};

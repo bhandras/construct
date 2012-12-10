@@ -9,17 +9,19 @@ float r = 0.0f;
 Triangle t;
 Quad q;
 Circle c;
-
+Construct::BitmapFont font;
 
 
 void Sandbox::init()
 {
-	mSpace.setGravity(Vector2f(0, 0.99));
+	mSpace.setGravity(Vector2f(0.0f, 0.99f));
 	mGround.setSize(500, 50);
 	
 	Body* b = mSpace.addBody(Body::StaticBody);
 	b->setShape(&mGround);
 	b->setPosition(512, 500);
+	b->setElasticity(0.3f);
+	b->setFriction(0.2f);
 	mBodies.push_back(b);
 
 	mBox.setSize(50, 50);
@@ -29,6 +31,15 @@ void Sandbox::init()
 	b->setContactCallback(createFunctor(this, &Sandbox::playerContact));
 	mBodies.push_back(b);
 
+
+	mBox2.setSize(50, 50);
+	b = mSpace.addBody(Body::DynamicBody);
+	b->setShape(&mBox2);
+	b->setPosition(450, 100);
+	//b->setContactCallback(createFunctor(this, &Sandbox::playerContact));
+	mBodies.push_back(b);
+
+
 	mWalls[0].setSize(50, 100);
 	b = mSpace.addBody(Body::StaticBody);
 	b->setShape(&mWalls[0]);
@@ -37,6 +48,7 @@ void Sandbox::init()
 	mWalls[1].setSize(100, 30);
 	b = mSpace.addBody(Body::StaticBody);
 	b->setShape(&mWalls[1]);
+	b->setFriction(0.3f);
 	b->setPosition(300, 400);
 
 	mOnTheGround = false;
@@ -75,9 +87,9 @@ void Sandbox::jump(float x, float y)
 }
 
 
-void Sandbox::playerContact(Body* body)
+void Sandbox::playerContact(Body* body, const Vector2f& pushVector)
 {
-	if (body->getType() == Body::StaticBody)
+	if (pushVector.dot(Vector2f(0, -1)) > 0.0f)
 	{
 		mOnTheGround = true;
 	}
@@ -94,8 +106,14 @@ void Sandbox::draw()
 
 	mGround.draw();
 	mBox.draw();
+	mBox2.draw();
 	mWalls[0].draw();
 	mWalls[1].draw();
+
+	std::stringstream strStream;
+	
+	strStream << "on the ground: " <<  mOnTheGround;
+	font.drawString(strStream.str(), 0, 80, BitmapFont::ALIGN_TL);
 
 	Context::pop();
 }
@@ -114,7 +132,7 @@ void Game::init(unsigned w, unsigned h)
 	mH = h;
 
 	GL_Render::get().init();
-	mFont.load("vector_skin_font.bff");
+	font.load("vector_skin_font.bff");
 
 	mPlayer.init();
 	mPlayer.setPosition(150, 150);
@@ -211,11 +229,11 @@ void Game::step(unsigned deltaTimeMs)
 	std::stringstream strStream;
 
 	strStream << "Draw calls: " << drawCalls;
-	mFont.drawString(strStream.str(), 0, 50, BitmapFont::ALIGN_TL);
+	font.drawString(strStream.str(), 0, 50, BitmapFont::ALIGN_TL);
 
 	if (Input::isButtonDown(Input::B_LEFT))
 	{
-		Vector2f A(mouseX, mouseY);
+		Vector2f A(static_cast<float>(mouseX), static_cast<float>(mouseY));
 		Vector2f B(300, 500);
 		B = A + ((B - A) * 1.5);
 
@@ -230,11 +248,11 @@ void Game::step(unsigned deltaTimeMs)
 			float L = (end - A).length();
 			Vertex_Vector_XYZ_RGBA line;
 			line.resize(2);
-			line[0].setPosition(Vector2f(mouseX, mouseY));
+			line[0].setPosition(Vector2f(static_cast<float>(mouseX), static_cast<float>(mouseY)));
 			line[0].setColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 			Vector2f intersection;
-			q.intersect(Vector2f(mouseX, mouseY), end, intersection);
+			q.intersect(Vector2f(static_cast<float>(mouseX), static_cast<float>(mouseY)), end, intersection);
 
 			line[1].setPosition(intersection);
 			float x = (L - (intersection - A).length());
