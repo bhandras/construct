@@ -29,6 +29,13 @@ namespace Construct
 	}
 
 
+	void Body::setPosition(float x, float y)
+	{
+		mPosition.x = x;
+		mPosition.y = y;
+	}
+
+
 	void Body::translate(const Vector2f& translation)
 	{
 		mPosition += translation;
@@ -49,9 +56,12 @@ namespace Construct
 
 	void Body::update(unsigned int deltaTimeMs)
 	{
+		mPosition += mVelocity;
+
 		if (mShape)
 		{
 			mShape->transformation().setTranslation(mPosition.x, mPosition.y);
+			mShape->update();
 		}
 	}
 }

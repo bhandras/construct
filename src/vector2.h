@@ -23,12 +23,6 @@ namespace Construct
 		Vector2(float _x, float _y)
 			: x(static_cast<T>(_x)), y(static_cast<T>(_y)) {}
 
-		Vector2(int _x, int _y)
-			: x(static_cast<T>(_x)), y(static_cast<T>(_y)) {}
-
-		Vector2(unsigned _x, unsigned _y)
-			: x(static_cast<T>(_x)), y(static_cast<T>(_y)) {}
-
 		void set(T _x, T _y)
 		{
 			x = _x;

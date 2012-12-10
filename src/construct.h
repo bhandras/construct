@@ -42,8 +42,6 @@
 #include <iostream>
 #include <fstream>
 
-#include "3rdparty/chipmunk/include/chipmunk/chipmunk.h"
-
 // common stuff
 #include "foreach.h"
 #include "functor.h"

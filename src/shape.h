@@ -18,6 +18,8 @@ namespace Construct
 		Type getType() { return mType; }
 		Affine2df& transformation() { return mTransformation; }
 
+		virtual void update() = 0;
+
 	protected:
 		Type mType;
 		Affine2df mTransformation;

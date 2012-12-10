@@ -11,6 +11,76 @@ Quad q;
 Circle c;
 
 
+
+void Sandbox::init()
+{
+	mSpace.setGravity(Vector2f(0, 0.99));
+	mGround.setSize(500, 50);
+	
+	Body* b = mSpace.addBody(Body::StaticBody);
+	b->setShape(&mGround);
+	b->setPosition(512, 500);
+	mBodies.push_back(b);
+
+	mBox.setSize(50, 50);
+	b = mSpace.addBody(Body::DynamicBody);
+	b->setShape(&mBox);
+	b->setPosition(512, 100);
+	mBodies.push_back(b);
+
+	mWalls[0].setSize(50, 100);
+	b = mSpace.addBody(Body::StaticBody);
+	b->setShape(&mWalls[0]);
+	b->setPosition(700, 400);
+
+	mWalls[1].setSize(100, 30);
+	b = mSpace.addBody(Body::StaticBody);
+	b->setShape(&mWalls[1]);
+	b->setPosition(300, 400);
+}
+
+
+void Sandbox::update(unsigned int deltaTimeMs)
+{
+	mSpace.update(deltaTimeMs);
+}
+
+
+void Sandbox::jump(float x, float y)
+{
+	Vector2f velocity = mBodies[1]->getVelocity();
+	
+	if (velocity.y > -10)
+	{
+		velocity.y += y;
+	}
+	
+	if (fabs(velocity.x) < 10)
+	{
+		velocity.x += x;
+	}
+
+	mBodies[1]->setVelocity(velocity);
+}
+
+
+void Sandbox::draw()
+{
+	Context::push();
+	Context::setFillColor(Color4(0, 170, 0, 255));
+	Context::setOutlineColor(Color4(0, 255, 0, 255));
+	Context::setFilled(true);
+	Context::setOutlined(true);
+
+	mGround.draw();
+	mBox.draw();
+	mWalls[0].draw();
+	mWalls[1].draw();
+
+	Context::pop();
+}
+
+
 Game::Game()
 : mAtlas(0)
 {
@@ -33,9 +103,9 @@ void Game::init(unsigned w, unsigned h)
 	Context::setFillColor(Color4(0, 100, 0, 255));
 	Context::setOutlineColor(Color4(0, 255, 0, 255));
 	Context::setFilled(true);
+
+	mSandbox.init();
 }
-
-
 
 
 void Game::step(unsigned deltaTimeMs)
@@ -47,7 +117,7 @@ void Game::step(unsigned deltaTimeMs)
 	gl.setOrthoProjection(0.0f, static_cast<float>(mW), static_cast<float>(mH), 0.0f, 1.0f, -1.0f);
 
 
-	mWorld.draw();
+	//mWorld.draw();
 
 	Affine2df tr;
 	int mouseX, mouseY;
@@ -96,14 +166,23 @@ void Game::step(unsigned deltaTimeMs)
 	//	sprite.draw();
 	//}
 
+	float jx = 0.0f;
+	float jy = 0.0f;
 	if (Input::isKeyDown(Input::K_LEFT))
 	{
+		jx -= 1;
 		mPlayer.move(Player::D_LEFT);
 	}
 
 	if (Input::isKeyDown(Input::K_RIGHT))
 	{
+		jx += 1;
 		mPlayer.move(Player::D_RIGHT);
+	}
+
+	if (Input::isKeyDown(Input::K_UP))
+	{
+		jy -= 3;
 	}
 
 	mPlayer.update(deltaTimeMs);
@@ -151,6 +230,14 @@ void Game::step(unsigned deltaTimeMs)
 			gl.draw_XYZ_RGBA(line, ind);
 		}
 	}
+
+
+	mSandbox.update(deltaTimeMs);
+	if (fabs(jx) > 0.0f || fabs(jy) > 0.0f)
+	{
+		mSandbox.jump(jx, jy);
+	}
+	mSandbox.draw();
 
 	gl.endFrame();
 	r += 0.5f;

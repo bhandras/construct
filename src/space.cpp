@@ -12,6 +12,12 @@ namespace Construct
 	}
 
 
+	void Space::setGravity(const Vector2f& gravity)
+	{
+		mGravity = gravity;
+	}
+
+
 	Body* Space::addBody(Body::Type bodyType)
 	{
 		Body* body = new Body(bodyType);
@@ -22,6 +28,18 @@ namespace Construct
 
 	void Space::update(unsigned int deltaTimeMs)
 	{
+		for (size_t i = 0; i < mBodies.size(); ++i)
+		{
+			if (mBodies[i]->getType() != Body::StaticBody)
+			{
+				Vector2f v = mBodies[i]->getVelocity() + mGravity;
+				mBodies[i]->setVelocity(v);
+			}
+
+			mBodies[i]->update(deltaTimeMs);
+		}
+
+
 		for (size_t i = 0; i < mBodies.size(); ++i)
 		{
 			Body* body1 = mBodies[i];
@@ -51,11 +69,13 @@ namespace Construct
 						{
 							if (body1->getType() == Body::StaticBody)
 							{
-								body2->translate(pushVector);
+								body2->translate(pushVector * -1.0f);
+								body2->setVelocity(Vector2f(0, 0));
 							}
-							else if (body1->getType() == Body::StaticBody)
+							else if (body2->getType() == Body::StaticBody)
 							{
 								body1->translate(pushVector);
+								body1->setVelocity(Vector2f(0, 0));
 							}
 							else
 							{
@@ -66,12 +86,6 @@ namespace Construct
 					}
 				}
 			}
-		}
-
-
-		for (size_t i = 0; i < mBodies.size(); ++i)
-		{
-			mBodies[i]->update(deltaTimeMs);
 		}
 	}
 }

@@ -19,6 +19,7 @@ namespace Construct
 		void setShape(Shape* shape);
 		Shape* getShape();
 
+		void setPosition(float x, float y);
 		void translate(const Vector2f& translation);
 		
 		void setVelocity(const Vector2f& velocity);
