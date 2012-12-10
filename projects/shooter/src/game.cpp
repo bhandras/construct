@@ -26,6 +26,7 @@ void Sandbox::init()
 	b = mSpace.addBody(Body::DynamicBody);
 	b->setShape(&mBox);
 	b->setPosition(512, 100);
+	b->setContactCallback(createFunctor(this, &Sandbox::playerContact));
 	mBodies.push_back(b);
 
 	mWalls[0].setSize(50, 100);
@@ -37,11 +38,14 @@ void Sandbox::init()
 	b = mSpace.addBody(Body::StaticBody);
 	b->setShape(&mWalls[1]);
 	b->setPosition(300, 400);
+
+	mOnTheGround = false;
 }
 
 
 void Sandbox::update(unsigned int deltaTimeMs)
 {
+	mOnTheGround = false;
 	mSpace.update(deltaTimeMs);
 }
 
@@ -49,18 +53,34 @@ void Sandbox::update(unsigned int deltaTimeMs)
 void Sandbox::jump(float x, float y)
 {
 	Vector2f velocity = mBodies[1]->getVelocity();
-	
-	if (velocity.y > -10)
+
+	if (mOnTheGround)
 	{
 		velocity.y += y;
 	}
-	
-	if (fabs(velocity.x) < 10)
+
+	velocity.x += x;
+
+	if (velocity.x < -10)
 	{
-		velocity.x += x;
+		velocity.x = -10;
+	}
+
+	if (velocity.x > 10)
+	{
+		velocity.x = 10;
 	}
 
 	mBodies[1]->setVelocity(velocity);
+}
+
+
+void Sandbox::playerContact(Body* body)
+{
+	if (body->getType() == Body::StaticBody)
+	{
+		mOnTheGround = true;
+	}
 }
 
 
@@ -182,7 +202,7 @@ void Game::step(unsigned deltaTimeMs)
 
 	if (Input::isKeyDown(Input::K_UP))
 	{
-		jy -= 3;
+		jy -= 15;
 	}
 
 	mPlayer.update(deltaTimeMs);

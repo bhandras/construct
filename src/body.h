@@ -13,6 +13,7 @@ namespace Construct
 		};
 
 		Body(Type type);
+		~Body();
 
 		Type getType() const;
 
@@ -27,6 +28,9 @@ namespace Construct
 
 		void update(unsigned int deltaTimeMs);
 
+		void contact(Body* body);
+		void setContactCallback(IFunctor<void(Body*)>* callback);
+
 	protected:
 		Type mType;
 		Shape* mShape;
@@ -35,5 +39,7 @@ namespace Construct
 
 		float mFriction;
 		float mElasticity;
+
+		IFunctor<void(Body*)>* mContactCallback;
 	};
 }

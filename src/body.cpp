@@ -8,7 +8,17 @@ namespace Construct
 		, mShape(0)
 		, mFriction(0)
 		, mElasticity(0)
+		, mContactCallback(0)
 	{ }
+
+
+	Body::~Body()
+	{
+		if (mContactCallback)
+		{
+			delete mContactCallback;
+		}
+	}
 
 
 	Body::Type Body::getType() const
@@ -63,5 +73,25 @@ namespace Construct
 			mShape->transformation().setTranslation(mPosition.x, mPosition.y);
 			mShape->update();
 		}
+	}
+
+
+	void Body::contact(Body* body)
+	{
+		if (mContactCallback)
+		{
+			mContactCallback->call(body);
+		}
+	}
+
+
+	void Body::setContactCallback(IFunctor<void(Body*)>* callback)
+	{
+		if (mContactCallback)
+		{
+			delete mContactCallback;
+		}
+
+		mContactCallback = callback;
 	}
 }

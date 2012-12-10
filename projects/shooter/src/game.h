@@ -12,7 +12,10 @@ public:
 	void jump(float x, float y);
 	void draw();
 
+	void playerContact(Construct::Body* body);
+
 private:
+	bool mOnTheGround;
 	Construct::Quad mBox;
 	Construct::Quad mGround;
 

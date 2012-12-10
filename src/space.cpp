@@ -67,6 +67,9 @@ namespace Construct
 						Vector2f pushVector;
 						if (Collision2d::intersectPolygons(p1->edges(), p1->transformation().translation(), p2->edges(), p2->transformation().translation(), pushVector))
 						{
+							body1->contact(body2);
+							body2->contact(body1);
+
 							if (body1->getType() == Body::StaticBody)
 							{
 								body2->translate(pushVector * -1.0f);
