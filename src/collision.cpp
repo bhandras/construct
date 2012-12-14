@@ -126,4 +126,37 @@ namespace Construct
 		pushVector = minTranslation;
 		return true;
 	}
+
+
+	Vector2f Collision2d::closestPointToPointOnLineSegment(const Vector2f& p, const Vector2f& a, const Vector2f& b)
+	{
+		Vector2f ba = (b - a);
+		float length = ba.length();
+		
+		if (length > 0.0f)
+		{
+			float recipLength = 1.0f / length;
+			Vector2f n = ba * recipLength;
+			float u = (p - a).dot(n);
+			float v = (b - p).dot(n);
+
+			if (u > 0.0f && v > 0.0f)
+			{
+				// region AB
+				return ((a * u) + (b * v)) * recipLength;
+			}
+			else if (u <= 0.0f)
+			{
+				// region A
+				return a;
+			}
+			else // v <= 0.0f
+			{
+				// region B
+				return b;
+			}
+		}
+		
+		return a;
+	}
 }

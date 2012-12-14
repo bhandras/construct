@@ -196,6 +196,22 @@ void Game::step(unsigned deltaTimeMs)
 	q.update();
 	q.draw();
 
+	{
+		Vector2f p = Collision2d::closestPointToPointOnLineSegment(Vector2f((float)mouseX, (float)mouseY), q.getEdge(Quad::QUAD_EDGE_BL), q.getEdge(Quad::QUAD_EDGE_BR));
+		Vertex_Vector_XYZ_RGBA line1;
+		line1.resize(2);
+		line1[0].setPosition(Vector2f(static_cast<float>(mouseX), static_cast<float>(mouseY)));
+		line1[0].setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		line1[1].setPosition(p);
+		line1[1].setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		Index_Vector ind1;
+		ind1.resize(2);
+		ind1[0] = 0;
+		ind1[1] = 1;
+		gl.setDrawMode(GL_LINES);
+		gl.draw_XYZ_RGBA(line1, ind1);
+	}
+	
 
 	//for (int i = 0; i < 100; ++i)
 	//{
