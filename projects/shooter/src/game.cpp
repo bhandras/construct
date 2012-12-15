@@ -162,7 +162,7 @@ void Game::step(unsigned deltaTimeMs)
 	Input::getPointer(mouseX, mouseY);
 
 	//pushVector.x = pushVector.y = 0.0f;
-	t.transformation().create(/*MathUtil::Numeric::deg2Rad(r)*/ 0, (float)mouseX, (float)mouseY, 1.0f, 1.0f);
+	t.transformation().create(MathUtil::Numeric::deg2Rad(r), (float)mouseX, (float)mouseY, 1.0f, 1.0f);
 	t.setSize(100);
 	t.update();
 
@@ -197,15 +197,14 @@ void Game::step(unsigned deltaTimeMs)
 	q.draw();
 
 	{
-		Vector2f p = Distance2d::closestPointOnLineSegment(Vector2f((float)mouseX, (float)mouseY), q.getEdge(Quad::QUAD_EDGE_BL), q.getEdge(Quad::QUAD_EDGE_BR));
-		//Vector2f q = Distance2d::closestPointOnTriangle(Vector2f((float)300, (float)300), t.edges()[0], t.edges()[1], t.edges()[2]);
-		Vector2f x = Distance2d::pointConvexSet(Vector2f((float)mouseX, (float)mouseY), c.edges());
+		Vector2f p0, p1;
+		GJK2d::distance(t, q, p0, p1);
 
 		Vertex_Vector_XYZ_RGBA line1;
 		line1.resize(2);
-		line1[0].setPosition(Vector2f(static_cast<float>(mouseX), static_cast<float>(mouseY)));
+		line1[0].setPosition(p0);
 		line1[0].setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		line1[1].setPosition(x);
+		line1[1].setPosition(p1);
 		line1[1].setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		Index_Vector ind1;
 		ind1.resize(2);

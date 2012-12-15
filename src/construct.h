@@ -68,9 +68,8 @@
 #include "matrix44.h"
 #include "matrix44_stack.h"
 #include "affine2d.h"
-#include "distance2d.h"
 #include "math_util.h"
-
+#include "gjk.h"
 
 // opengl es 2.0
 #include "gl_shaders.h"
