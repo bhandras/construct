@@ -86,6 +86,11 @@ namespace Construct
 			return *this;
 		}
 
+		Vector2 operator/(T s) const
+		{
+			return Vector2(x / s, y / s);
+		}
+
 		T cross(const Vector2& other) const
 		{
 			return x * other.y - y * other.x;
@@ -159,4 +164,7 @@ namespace Construct
 			}
 		}
 	};
+
+
+	typedef Vector2<float> Vector2f;
 }

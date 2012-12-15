@@ -54,4 +54,7 @@ namespace Construct
 	private:
 		std::stack<Matrix44t> mStack;
 	};
+
+
+	typedef Matrix44Stack<float> Matrix44fStack;
 }

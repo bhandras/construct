@@ -158,4 +158,6 @@ namespace Construct
 		}
 	};
 
+
+	typedef Affine2d<float> Affine2df;
 }

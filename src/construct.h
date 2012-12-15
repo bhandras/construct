@@ -68,17 +68,8 @@
 #include "matrix44.h"
 #include "matrix44_stack.h"
 #include "affine2d.h"
+#include "distance2d.h"
 #include "math_util.h"
-
-
-namespace Construct
-{
-	typedef Vector2<float> Vector2f;
-	typedef Vector3<float> Vector3f;
-	typedef Matrix44<float> Matrix44f;
-	typedef Matrix44Stack<float> Matrix44fStack;
-	typedef Affine2d<float> Affine2df;
-}
 
 
 // opengl es 2.0

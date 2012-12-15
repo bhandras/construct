@@ -232,4 +232,7 @@ namespace Construct
 	private:
 		T m[16];
 	};
+
+
+	typedef Matrix44<float> Matrix44f;
 }

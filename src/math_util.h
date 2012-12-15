@@ -24,6 +24,7 @@ namespace Construct
 			static float perlinNoise2d(float x, float y);
 		};
 
+
 		class Color
 		{
 		public:
@@ -33,6 +34,7 @@ namespace Construct
 			static void rgb2hsv(float r, float g, float b, float& h, float& s, float& v);
 			static void hsv2rgb(float h, float s, float v, float& r, float& g, float& b);
 		};
+
 
 		class Numeric
 		{

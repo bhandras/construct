@@ -80,6 +80,7 @@
     <ClInclude Include="..\..\src\body.h" />
     <ClInclude Include="..\..\src\color4.h" />
     <ClInclude Include="..\..\src\construct.h" />
+    <ClInclude Include="..\..\src\distance2d.h" />
     <ClInclude Include="..\..\src\foreach.h" />
     <ClInclude Include="..\..\src\functor.h" />
     <ClInclude Include="..\..\src\gl_program.h" />
@@ -118,6 +119,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">construct.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="..\..\src\distance2d.cpp" />
     <ClCompile Include="..\..\src\gl_program.cpp" />
     <ClCompile Include="..\..\src\gl_renderer.cpp" />
     <ClCompile Include="..\..\src\gl_texturemanager.cpp" />

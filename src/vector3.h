@@ -111,4 +111,7 @@ namespace Construct
 			return sqrt(x * x + y * y + z * z);
 		}
 	};
+
+
+	typedef Vector3<float> Vector3f;
 }

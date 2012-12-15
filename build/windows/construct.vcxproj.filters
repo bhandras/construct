@@ -50,6 +50,7 @@
     <ClInclude Include="..\..\src\body.h" />
     <ClInclude Include="..\..\src\shape.h" />
     <ClInclude Include="..\..\src\collision.h" />
+    <ClInclude Include="..\..\src\distance2d.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\3rdparty\lodepng\lodepng.cpp">
@@ -85,5 +86,6 @@
     <ClCompile Include="..\..\src\space.cpp" />
     <ClCompile Include="..\..\src\body.cpp" />
     <ClCompile Include="..\..\src\collision.cpp" />
+    <ClCompile Include="..\..\src\distance2d.cpp" />
   </ItemGroup>
 </Project>
