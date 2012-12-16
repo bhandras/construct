@@ -62,14 +62,13 @@
 #define M_PI_4 0.785398163397448309616
 #endif
 
-#include "numeric_traits.h"
-#include "vector2.h"
-#include "vector3.h"
-#include "matrix44.h"
-#include "matrix44_stack.h"
-#include "affine2d.h"
-#include "math_util.h"
-#include "gjk.h"
+#include "math/numeric_traits.h"
+#include "math/vector2.h"
+#include "math/vector3.h"
+#include "math/matrix44.h"
+#include "math/affine2d.h"
+#include "math/math_util.h"
+
 
 // opengl es 2.0
 #include "gl_shaders.h"
@@ -79,13 +78,12 @@
 
 
 // physics
-#include "collision.h"
-#include "shape.h"
-#include "body.h"
-#include "space.h"
-
-
-#include "polygon.h"
+#include "physics/gjk.h"
+#include "physics/collision.h"
+#include "physics/shape.h"
+#include "physics/body.h"
+#include "physics/polygon.h"
+#include "physics/space.h"
 
 
 // 2d vis

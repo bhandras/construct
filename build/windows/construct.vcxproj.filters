@@ -10,6 +10,12 @@
     <Filter Include="3rdparty\tinyxml">
       <UniqueIdentifier>{bd2e5ca1-13cb-4a26-8418-9b68c3955562}</UniqueIdentifier>
     </Filter>
+    <Filter Include="math">
+      <UniqueIdentifier>{72482b73-87fe-4dd5-b9d1-6643ea58fa84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="physics">
+      <UniqueIdentifier>{3f0d3f15-822a-46bc-b129-1c9938f56154}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\3rdparty\lodepng\lodepng.h">
@@ -31,26 +37,49 @@
     <ClInclude Include="..\..\src\gl_renderer.h" />
     <ClInclude Include="..\..\src\gl_shaders.h" />
     <ClInclude Include="..\..\src\gl_texturemanager.h" />
-    <ClInclude Include="..\..\src\math_util.h" />
-    <ClInclude Include="..\..\src\matrix44.h" />
-    <ClInclude Include="..\..\src\matrix44_stack.h" />
-    <ClInclude Include="..\..\src\numeric_traits.h" />
     <ClInclude Include="..\..\src\quad.h" />
     <ClInclude Include="..\..\src\texture_atlas.h" />
-    <ClInclude Include="..\..\src\vector2.h" />
-    <ClInclude Include="..\..\src\vector3.h" />
     <ClInclude Include="..\..\src\xml.h" />
     <ClInclude Include="..\..\src\functor.h" />
-    <ClInclude Include="..\..\src\affine2d.h" />
-    <ClInclude Include="..\..\src\polygon.h" />
     <ClInclude Include="..\..\src\context.h" />
     <ClInclude Include="..\..\src\sprite.h" />
     <ClInclude Include="..\..\src\input.h" />
-    <ClInclude Include="..\..\src\space.h" />
-    <ClInclude Include="..\..\src\body.h" />
-    <ClInclude Include="..\..\src\shape.h" />
-    <ClInclude Include="..\..\src\collision.h" />
-    <ClInclude Include="..\..\src\gjk.h" />
+    <ClInclude Include="..\..\src\math\affine2d.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\math_util.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\matrix44.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\numeric_traits.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\vector2.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\math\vector3.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\physics\body.h">
+      <Filter>physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\physics\collision.h">
+      <Filter>physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\physics\gjk.h">
+      <Filter>physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\physics\space.h">
+      <Filter>physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\physics\polygon.h">
+      <Filter>physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\physics\shape.h">
+      <Filter>physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\3rdparty\lodepng\lodepng.cpp">
@@ -74,18 +103,30 @@
     <ClCompile Include="..\..\src\gl_program.cpp" />
     <ClCompile Include="..\..\src\gl_renderer.cpp" />
     <ClCompile Include="..\..\src\gl_texturemanager.cpp" />
-    <ClCompile Include="..\..\src\math_util.cpp" />
     <ClCompile Include="..\..\src\quad.cpp" />
     <ClCompile Include="..\..\src\texture_atlas.cpp" />
     <ClCompile Include="..\..\src\xml.cpp" />
     <ClCompile Include="..\..\src\construct.cpp" />
-    <ClCompile Include="..\..\src\polygon.cpp" />
     <ClCompile Include="..\..\src\context.cpp" />
     <ClCompile Include="..\..\src\sprite.cpp" />
     <ClCompile Include="..\..\src\input.cpp" />
-    <ClCompile Include="..\..\src\space.cpp" />
-    <ClCompile Include="..\..\src\body.cpp" />
-    <ClCompile Include="..\..\src\collision.cpp" />
-    <ClCompile Include="..\..\src\gjk.cpp" />
+    <ClCompile Include="..\..\src\math\math_util.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\physics\body.cpp">
+      <Filter>physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\physics\collision.cpp">
+      <Filter>physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\physics\gjk.cpp">
+      <Filter>physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\physics\space.cpp">
+      <Filter>physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\physics\polygon.cpp">
+      <Filter>physics</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

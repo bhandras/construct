@@ -74,34 +74,33 @@
     <ClInclude Include="..\..\src\3rdparty\tinyxml\tinystr.h" />
     <ClInclude Include="..\..\src\3rdparty\tinyxml\tinyxml.h" />
     <ClInclude Include="..\..\src\actor2d.h" />
-    <ClInclude Include="..\..\src\affine2d.h" />
     <ClInclude Include="..\..\src\basic_shapes.h" />
     <ClInclude Include="..\..\src\bitmap_font.h" />
-    <ClInclude Include="..\..\src\body.h" />
     <ClInclude Include="..\..\src\color4.h" />
     <ClInclude Include="..\..\src\construct.h" />
     <ClInclude Include="..\..\src\foreach.h" />
     <ClInclude Include="..\..\src\functor.h" />
-    <ClInclude Include="..\..\src\gjk.h" />
     <ClInclude Include="..\..\src\gl_program.h" />
     <ClInclude Include="..\..\src\gl_renderer.h" />
     <ClInclude Include="..\..\src\gl_shaders.h" />
     <ClInclude Include="..\..\src\gl_texturemanager.h" />
     <ClInclude Include="..\..\src\input.h" />
-    <ClInclude Include="..\..\src\collision.h" />
-    <ClInclude Include="..\..\src\math_util.h" />
-    <ClInclude Include="..\..\src\matrix44.h" />
-    <ClInclude Include="..\..\src\matrix44_stack.h" />
-    <ClInclude Include="..\..\src\numeric_traits.h" />
-    <ClInclude Include="..\..\src\polygon.h" />
+    <ClInclude Include="..\..\src\math\affine2d.h" />
+    <ClInclude Include="..\..\src\math\math_util.h" />
+    <ClInclude Include="..\..\src\math\matrix44.h" />
+    <ClInclude Include="..\..\src\math\numeric_traits.h" />
+    <ClInclude Include="..\..\src\math\vector2.h" />
+    <ClInclude Include="..\..\src\math\vector3.h" />
+    <ClInclude Include="..\..\src\physics\body.h" />
+    <ClInclude Include="..\..\src\physics\collision.h" />
+    <ClInclude Include="..\..\src\physics\gjk.h" />
+    <ClInclude Include="..\..\src\physics\polygon.h" />
+    <ClInclude Include="..\..\src\physics\shape.h" />
+    <ClInclude Include="..\..\src\physics\space.h" />
     <ClInclude Include="..\..\src\quad.h" />
-    <ClInclude Include="..\..\src\shape.h" />
-    <ClInclude Include="..\..\src\space.h" />
     <ClInclude Include="..\..\src\sprite.h" />
     <ClInclude Include="..\..\src\context.h" />
     <ClInclude Include="..\..\src\texture_atlas.h" />
-    <ClInclude Include="..\..\src\vector2.h" />
-    <ClInclude Include="..\..\src\vector3.h" />
     <ClInclude Include="..\..\src\xml.h" />
   </ItemGroup>
   <ItemGroup>
@@ -113,22 +112,22 @@
     <ClCompile Include="..\..\src\actor2d.cpp" />
     <ClCompile Include="..\..\src\basic_shapes.cpp" />
     <ClCompile Include="..\..\src\bitmap_font.cpp" />
-    <ClCompile Include="..\..\src\body.cpp" />
     <ClCompile Include="..\..\src\construct.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">construct.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="..\..\src\gjk.cpp" />
     <ClCompile Include="..\..\src\gl_program.cpp" />
     <ClCompile Include="..\..\src\gl_renderer.cpp" />
     <ClCompile Include="..\..\src\gl_texturemanager.cpp" />
     <ClCompile Include="..\..\src\input.cpp" />
-    <ClCompile Include="..\..\src\collision.cpp" />
-    <ClCompile Include="..\..\src\math_util.cpp" />
-    <ClCompile Include="..\..\src\polygon.cpp" />
+    <ClCompile Include="..\..\src\math\math_util.cpp" />
+    <ClCompile Include="..\..\src\physics\body.cpp" />
+    <ClCompile Include="..\..\src\physics\collision.cpp" />
+    <ClCompile Include="..\..\src\physics\gjk.cpp" />
+    <ClCompile Include="..\..\src\physics\polygon.cpp" />
+    <ClCompile Include="..\..\src\physics\space.cpp" />
     <ClCompile Include="..\..\src\quad.cpp" />
-    <ClCompile Include="..\..\src\space.cpp" />
     <ClCompile Include="..\..\src\sprite.cpp" />
     <ClCompile Include="..\..\src\context.cpp" />
     <ClCompile Include="..\..\src\texture_atlas.cpp" />
