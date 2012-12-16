@@ -236,6 +236,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 				case VK_UP:
 					Construct::Input::setKeyState(Construct::Input::K_UP, true);
 					break;
+				case VK_RETURN:
+					Construct::Input::setKeyState(Construct::Input::K_RETURN, true);
+					break;
 				}
 				break;
 
@@ -250,6 +253,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 					break;
 				case VK_UP:
 					Construct::Input::setKeyState(Construct::Input::K_UP, false);
+					break;
+				case VK_RETURN:
+					Construct::Input::setKeyState(Construct::Input::K_RETURN, false);
 					break;
 				}
 				break;

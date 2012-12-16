@@ -17,6 +17,9 @@ namespace Construct
 
 		Type getType() const;
 
+		void setMass(float mass);
+		float getInvMass() const;
+
 		void setShape(Shape* shape);
 		Shape* getShape();
 
@@ -24,7 +27,7 @@ namespace Construct
 		void translate(const Vector2f& translation);
 		
 		void setVelocity(const Vector2f& velocity);
-		const Vector2f& getVelocity();
+		const Vector2f& getVelocity() const;
 
 		void setElasticity(float elasticity);
 		float getElasticity() const;
@@ -43,6 +46,7 @@ namespace Construct
 		Vector2f mPosition;
 		Vector2f mVelocity;
 
+		float mInvMass;
 		float mFriction;
 		float mElasticity;
 

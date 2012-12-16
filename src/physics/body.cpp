@@ -6,8 +6,9 @@ namespace Construct
 	Body::Body(Type type)
 		: mType(type)
 		, mShape(0)
-		, mFriction(0)
-		, mElasticity(0)
+		, mInvMass(0.0f)
+		, mFriction(0.0f)
+		, mElasticity(0.0f)
 		, mContactCallback(0)
 	{ }
 
@@ -18,6 +19,21 @@ namespace Construct
 		{
 			delete mContactCallback;
 		}
+	}
+
+
+	void Body::setMass(float mass)
+	{
+		if (mType == DynamicBody)
+		{
+			mInvMass = 1.0f / mass;
+		}
+	}
+
+
+	float Body::getInvMass() const
+	{
+		return mInvMass;
 	}
 
 
@@ -58,7 +74,7 @@ namespace Construct
 	}
 
 
-	const Vector2f& Body::getVelocity()
+	const Vector2f& Body::getVelocity() const
 	{
 		return mVelocity;
 	}

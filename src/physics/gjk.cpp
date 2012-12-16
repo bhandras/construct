@@ -3,7 +3,7 @@
 
 namespace Construct
 {
-	void GJK2d::distance(const Polygon& polygon1, const Polygon& polygon2, Vector2f& witnessPoint1, Vector2f& witnessPoint2)
+	void GJK2d::distance(const Polygon& polygon1, const Polygon& polygon2, Vector2f& witnessPoint1, Vector2f& witnessNormal1, Vector2f& witnessPoint2, Vector2f& witnessNormal2)
 	{
 		const std::vector<Vector2f>& edges1 = polygon1.edges();
 		const std::vector<Vector2f>& edges2 = polygon2.edges();
@@ -76,7 +76,7 @@ namespace Construct
 			simplex.count++;
 		}
 
-		getWitnessPoints(simplex, witnessPoint1, witnessPoint2);
+		getWitnessPoints(simplex, witnessPoint1, witnessNormal1, witnessPoint2, witnessNormal2);
 	}
 
 
@@ -297,7 +297,7 @@ namespace Construct
 	}
 
 
-	void GJK2d::getWitnessPoints(const Simplex& simplex, Vector2f& point1, Vector2f& point2)
+	void GJK2d::getWitnessPoints(const Simplex& simplex, Vector2f& point1, Vector2f& normal1, Vector2f& point2, Vector2f& normal2)
 	{
 		switch (simplex.count)
 		{
@@ -308,7 +308,27 @@ namespace Construct
 
 		case 2:
 			point1 = (simplex.vertices[0].p1 * simplex.vertices[0].u + simplex.vertices[1].p1 * simplex.vertices[1].u) / simplex.divisor;
+			
+			if (simplex.vertices[0].index1 > simplex.vertices[1].index1)
+			{
+				normal1 = simplex.vertices[0].p1 - simplex.vertices[1].p1;
+			}
+			else
+			{
+				normal1 = simplex.vertices[1].p1 - simplex.vertices[0].p1;
+			}
+			normal1 = Vector2f(-normal1.y, normal1.x);
+
 			point2 = (simplex.vertices[0].p2 * simplex.vertices[0].u + simplex.vertices[1].p2 * simplex.vertices[1].u) / simplex.divisor;
+			if (simplex.vertices[0].index2 > simplex.vertices[1].index2)
+			{
+				normal2 = simplex.vertices[0].p2 - simplex.vertices[1].p2;
+			}
+			else
+			{
+				normal2 = simplex.vertices[1].p2 - simplex.vertices[0].p2;
+			}
+			normal2 = Vector2f(-normal2.y, normal2.x);
 			break;
 
 		case 3:

@@ -83,6 +83,7 @@
 #include "physics/shape.h"
 #include "physics/body.h"
 #include "physics/polygon.h"
+#include "physics/contact.h"
 #include "physics/space.h"
 
 

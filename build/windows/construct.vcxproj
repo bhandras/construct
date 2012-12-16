@@ -93,6 +93,7 @@
     <ClInclude Include="..\..\src\math\vector3.h" />
     <ClInclude Include="..\..\src\physics\body.h" />
     <ClInclude Include="..\..\src\physics\collision.h" />
+    <ClInclude Include="..\..\src\physics\contact.h" />
     <ClInclude Include="..\..\src\physics\gjk.h" />
     <ClInclude Include="..\..\src\physics\polygon.h" />
     <ClInclude Include="..\..\src\physics\shape.h" />

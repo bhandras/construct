@@ -8,7 +8,7 @@ namespace Construct
 	class GJK2d
 	{
 	public:
-		static void distance(const Polygon& polygon1, const Polygon& polygon2, Vector2f& witnessPoint1, Vector2f& witnessPoint2);
+		static void distance(const Polygon& polygon1, const Polygon& polygon2, Vector2f& witnessPoint1, Vector2f& witnessNormal1, Vector2f& witnessPoint2, Vector2f& witnessNormal2);
 
 	private:
 		struct Vertex
@@ -47,6 +47,6 @@ namespace Construct
 		static void solveSimplex(const Vector2f& p, Simplex& simplex);
 		static size_t findSupportPoint(const Vector2f& d, const std::vector<Vector2f>& points);
 		static Vector2f getSearchDirection(const Simplex& simplex);
-		static void getWitnessPoints(const Simplex& simplex, Vector2f& point1, Vector2f& point2);
+		static void getWitnessPoints(const Simplex& simplex, Vector2f& point1, Vector2f& normal1, Vector2f& point2, Vector2f& normal2);
 	};
 }

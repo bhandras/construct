@@ -91,6 +91,14 @@ namespace Construct
 			return Vector2(x / s, y / s);
 		}
 
+		Vector2& operator/=(T s)
+		{
+			x /= s;
+			y /= s;
+
+			return *this;
+		}
+
 		T cross(const Vector2& other) const
 		{
 			return x * other.y - y * other.x;

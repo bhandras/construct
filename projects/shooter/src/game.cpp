@@ -14,7 +14,7 @@ Construct::BitmapFont font;
 
 void Sandbox::init()
 {
-	mSpace.setGravity(Vector2f(0.0f, 0.99f));
+	mSpace.setGravity(Vector2f(0.0f, 0.1f));
 	mGround.setSize(500, 50);
 	
 	Body* b = mSpace.addBody(Body::StaticBody);
@@ -26,21 +26,22 @@ void Sandbox::init()
 
 	mBox.setSize(50, 50);
 	b = mSpace.addBody(Body::DynamicBody);
+	b->setMass(1.0f);
 	b->setShape(&mBox);
-	b->setPosition(512, 100);
+	b->setPosition(512, 200);
 	b->setContactCallback(createFunctor(this, &Sandbox::playerContact));
 	mBodies.push_back(b);
 
 
-	mBox2.setSize(50, 50);
+	/*mBox2.setSize(50, 50);
 	b = mSpace.addBody(Body::DynamicBody);
 	b->setShape(&mBox2);
-	b->setPosition(450, 100);
-	//b->setContactCallback(createFunctor(this, &Sandbox::playerContact));
-	mBodies.push_back(b);
+	b->setMass(1.0f);
+	b->setPosition(512, 80);
+	mBodies.push_back(b);*/
 
 
-	mWalls[0].setSize(50, 100);
+	/*mWalls[0].setSize(50, 100);
 	b = mSpace.addBody(Body::StaticBody);
 	b->setShape(&mWalls[0]);
 	b->setPosition(700, 400);
@@ -49,7 +50,7 @@ void Sandbox::init()
 	b = mSpace.addBody(Body::StaticBody);
 	b->setShape(&mWalls[1]);
 	b->setFriction(0.3f);
-	b->setPosition(300, 400);
+	b->setPosition(300, 400);*/
 
 	mOnTheGround = false;
 }
@@ -71,7 +72,7 @@ void Sandbox::jump(float x, float y)
 		velocity.y += y;
 	}
 
-	velocity.x += x;
+	velocity.x += x/10.0f;
 
 	if (velocity.x < -10)
 	{
@@ -95,13 +96,13 @@ void Sandbox::playerContact(Body* body, const Vector2f& pushVector)
 	}
 }
 
-
+bool ret = false;
 void Sandbox::draw()
 {
 	Context::push();
 	Context::setFillColor(Color4(0, 170, 0, 255));
 	Context::setOutlineColor(Color4(0, 255, 0, 255));
-	Context::setFilled(true);
+	Context::setFilled(false);
 	Context::setOutlined(true);
 
 	mGround.draw();
@@ -109,6 +110,17 @@ void Sandbox::draw()
 	mBox2.draw();
 	mWalls[0].draw();
 	mWalls[1].draw();
+
+	if (Input::isKeyDown(Input::K_RETURN))
+	{
+		ret = true;
+	}
+	if (ret && !Input::isKeyDown(Input::K_RETURN))
+	{
+		ret = false;
+		update(1);
+	}
+	mSpace.debug();
 
 	std::stringstream strStream;
 	
@@ -140,7 +152,8 @@ void Game::init(unsigned w, unsigned h)
 	Context::push();
 	Context::setFillColor(Color4(0, 100, 0, 255));
 	Context::setOutlineColor(Color4(0, 255, 0, 255));
-	Context::setFilled(true);
+	Context::setFilled(false);
+	Context::setOutlined(true);
 
 	mSandbox.init();
 }
@@ -196,23 +209,23 @@ void Game::step(unsigned deltaTimeMs)
 	q.update();
 	q.draw();
 
-	{
-		Vector2f p0, p1;
-		GJK2d::distance(t, q, p0, p1);
+	//{
+	//	Vector2f p0, p1;
+	//	GJK2d::distance(t, q, p0, p1);
 
-		Vertex_Vector_XYZ_RGBA line1;
-		line1.resize(2);
-		line1[0].setPosition(p0);
-		line1[0].setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		line1[1].setPosition(p1);
-		line1[1].setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		Index_Vector ind1;
-		ind1.resize(2);
-		ind1[0] = 0;
-		ind1[1] = 1;
-		gl.setDrawMode(GL_LINES);
-		gl.draw_XYZ_RGBA(line1, ind1);
-	}
+	//	Vertex_Vector_XYZ_RGBA line1;
+	//	line1.resize(2);
+	//	line1[0].setPosition(p0);
+	//	line1[0].setColor(1.0f, 1.0f, 1.0f, 1.0f);
+	//	line1[1].setPosition(p1);
+	//	line1[1].setColor(1.0f, 1.0f, 1.0f, 1.0f);
+	//	Index_Vector ind1;
+	//	ind1.resize(2);
+	//	ind1[0] = 0;
+	//	ind1[1] = 1;
+	//	gl.setDrawMode(GL_LINES);
+	//	gl.draw_XYZ_RGBA(line1, ind1);
+	//}
 	
 
 	//for (int i = 0; i < 100; ++i)
@@ -288,7 +301,7 @@ void Game::step(unsigned deltaTimeMs)
 	}
 
 
-	mSandbox.update(deltaTimeMs);
+	//mSandbox.update(deltaTimeMs);
 	if (fabs(jx) > 0.0f || fabs(jy) > 0.0f)
 	{
 		mSandbox.jump(jx, jy);

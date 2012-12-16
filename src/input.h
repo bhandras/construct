@@ -12,6 +12,7 @@ namespace Construct
 			K_RIGHT,
 			K_UP,
 			K_DOWN,
+			K_RETURN,
 
 			KEY_LAST
 		};
