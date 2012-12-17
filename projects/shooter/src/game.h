@@ -16,6 +16,7 @@ public:
 
 private:
 	bool mOnTheGround;
+	Construct::Circle mCircle;
 	Construct::Quad mBox;
 	Construct::Quad mBox2;
 

@@ -317,7 +317,7 @@ namespace Construct
 			{
 				normal1 = simplex.vertices[1].p1 - simplex.vertices[0].p1;
 			}
-			normal1 = Vector2f(-normal1.y, normal1.x);
+			normal1 = Vector2f(normal1.y, -normal1.x);
 
 			point2 = (simplex.vertices[0].p2 * simplex.vertices[0].u + simplex.vertices[1].p2 * simplex.vertices[1].u) / simplex.divisor;
 			if (simplex.vertices[0].index2 > simplex.vertices[1].index2)
@@ -328,7 +328,7 @@ namespace Construct
 			{
 				normal2 = simplex.vertices[1].p2 - simplex.vertices[0].p2;
 			}
-			normal2 = Vector2f(-normal2.y, normal2.x);
+			normal2 = Vector2f(normal2.y, -normal2.x);
 			break;
 
 		case 3:

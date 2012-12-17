@@ -26,22 +26,22 @@ void Sandbox::init()
 
 	mBox.setSize(50, 50);
 	b = mSpace.addBody(Body::DynamicBody);
-	b->setMass(1.0f);
+	b->setMass(10.0f);
 	b->setShape(&mBox);
-	b->setPosition(512, 200);
+	b->setPosition(512, 80);
 	b->setContactCallback(createFunctor(this, &Sandbox::playerContact));
 	mBodies.push_back(b);
 
 
-	/*mBox2.setSize(50, 50);
+	mBox2.setSize(50, 50);
 	b = mSpace.addBody(Body::DynamicBody);
 	b->setShape(&mBox2);
-	b->setMass(1.0f);
-	b->setPosition(512, 80);
-	mBodies.push_back(b);*/
+	b->setMass(10.0f);
+	b->setPosition(512, 200);
+	mBodies.push_back(b);
 
 
-	/*mWalls[0].setSize(50, 100);
+	mWalls[0].setSize(50, 100);
 	b = mSpace.addBody(Body::StaticBody);
 	b->setShape(&mWalls[0]);
 	b->setPosition(700, 400);
@@ -50,7 +50,13 @@ void Sandbox::init()
 	b = mSpace.addBody(Body::StaticBody);
 	b->setShape(&mWalls[1]);
 	b->setFriction(0.3f);
-	b->setPosition(300, 400);*/
+	b->setPosition(300, 400);
+
+	mCircle.setRadius(100);
+	b = mSpace.addBody(Body::StaticBody);
+	b->setShape(&mCircle);
+	b->setFriction(0.3f);
+	b->setPosition(300, 400);
 
 	mOnTheGround = false;
 }
@@ -102,7 +108,7 @@ void Sandbox::draw()
 	Context::push();
 	Context::setFillColor(Color4(0, 170, 0, 255));
 	Context::setOutlineColor(Color4(0, 255, 0, 255));
-	Context::setFilled(false);
+	Context::setFilled(true);
 	Context::setOutlined(true);
 
 	mGround.draw();
@@ -110,15 +116,17 @@ void Sandbox::draw()
 	mBox2.draw();
 	mWalls[0].draw();
 	mWalls[1].draw();
-
+	mCircle.draw();
+	update(1);
 	if (Input::isKeyDown(Input::K_RETURN))
 	{
 		ret = true;
+		
 	}
 	if (ret && !Input::isKeyDown(Input::K_RETURN))
 	{
 		ret = false;
-		update(1);
+		//update(1);
 	}
 	mSpace.debug();
 
@@ -152,7 +160,7 @@ void Game::init(unsigned w, unsigned h)
 	Context::push();
 	Context::setFillColor(Color4(0, 100, 0, 255));
 	Context::setOutlineColor(Color4(0, 255, 0, 255));
-	Context::setFilled(false);
+	Context::setFilled(true);
 	Context::setOutlined(true);
 
 	mSandbox.init();
@@ -251,7 +259,7 @@ void Game::step(unsigned deltaTimeMs)
 
 	if (Input::isKeyDown(Input::K_UP))
 	{
-		jy -= 15;
+		jy -= 4;
 	}
 
 	mPlayer.update(deltaTimeMs);

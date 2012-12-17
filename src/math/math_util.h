@@ -43,6 +43,7 @@ namespace Construct
 			static int toInt(double num);
 			static float deg2Rad(float angleDeg);
 			static float rad2Deg(float angleRad);
+			static float clamp(float a, float min, float max);
 		};
 	} // MathUtil
 }

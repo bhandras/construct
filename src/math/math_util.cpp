@@ -291,4 +291,9 @@ namespace Construct
 	{
 		return angleRad * 180.0f / static_cast<float>(M_PI);
 	}
+
+	float MathUtil::Numeric::clamp(float a, float min, float max)
+	{
+		return std::min(std::max(a, min), max);
+	}
 }
