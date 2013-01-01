@@ -8,6 +8,24 @@ namespace Construct
 	{ }
 
 
+	void Polygon::update()
+	{
+		size_t numEdges = mEdges.size();
+
+		for (size_t i = 0; i < numEdges; ++i)
+		{
+			mTransformation.transform(mEdges[i]);
+		}
+
+		for (size_t i = 0; i < numEdges; ++i)
+		{
+			mNormals[i] = mEdges[(i + 1) % numEdges] - mEdges[i];
+			mNormals[i].m90();
+			mNormals[i].normalize();
+		}
+	}
+
+
 	void Polygon::draw()
 	{
 		Vertex_Vector_XYZ_RGBA vertices;

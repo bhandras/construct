@@ -51,7 +51,7 @@ namespace Construct
 	}
 
 
-	void Space::update(unsigned int deltaTimeMs)
+	void Space::update(float deltaTimeSec)
 	{
 		for (size_t i = 0; i < mBodies.size(); ++i)
 		{
@@ -60,11 +60,6 @@ namespace Construct
 				Vector2f v = mBodies[i]->getVelocity() + mGravity;
 				mBodies[i]->setVelocity(v);
 			}
-		}
-
-		for (size_t i = 0; i < mBodies.size(); ++i)
-		{
-			mBodies[i]->update(deltaTimeMs);
 		}
 
 		contacts.clear();
@@ -88,16 +83,14 @@ namespace Construct
 
 				if (shape1 && shape2)
 				{
-					contacts.push_back(Contact());
-					Contact& contact1 = contacts.back();
-					contacts.push_back(Contact());
-					Contact& contact2 = contacts.back();
-
+					Contact contact1;
+					/*Contact contact2;*/
+				
 					contact1.body1 = body1;
 					contact1.body2 = body2;
 
-					contact2.body1 = body2;
-					contact2.body2 = body1;
+				/*	contact2.body1 = body2;
+					contact2.body2 = body1;*/
 
 					// polygon - polygon collision
 					if (shape1->getType() == Shape::PolygonShape && shape2->getType() == Shape::PolygonShape)
@@ -108,41 +101,38 @@ namespace Construct
 						Vector2f n1, n2;
 						GJK2d::distance(*p1, *p2, contact1.witness1, n1, contact1.witness2, n2);
 						
-						contact1.distance = (contact1.witness2 - contact1.witness1).length() * 0.9;
-						contact2.distance = contact1.distance;
+						contact1.distance = (contact1.witness2 - contact1.witness1).length();
+						/*contact2.distance = contact1.distance;
 						contact2.witness1 = contact1.witness2;
-						contact2.witness2 = contact1.witness1;
+						contact2.witness2 = contact1.witness1;*/
+						contact1.normal = contact1.witness2 - contact1.witness1;
+						contact1.normal = n1;
+						contact1.normal.normalize();
+						
+						//if (contact1.distance >= 0.0f)//NumericTraits<float>::eps())
+						//{
+						//	n1.normalize();
+						//	n2.normalize();
+						//	contact1.normal = n1;
+						//	contact2.normal = n2;
+						//	if (n1.length() < 0.9f)
+						//	{
+						//		int alma = 0;
+						//	}
+						//	if (n2.length() < 0.9f)
+						//	{
+						//		int korte = 0;
+						//	}
+						//}
 
-						if (contact1.distance > 0.0f)//NumericTraits<float>::eps())
-						{
-							contact1.normal = (contact1.witness2 - contact1.witness1);
-							contact1.normal /= contact1.distance;
-
-							contact2.normal = (contact1.witness1 - contact1.witness2);
-							contact2.normal /= contact2.distance;
-						}
-						/*else
-						{
-							contact1.normal = n1;
-							contact1.normal.normalize();
-
-							contact2.normal = n2;
-							contact2.normal.normalize();
-						}*/
-						else if (Collision2d::intersectPolygons(p1->edges(), p1->transformation().translation(), p2->edges(), p2->transformation().translation(), minSeparation))
-						{
-							contact1.distance = -minSeparation.length();
-							contact1.normal = minSeparation / contact1.distance;
-
-							contact2.distance = -contact1.distance;
-							contact2.normal = minSeparation / contact2.distance;
-						}
+						contacts.push_back(contact1);
+						//contacts.push_back(contact2);
 					}
 				}
 			}
 		}
 
-		const int iterations = 3;
+		int iterations = 1;
 		for (int i = 0;  i < iterations; ++i)
 		{
 			for (std::list<Contact>::iterator it  = contacts.begin(); it != contacts.end(); ++it)
@@ -151,26 +141,25 @@ namespace Construct
 				Body* body2 = it->body2;
 
 				float relativeNormalVelocity = (body2->getVelocity() - body1->getVelocity()).dot(it->normal);
-				float remove = relativeNormalVelocity + it->distance;/* / ((deltaTimeMs + 1) / 1000.0f);*/
-
+				
+				float remove = relativeNormalVelocity + it->distance / deltaTimeSec;
+	
 				Vector2f tN(-it->normal.y, it->normal.x);
 				float vtN = (body2->getVelocity() - body1->getVelocity()).dot(tN);
 
-
-				float d = it->distance;
 				if (remove < 0.0f)
 				{
 					// compute impulse
 					float impulse = remove / (body1->getInvMass() + body2->getInvMass());
 
-					float absMag = fabs(impulse) * 0.9f;
+					float absMag = fabs(impulse) * 0.1f/*body1->getFriction()*/;
 					// friction
 					float mag = MathUtil::Numeric::clamp(vtN / (body1->getInvMass() + body2->getInvMass()), -absMag, absMag);
 					Vector2f imp2 = tN * mag;
 
 					// apply impulse
 					Vector2f impulse1 = it->normal * (impulse * body1->getInvMass());
-					Vector2f impulse2 = it->normal * (-impulse * body2->getInvMass());
+					Vector2f impulse2 = it->normal * -(impulse * body2->getInvMass());
 
 					Vector2f f_impulse1 = imp2 * body1->getInvMass();
 					Vector2f f_impulse2 = imp2 * -body2->getInvMass();
@@ -193,7 +182,7 @@ namespace Construct
 
 		for (size_t i = 0; i < mBodies.size(); ++i)
 		{
-			mBodies[i]->update(deltaTimeMs);
+			mBodies[i]->update(deltaTimeSec);
 		}
 	}
 

@@ -34,10 +34,7 @@ namespace Construct
 		mEdges[2].x = 0.0f;
 		mEdges[2].y = mSize - x;
 
-		for (size_t i = 0; i < 3; ++i)
-		{
-			mTransformation.transform(mEdges[i]);
-		}
+		Polygon::update();
 	}
 
 
@@ -58,7 +55,8 @@ namespace Construct
 		{
 			mEdges[i].x = cos(partAngle * static_cast<float>(i)) * mRadius;
 			mEdges[i].y = sin(partAngle * static_cast<float>(i)) * mRadius;
-			mTransformation.transform(mEdges[i]);
 		}
+
+		Polygon::update();
 	}
 }

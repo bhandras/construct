@@ -151,6 +151,18 @@ namespace Construct
 			y = _y;
 		}
 
+		void m90()
+		{
+			T tmp = x;
+			x = y;
+			y = -tmp;
+		}
+
+		Vector2<T> neg() const
+		{
+			return Vector2<T>(-x, -y);
+		}
+
 		T length() const
 		{
 			return sqrt(x * x + y * y);

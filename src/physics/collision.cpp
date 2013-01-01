@@ -126,4 +126,84 @@ namespace Construct
 		pushVector = minTranslation;
 		return true;
 	}
+
+
+	void getSupportVertices(const std::vector<Vector2f>& edges, const Vector2f& direction, size_t* supportPoints, int& numSupportPoints)
+	{
+		int index1 = 0;
+		int index2 = -1;
+		float d1 = edges[0].dot(direction);
+
+		for (size_t i = 1; i < edges.size(); ++i)
+		{
+			float d = edges[i].dot(direction);
+			if (d > d1)
+			{
+				index1 = i;
+				d1 = d;
+			}
+			else if (d == d1)
+			{
+				index2 = i;
+			}
+		}
+
+		supportPoints[0] = index1;
+		numSupportPoints = 1;
+
+		if (index2 != -1)
+		{
+			supportPoints[1] = index2;
+			numSupportPoints++;
+		}
+	}
+
+
+	Vector2f projectPointOntoEdge(const Vector2f& p, const Vector2f& e0, const Vector2f& e1)
+	{
+		Vector2f e = e1 - e0;
+		float t = e.dot(p - e0) / e.length();
+
+		// clamp to edge bounds
+		t = MathUtil::Numeric::clamp(t, 0.0f, 1.0f);
+
+		return e0 + (e * t);
+	}
+
+
+	void Collision::generateContacts(const Polygon& p1, const Polygon& p2)
+	{
+		const std::vector<Vector2f>& edgesA = p1.edges();
+		size_t numEdgesA = edgesA.size();
+
+		const std::vector<Vector2f>& edgesB = p2.edges();
+		size_t numEdgesB = edgesB.size();
+
+		const std::vector<Vector2f>& normalsA = p1.normals();
+		const std::vector<Vector2f>& normalsB = p2.normals();
+
+		for (size_t i = 0; i < numEdgesA; ++i)
+		{
+			const Vector2f& n = normalsA[i];
+
+			const Vector2f& e1 = edgesA[i];
+			const Vector2f& e2 = edgesA[(i + 1) % numEdgesA];
+
+			size_t supportPoints[2];
+			int numSupportPoints = 0;
+			getSupportVertices(edgesB, n.neg(), supportPoints, numSupportPoints);
+
+			for (int j = 0; j < numSupportPoints; ++j)
+			{
+				Vector2f minkowskiE1 = edgesB[supportPoints[j]] - e1;
+				Vector2f minkowskiE2 = edgesB[supportPoints[j]] - e2;
+
+				// Minkowski face
+				float faceDistance = minkowskiE1.dot(n);
+
+				Vector2f p = projectPointOntoEdge(Vector2f(0.0f, 0.0f), minkowskiE1, minkowskiE2);
+				float distance = p.length() * (faceDistance < 0.0f ? -1.0f : 1.0f);
+			}
+		}
+	}
 }

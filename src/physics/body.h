@@ -35,7 +35,7 @@ namespace Construct
 		void setFriction(float friction);
 		float getFriction() const;
 
-		void update(unsigned int deltaTimeMs);
+		void update(float deltaTimeSec);
 
 		void contact(Body* body, const Vector2f& pushVector);
 		void setContactCallback(IFunctor<void(Body*, const Vector2f&)>* callback);

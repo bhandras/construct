@@ -27,21 +27,7 @@ namespace Construct
 		mEdges[QUAD_EDGE_BL].x = -w2;
 		mEdges[QUAD_EDGE_BL].y = h2;
 
-		// create corners
-		for (int i = 0; i < 4; ++i)
-		{
-			mTransformation.transform(mEdges[i]);
-		}
-
-		for (int i = 0; i < 4; ++i)
-		{
-			mNormals[i] = mEdges[(i + 1) % 4] - mEdges[i];
-			mNormals[i].normalize();
-
-			float tmp = mNormals[i].x;
-			mNormals[i].x = mNormals[i].y;
-			mNormals[i].y = -tmp;
-		}
+		Polygon::update();
 	}
 
 

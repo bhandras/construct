@@ -12,7 +12,7 @@ namespace Construct
 		~Space();
 		void setGravity(const Vector2f& gravity);
 		Body* addBody(Body::Type bodyType);
-		void update(unsigned int deltaTimeMs);
+		void update(float deltaTimeSec);
 		void debug();
 
 	private:

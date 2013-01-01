@@ -104,9 +104,9 @@ namespace Construct
 	}
 
 
-	void Body::update(unsigned int deltaTimeMs)
+	void Body::update(float deltaTimeSec)
 	{
-		mPosition += mVelocity;
+		mPosition += mVelocity * deltaTimeSec;
 
 		if (mShape)
 		{

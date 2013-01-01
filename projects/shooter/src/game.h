@@ -4,48 +4,41 @@
 #include "player.h"
 
 
-class Sandbox
-{
-public:
-	void init();
-	void update(unsigned int deltaTimeMs);
-	void jump(float x, float y);
-	void draw();
-
-	void playerContact(Construct::Body* body, const Construct::Vector2f& pushVector);
-
-private:
-	bool mOnTheGround;
-	Construct::Circle mCircle;
-	Construct::Quad mBox;
-	Construct::Quad mBox2;
-
-	Construct::Quad mGround;
-
-	Construct::Quad mWalls[2];
-
-	std::vector<Construct::Body*> mBodies;
-	Construct::Space mSpace;
-};
-
-
-
 class Game
 {
 public:
 	Game();
 
 	void init(unsigned w, unsigned h);
-	void step(unsigned deltaTimeMs);
+	void step(float deltaTimeMs);
+
+	void testRayCast(float mouseX, float mouseY);
+	void playerContact(Construct::Body* body, const Construct::Vector2f& pushVector);
+	void jump(float x, float y);
 
 private:
 	unsigned mW;
 	unsigned mH;
 
 	Construct::TextureAtlas* mAtlas;
+	Construct::BitmapFont mFont;
 
 	Player mPlayer;
-	World mWorld;
 
-	Sandbox mSandbox;
+	// fixed timestep
+	float mAccumlator;
+	float mTimeStep;
+
+	// physics
+	Construct::Space mSpace;
+	std::vector<Construct::Body*> mBodies;
+
+	bool mOnTheGround;
+	Construct::Circle mCircle;
+	Construct::Quad mBoxes[4];
+
+	Construct::Quad mGround;
+	Construct::Quad mWalls[2];
+
+	float mFPS;
 };

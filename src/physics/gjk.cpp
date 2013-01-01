@@ -304,6 +304,8 @@ namespace Construct
 		case 1:
 			point1 = simplex.vertices[0].p1;
 			point2 = simplex.vertices[0].p2;
+			normal1 = point2 - point1;
+			normal2 = point1 - point2;
 			break;
 
 		case 2:
